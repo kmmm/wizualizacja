@@ -15,18 +15,18 @@ if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privilages']==
     $haslo = $_POST['haslo'];
 
     $connectionWithDb = new connectDb();
-    $query = 'SELECT * FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
+    $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
      $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
         if (empty($row)) {
-            $content="<h3>Niestety, błąd logowania!</h3>";
+            $content="<h3>Niestety, błąd logowania! - popraw swoje dane</h3>";
         }else{
-            $content='Brawo, wiatmy '.$login.'! - '.$row['type'];
-            $_SESSION['privilages']=$row['type'];
+            $content='Brawo, wiatmy '.$login.'!';
+            $_SESSION['privilages']=$row['0'];
             
         }
-}
+} else $content = '<h2>Nie można zalogować się dwa razy!</h2>';
 
 //$divBackground = "images/f1.jpg";
 //$menu = $userInterface->leftMenuIndex();

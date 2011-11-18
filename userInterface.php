@@ -16,6 +16,7 @@ class userInterface {
      */
     
     public function __construct(){
+        session_start();
         if(!isset($_SESSION['privilages']))
             $_SESSION['privilages']=0;
 }
@@ -45,7 +46,7 @@ class userInterface {
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
         
-        if($_SESSION['privileges']>=$min_privileges){
+        if($_SESSION['privilages']>=$min_privileges){
         echo '<html>';
         echo '<head>';
         echo '<title>' . $title . '</title>';

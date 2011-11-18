@@ -29,13 +29,13 @@ $content = '<h3>Proszę się zalogować - podając swoje dane</h3></br>
 <input type="password" name="haslo"></br>
 <input type="submit" name="wyślij">
 </div></form>';
-// tutaj dodac formularz od logowania - i przejechac na luginUser.php ?
+// tutaj dodac formularz od logowania - i przejechac na loginUser.php ?
 
 $menu ="";
 $divBackground="";
 $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privilages);
 } else{
-    $user_privilages=100;
+    $user_privilages=50;
     $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privilages);
 }
 
