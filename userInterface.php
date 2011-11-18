@@ -14,7 +14,38 @@ class userInterface {
      * @param type $content
      * @param type $image 
      */
-    function show($title, $jquery, $headerTitle, $menu, $content, $image) {
+    
+    public function __construct(){
+        if(!isset($_SESSION['privilages']))
+            $_SESSION['privilages']=0;
+}
+    private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
+        <meta name="keywords" content="wizualizacja">
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Language" content="pl">
+        <link rel="stylesheet" href="visualizationStyle.css" type="text/css"/></head>
+        <body>
+        <div id="header">
+        <div id="header_inner">
+        <h1> Brak dostępu do treści </h1>
+        </div>
+        </div>
+        <div id="main">
+        Nie masz praw do oglądania tej treści!
+        </div>
+        <div id="footer">
+        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
+        </div>
+        </body>
+        </html>';
+    
+    function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
+        
+//im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
+//mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
+
+        
+        if($_SESSION['privileges']>=$min_privileges){
         echo '<html>';
         echo '<head>';
         echo '<title>' . $title . '</title>';
@@ -25,14 +56,16 @@ class userInterface {
         echo $jquery;
         echo '</head>';
         echo '<body>';
-        $this->header($headerTitle);
-        //if(isset($_SESSION['login']){
-        $this->leftmenu($menu);
-        //}
-        $this->main($content, $image);
-        $this->footer();
+        echo $this->header($headerTitle);
+        echo $this->leftmenu($menu);
+        echo $this->main($content, $image);
+        echo $this->footer();
         echo '</body>';
         echo '</html>';
+    }else{
+        echo $this->not_allowed;
+        
+    }
     }
 
     /**
@@ -126,6 +159,7 @@ class userInterface {
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
     }
+
 
 }
 
