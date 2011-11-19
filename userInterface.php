@@ -150,7 +150,7 @@ class userInterface {
      * @return type 
      */
     function leftMenuAdminPanel() {
-        $symbols = '<li><a href="symbol_family.php">Grupy symboli</a></li>
+        $symbols = '<li><a href="symbol_family.php?action=add">Grupy symboli</a></li>
         <li><a href="index.php">Symbole</a></li>';
 
         $devices = '<li><a href="index.php">Urządzenie</a></li>
