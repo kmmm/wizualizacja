@@ -44,7 +44,7 @@ class userInterface {
 
     function getPrivileges(){
         
-        return $this->privileges;
+        return $this->user_privileges;
     }
     
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
@@ -53,7 +53,7 @@ class userInterface {
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
 
-        if (getPrivileges() >= $min_privileges) {
+        if ($this->getPrivileges() >= $min_privileges) {
             echo '<html>';
             echo '<head>';
             echo '<title>' . $title . '</title>';
