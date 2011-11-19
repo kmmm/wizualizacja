@@ -58,7 +58,7 @@ class userInterface {
             echo '</head>';
             echo '<body>';
             echo $this->header($headerTitle);
-            if ($_SESSION['privilages'] > 0) {
+            if ($_SESSION['privileges'] > 0) {
                 echo $this->leftmenu($menu);
             }
             echo $this->main($content, $image);
