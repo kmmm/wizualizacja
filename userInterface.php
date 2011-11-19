@@ -18,8 +18,10 @@ class userInterface {
         session_start();
         if (!isset($_SESSION['privileges']))
             $_SESSION['privileges'] = 0;
+        $this->user_privileges= $_SESSION['privileges'];
     }
 
+    private $user_privileges;
     private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
         <meta name="keywords" content="wizualizacja">
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
@@ -40,13 +42,18 @@ class userInterface {
         </body>
         </html>';
 
+    function getPrivileges(){
+        
+        return $this->privileges;
+    }
+    
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
 
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
 
-        if ($_SESSION['privileges'] >= $min_privileges) {
+        if (getPrivileges() >= $min_privileges) {
             echo '<html>';
             echo '<head>';
             echo '<title>' . $title . '</title>';

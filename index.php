@@ -16,7 +16,7 @@ $menu = $userInterface->leftMenuIndex();
 //podajesz poziom uprawnien wymaganych do wyswietlenia strony - im wyzsza tym wieksze uprawnienia,
 // 0 to oczywiscie gosc, mysle ze admina mozna zrobic z okolo 100 
 //albo w interfejsie klasy albo przez show mozna to podawac...
-if ($_SESSION['privileges'] == 0) {
+if (userInterface.getPrivileges() == 0) {
     $title = "wizualizacja";
     $jquery = null;
     $headerTitle = "Logowanie";
