@@ -6,10 +6,15 @@ require_once 'connectDb.php';
 $userInterface = new userInterface();
 
 $title = "wizualizacja";
-$jquery = null;
+$jquery = '<script>
+		function init(){
+				setTimeout(\'document.location="index.php"\', 1000);
+			}
+		window.onload=init;
+	</script>';
 $headerTitle = "Logowanie";
 $content = null;
-if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privileges']==0){
+if(isset($_POST['login']) && isset($_POST['haslo']) && $userInterface->getPrivileges()==0){
     //pobieramy z bazy... i sprawdzamy...
     $login = $_POST['login'];
     $haslo = $_POST['haslo'];
@@ -22,7 +27,7 @@ if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privileges']==
         if (empty($row)) {
             $content="<h3>Niestety, błąd logowania! - popraw swoje dane</h3>";
         }else{
-            $content='Brawo, wiatmy '.$login.'!';
+            $content='<h3>Brawo, wiatmy '.$login.'!</h3>';
             $_SESSION['privileges']=$row['0'];
             
         }
