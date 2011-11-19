@@ -10,7 +10,19 @@ $userInterface = new userInterface();
 $tableSymbolFamily = new tableSymbolFamily();
 
 $title = "Panel administracyjny - zarządzanie grupami symboli";
-$jquery = null;
+
+$jquery='<script type="text/javascript" src="http://ajax.googleapis.com/
+ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){    
+    $("#main").delegate("#select_name", "change", function()
+    {
+        var id= $("#select_name").val();
+	$("#text3").load("ajax/ajaxSymbolFamily.php?id="+id);
+    });
+});
+</script>';
+
 $headerTitle = "Panel administracyjny - zarządzanie grupami symboli";
 $divBackground = null;
 $alert = null;
@@ -32,7 +44,7 @@ function formFrame($form, $divTitle, $alert) {
                         <li><a href="symbol_family.php?action=edit">Edytuj grupę symboli</a></li>
                         <li><a href="symbol_family.php?action=delete">Usuń grupę symboli</a></li>
                         </div>
-                        <div class="text3">
+                        <div class="text3" id="text3">
                         <alert>' . $alert . '</alert><br>'
             . $form .
             '</div>
@@ -48,7 +60,11 @@ function formFrame($form, $divTitle, $alert) {
 if (isset($_POST['send'])) {
     switch ($_POST['send']) {
         case 'add':
-            $alert = $tableSymbolFamily->instert($_POST['name'], $_POST['is_visible'], 1);
+            if ($_POST['name'] != null && $_POST['is_visible'] != null) {
+                $alert = $tableSymbolFamily->instert($_POST['name'], $_POST['is_visible'], 1);
+            } else {
+                $alert = 'Niepoprawnie wypełnione pola!';
+            }
             break;
         default:
             break;
@@ -84,24 +100,25 @@ switch ($_GET['action']) {
                     <table>
                     <tr>
                         <td>Wybierz symbol</td>
-                        <td><select id="name" name="name">
+                        <td><select id="select_name" name="select_name">
                         <option>---</option>';
-            //var_dump($symbolFamily) or die;
-                        foreach($symbolFamily as $symbol){
-                         $form.='<option value ="'.$symbol[0].'">'.$symbol[1].'</option>';
-                        }
-                        $form.='<td>Podaj nazwę grupy: </td>
+            foreach ($symbolFamily as $symbol) {
+                $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
+            }
+            $form.='</select></td>
+                    </tr>
+                    <tr>
+                        <td>Podaj nazwę grupy: </td>
                         <td><input type="text" id="name" name="name" /></td>
                     </tr>
                     <tr>
                         <td>Podaj typ grupy:</td>
                         <td><select id="is_visible" name="is_visible">
-                        <option value=0>Grupa typu ON/OFF</option>
-                        <option value=1>Grupa typu informacyjnego</option>
+                        <option>---</option>
                         </select></td>
                     </tr>
                     <tr>
-                        <td colspan=2><button type="submit" id="send" name="send" value="add"/>Dodaj</button></td>
+                        <td colspan=2><button type="submit" id="send" name="send" value="edit"/>Edytuj</button></td>
                     </tr>
                     </table>
                  </form>';
@@ -115,7 +132,7 @@ switch ($_GET['action']) {
         $content = formFrame($form);
         break;
     default:
-        $minUserPrivleges = 0;
+        $minUserPrivleges = x;
         break;
 }
 

@@ -43,20 +43,29 @@ class tableSymbolFamily {
         return $row;
     }
 
-    function selectAllRecords() {       
+    function selectRecordById($id) {
+        $query = "SELECT * FROM symbol_family WHERE name='$name' and is_visible='$is_visible' and active='$active'";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        return $row;
+    }
+
+    function selectAllRecords() {
         $query = "SELECT * FROM symbol_family";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
-        $licznik=0;
-        while($row = mysql_fetch_array($result, MYSQL_NUM)){
-            $symbol[$licznik][0]=$row[0];    //id
-            $symbol[$licznik][1]=$row[1];    //name
-            $symbol[$licznik][2]=$row[2];    //is_visible
-            $symbol[$licznik][3]=$row[3];    //active
+        $licznik = 0;
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+            $symbol[$licznik][0] = $row[0];    //id
+            $symbol[$licznik][1] = $row[1];    //name
+            $symbol[$licznik][2] = $row[2];    //is_visible
+            $symbol[$licznik][3] = $row[3];    //active
             $licznik++;
         }
         return $symbol;
     }
+
 }
 
 ?>
