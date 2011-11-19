@@ -34,7 +34,7 @@ if ($userInterface->getPrivileges() == 0) {
     $menu = "";
     $divBackground = "";
 
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $userInterface->getPrivileges());
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, 0);
 
 } else {
     $user_privileges = 50;
