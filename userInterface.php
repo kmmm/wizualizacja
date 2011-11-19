@@ -3,6 +3,7 @@
 /**
  * UserInterface - interfejs użytkownika
  */
+require_once 'connectDb.php';
 class userInterface {
 
     /**
@@ -24,6 +25,66 @@ class userInterface {
     public function logout(){
         $_SESSION['privileges'] = 0;
         $this->user_privileges = 0;
+    }
+    
+    public function login(){
+        $content = null;
+        if($this->user_privileges == 0)
+        {
+            if(isset($_POST['login']) && isset($_POST['haslo'])){
+
+                $login = $_POST['login'];
+                $haslo = $_POST['haslo'];
+
+                $connectionWithDb = new connectDb();
+                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
+                $result = mysql_query($query);
+                $ret_res = mysql_num_rows($result);
+                $row = mysql_fetch_array($result, MYSQL_NUM);
+                if (empty($row)) {
+              //      unset($_POST);
+                    return false;
+                }else{
+                
+                $_SESSION['privileges']=$row['0'];
+                $this->user_privileges = $row['0'];
+              //  unset($_POST);
+               return true;
+                }
+            }else{
+    $content = '<html><head><title> Logowanie </title>
+        <meta name="keywords" content="wizualizacja">
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Language" content="pl">
+        <link rel="stylesheet" href="visualizationStyle.css" type="text/css"/></head>
+        <body>
+        <div id="header">
+        <div id="header_inner">
+        <h1> Logowanie </h1>
+        </div>
+        </div>
+        <div id="main">
+        Podaj swoje dane do logowania:
+        <form action="index.php" method="post"><div>
+        <h4>Login:</h4>
+        <input type="text" name="login">
+        <h4>Hasło:</h4>
+        <input type="password" name="haslo"></br>
+        <input type="submit" name="wyślij">
+        </div></form>
+        </div>
+        <div id="footer">
+        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
+        </div>
+        </body>
+        </html>'; 
+        echo $content;
+        return false;    
+        }
+        } else 
+            return true;
+ 
+                  
     }
 
     private $user_privileges;
