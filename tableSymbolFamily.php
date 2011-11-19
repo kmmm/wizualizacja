@@ -1,4 +1,5 @@
 <?php
+
 require_once 'connectDb.php';
 $connectDB = new connectDb();
 
@@ -15,12 +16,12 @@ class tableSymbolFamily {
      * @param type $active
      * @return type 
      */
-    
     function instert($name, $is_visible, $active) {
-        $query = "SELECT * FROM symbol_family WHERE name='$name' and is_visible='$is_visible' and active='$active'";
-        $result = mysql_query($query);
-        $ret_res = mysql_num_rows($result);
-        $row = mysql_fetch_array($result, MYSQL_NUM);
+//        $query = "SELECT * FROM symbol_family WHERE name='$name' and is_visible='$is_visible' and active='$active'";
+//        $result = mysql_query($query);
+//        $ret_res = mysql_num_rows($result);
+//        $row = mysql_fetch_array($result, MYSQL_NUM);
+        $row = $this->selectRecord($name, $is_visible, $active);
         if (empty($row)) {
             $query = "INSERT INTO symbol_family values ('','$name', '$is_visible', '$active')";
             $result = mysql_query($query);
@@ -32,6 +33,14 @@ class tableSymbolFamily {
         } else {
             return 'W bazie istnieje już taka grupa symboli!';
         }
+    }
+
+    function selectRecord($name, $is_visible, $active) {
+        $query = "SELECT * FROM symbol_family WHERE name='$name' and is_visible='$is_visible' and active='$active'";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        return $row;
     }
 
 }

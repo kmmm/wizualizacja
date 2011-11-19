@@ -9,7 +9,7 @@ $title = "wizualizacja";
 $jquery = null;
 $headerTitle = "Logowanie";
 $content = null;
-if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privilages']==0){
+if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privileges']==0){
     //pobieramy z bazy... i sprawdzamy...
     $login = $_POST['login'];
     $haslo = $_POST['haslo'];
@@ -23,7 +23,7 @@ if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privilages']==
             $content="<h3>Niestety, błąd logowania! - popraw swoje dane</h3>";
         }else{
             $content='Brawo, wiatmy '.$login.'!';
-            $_SESSION['privilages']=$row['0'];
+            $_SESSION['privileges']=$row['0'];
             
         }
 } else $content = '<h2>Nie można zalogować się dwa razy!</h2>';
@@ -33,7 +33,7 @@ if(isset($_POST['login']) && isset($_POST['haslo']) && $_SESSION['privilages']==
 //podajesz poziom uprawnien wymaganych do wyswietlenia strony - im wyzsza tym wieksze uprawnienia,
 // 0 to oczywiscie gosc, mysle ze admina mozna zrobic z okolo 100 
 //albo w interfejsie klasy albo przez show mozna to podawac...
-$user_privilages=0;
+$user_privileges=0;
 
-$userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privilages);
+$userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
 ?>

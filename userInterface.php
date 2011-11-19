@@ -14,12 +14,12 @@ class userInterface {
      * @param type $content
      * @param type $image 
      */
-    
-    public function __construct(){
+    public function __construct() {
         session_start();
-        if(!isset($_SESSION['privilages']))
-            $_SESSION['privilages']=0;
-}
+        if (!isset($_SESSION['privileges']))
+            $_SESSION['privileges'] = 0;
+    }
+
     private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
         <meta name="keywords" content="wizualizacja">
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
@@ -39,34 +39,35 @@ class userInterface {
         </div>
         </body>
         </html>';
-    
+
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
-        
+
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
-        
-        if($_SESSION['privilages']>=$min_privileges){
-        echo '<html>';
-        echo '<head>';
-        echo '<title>' . $title . '</title>';
-        echo '<meta name="keywords" content="wizualizacja">';
-        echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
-        echo '<meta http-equiv="Content-Language" content="pl">';
-        echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-        echo $jquery;
-        echo '</head>';
-        echo '<body>';
-        echo $this->header($headerTitle);
-        echo $this->leftmenu($menu);
-        echo $this->main($content, $image);
-        echo $this->footer();
-        echo '</body>';
-        echo '</html>';
-    }else{
-        echo $this->not_allowed;
-        
-    }
+
+        if ($_SESSION['privileges'] >= $min_privileges) {
+            echo '<html>';
+            echo '<head>';
+            echo '<title>' . $title . '</title>';
+            echo '<meta name="keywords" content="wizualizacja">';
+            echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
+            echo '<meta http-equiv="Content-Language" content="pl">';
+            echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
+            echo $jquery;
+            echo '</head>';
+            echo '<body>';
+            echo $this->header($headerTitle);
+            if ($_SESSION['privilages'] > 0) {
+                echo $this->leftmenu($menu);
+            }
+            echo $this->main($content, $image);
+            echo $this->footer();
+            echo '</body>';
+            echo '</html>';
+        } else {
+            echo $this->not_allowed;
+        }
     }
 
     /**
@@ -160,7 +161,6 @@ class userInterface {
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
     }
-
 
 }
 

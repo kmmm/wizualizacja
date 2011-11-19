@@ -2,9 +2,15 @@
 
 class connectDb {
     public function __construct() {
+        
+//        $serwer='localhost';
+//        $user='root';
+//        $haslo='mdrp180';
+//        $db='visualisation';
+        
         $serwer='localhost';
         $user='root';
-        $haslo='mdrp180';
+        $haslo='haslo';
         $db='visualisation';
         
         mysql_connect($serwer, $user, $haslo)or die("Nie można nawiązać połączenia z bazą"); //Łączenie z bazą danych
