@@ -58,7 +58,7 @@ class userInterface {
             echo '</head>';
             echo '<body>';
             echo $this->header($headerTitle);
-            if ($_SESSION['privilages'] > 0) {
+            if ($_SESSION['privileges'] > 0) {
                 echo $this->leftmenu($menu);
             }
             echo $this->main($content, $image);
@@ -143,7 +143,7 @@ class userInterface {
      * @return type 
      */
     function leftMenuAdminPanel() {
-        $symbols = '<li><a href="symbol_family.php">Grupy symboli</a></li>
+        $symbols = '<li><a href="symbol_family.php?action=add">Grupy symboli</a></li>
         <li><a href="index.php">Symbole</a></li>';
 
         $devices = '<li><a href="index.php">Urządzenie</a></li>
