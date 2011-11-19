@@ -138,10 +138,15 @@ class userInterface {
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox5</input>        
         </form>';
 
+        if($this->user_privileges>50){
         $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
         <li><a href="index.php">Logi zdarzeń</a></li>
         <li><a href="index.php">Kamera</a></li>';
 
+        
+        } else
+            return array('Kondygnacje' => $floors, 'Wejścia' => $input);
+        
         return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' => $links);
     }
 
@@ -167,7 +172,7 @@ class userInterface {
         <li><a href="index.php">Kamera</a></li>';
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
-    }
+        }
 
 }
 
