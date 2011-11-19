@@ -48,7 +48,7 @@ class tableSymbolFamily {
     }
 
     function selectAllRecords() {
-        $query = "SELECT * FROM symbol_family";
+        $query = "SELECT * FROM symbol_family WHERE active=1";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $licznik = 0;
@@ -61,18 +61,27 @@ class tableSymbolFamily {
         }
         return $symbol;
     }
-    
-    function update($id, $name, $is_visible, $active) {       
+
+    function update($id, $name, $is_visible, $active) {
         $row = $this->selectRecord($name, $is_visible, $active);
         //var_dump($row) or die();
-        if (empty ($row) || $row[0]==$id) {
+        if (empty($row) || $row[0] == $id) {
             $query = "UPDATE symbol_family SET name='$name', is_visible='$is_visible', active='$active'
             WHERE id='$id'";
             $result = mysql_query($query);
             if ($result) {
-                return 'Wyedytowano grupę symboli!';
+                if ($active == 1) {
+                    return 'Wyedytowano grupę symboli!';
+                } else {
+                    return 'Usunięto grupę symboli!';
+                }
             } else {
-                return 'Nie udało wyedytować grupy symboli.';
+
+                if ($active == 1) {
+                    return 'Nie udało się wyedytować grupy symboli.';
+                } else {
+                    return 'Nie udało się usunąć grupy symboli.';
+                }
             }
         } else {
             return 'W bazie istnieje już taka grupa symboli!';

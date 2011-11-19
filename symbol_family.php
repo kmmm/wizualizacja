@@ -20,6 +20,12 @@ $(document).ready(function(){
         var id= $("#select_name").val();
 	$("#text3").load("ajaxSymbolFamily.php?id="+id);
     });
+    
+    $("#text3").delegate("#select_name_delete", "change", function()
+    {
+        var id= $("#select_name_delete").val();
+	$("#text3").load("ajaxSymbolFamily.php?id_delete="+id);
+    });
 });
 </script>';
 
@@ -67,10 +73,17 @@ if (isset($_POST['send'])) {
             }
             break;
         case 'edit':
-            if ($_POST['name'] != null && $_POST['is_visible'] != null) {
+            if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id']!=null) {
                 $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 1);
             } else {
                 $alert = 'Niepoprawnie wypełnione pola!';
+            }
+            break;
+        case 'delete':
+            if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id']!=null) {
+                $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 0);
+            } else {
+                $alert = 'Niepoprawnie wypełnione pola! :('.$_POST['id'].$_POST['name'].$_POST['is_visible'];
             }
             break;
         default:
@@ -83,11 +96,11 @@ switch ($_GET['action']) {
         $form = '<form action="symbol_family.php?action=add" method="POST">
                     <table>
                     <tr>
-                        <td>Podaj nazwę grupy: </td>
+                        <td>Nazwa grupy: </td>
                         <td><input type="text" id="name" name="name" /></td>
                     </tr>
                     <tr>
-                        <td>Podaj typ grupy:</td>
+                        <td>Typ grupy:</td>
                         <td><select id="is_visible" name="is_visible">
                         <option value=0>Grupa typu ON/OFF</option>
                         <option value=1>Grupa typu informacyjnego</option>
@@ -115,12 +128,12 @@ switch ($_GET['action']) {
             $form.='</select></td>
                     </tr>
                     <tr>
-                        <td>Podaj nazwę grupy: </td>
-                        <td><input type="text" id="name" name="name" /></td>
+                        <td>Nazwa grupy: </td>
+                        <td><input type="text" id="name" name="name" disabled="disabled"></td>
                     </tr>
                     <tr>
-                        <td>Podaj typ grupy:</td>
-                        <td><select id="is_visible" name="is_visible">
+                        <td>Typ grupy:</td>
+                        <td><select id="is_visible" name="is_visible" disabled="disabled">
                         <option>---</option>
                         </select></td>
                     </tr>
@@ -135,8 +148,38 @@ switch ($_GET['action']) {
         $content = formFrame($form, 'Edytuj grupę symboli', $alert);
         break;
     case 'delete':
-        $form = 'formularz usuwania';
-        $content = formFrame($form);
+        $symbolFamily = $tableSymbolFamily->selectAllRecords();
+        if (!empty($symbolFamily)) {
+            $form = '<form action="symbol_family.php?action=delete" method="POST">
+                    <table>
+                    <tr>
+                        <td>Wybierz symbol</td>
+                        <td><select id="select_name_delete" name="select_name_delete">
+                        <option>---</option>';
+            foreach ($symbolFamily as $symbol) {
+                $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
+            }
+            $form.='</select></td>
+                    </tr>
+                                        <tr>
+                        <td>Nazwa grupy: </td>
+                        <td><input type="text" id="name" name="name" disabled="disabled"/></td>
+                    </tr>
+                    <tr>
+                        <td>Typ grupy:</td>
+                        <td><select id="is_visible" name="is_visible" disabled="disabled">
+                        <option>---</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2><button type="submit" id="send" name="send" value="delete"/>Usuń</button></td>
+                    </tr>
+                    </table>
+                 </form>';
+        } else {
+            $form = '<e1>Baza danych nie zawiera żandych grup symboli.</e1>';
+        }
+        $content = formFrame($form, 'Usuń grupę symboli', $alert);
         break;
     default:
         $minUserPrivleges = x;
