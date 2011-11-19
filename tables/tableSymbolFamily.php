@@ -1,6 +1,6 @@
 <?php
 
-require_once 'connectDb.php';
+require 'connectDb.php';
 $connectDB = new connectDb();
 
 /*
@@ -17,10 +17,6 @@ class tableSymbolFamily {
      * @return type 
      */
     function instert($name, $is_visible, $active) {
-//        $query = "SELECT * FROM symbol_family WHERE name='$name' and is_visible='$is_visible' and active='$active'";
-//        $result = mysql_query($query);
-//        $ret_res = mysql_num_rows($result);
-//        $row = mysql_fetch_array($result, MYSQL_NUM);
         $row = $this->selectRecord($name, $is_visible, $active);
         if (empty($row)) {
             $query = "INSERT INTO symbol_family values ('','$name', '$is_visible', '$active')";
@@ -44,7 +40,7 @@ class tableSymbolFamily {
     }
 
     function selectRecordById($id) {
-        $query = "SELECT * FROM symbol_family WHERE name='$name' and is_visible='$is_visible' and active='$active'";
+        $query = "SELECT * FROM symbol_family WHERE id='$id'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
@@ -64,6 +60,23 @@ class tableSymbolFamily {
             $licznik++;
         }
         return $symbol;
+    }
+    
+    function update($id, $name, $is_visible, $active) {       
+        $row = $this->selectRecord($name, $is_visible, $active);
+        //var_dump($row) or die();
+        if (empty ($row) || $row[0]==$id) {
+            $query = "UPDATE symbol_family SET name='$name', is_visible='$is_visible', active='$active'
+            WHERE id='$id'";
+            $result = mysql_query($query);
+            if ($result) {
+                return 'Wyedytowano grupę symboli!';
+            } else {
+                return 'Nie udało wyedytować grupy symboli.';
+            }
+        } else {
+            return 'W bazie istnieje już taka grupa symboli!';
+        }
     }
 
 }

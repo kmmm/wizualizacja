@@ -11,14 +11,14 @@ $tableSymbolFamily = new tableSymbolFamily();
 
 $title = "Panel administracyjny - zarządzanie grupami symboli";
 
-$jquery='<script type="text/javascript" src="http://ajax.googleapis.com/
+$jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
-    $("#main").delegate("#select_name", "change", function()
+    $("#text3").delegate("#select_name", "change", function()
     {
         var id= $("#select_name").val();
-	$("#text3").load("ajax/ajaxSymbolFamily.php?id="+id);
+	$("#text3").load("ajaxSymbolFamily.php?id="+id);
     });
 });
 </script>';
@@ -66,6 +66,13 @@ if (isset($_POST['send'])) {
                 $alert = 'Niepoprawnie wypełnione pola!';
             }
             break;
+        case 'edit':
+            if ($_POST['name'] != null && $_POST['is_visible'] != null) {
+                $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 1);
+            } else {
+                $alert = 'Niepoprawnie wypełnione pola!';
+            }
+            break;
         default:
             break;
     }
@@ -96,7 +103,7 @@ switch ($_GET['action']) {
     case 'edit':
         $symbolFamily = $tableSymbolFamily->selectAllRecords();
         if (!empty($symbolFamily)) {
-            $form = '<form action="symbol_family.php?action=add" method="POST">
+            $form = '<form action="symbol_family.php?action=edit" method="POST">
                     <table>
                     <tr>
                         <td>Wybierz symbol</td>
@@ -139,5 +146,4 @@ switch ($_GET['action']) {
 $menu = $userInterface->leftMenuAdminPanel();
 
 $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
-
 ?>
