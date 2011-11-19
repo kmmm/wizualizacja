@@ -42,5 +42,5 @@ $logs = '<li><a href="index.php">Zarządzaj logami</a></li>
 $menu = array('Grupy symboli' => $symbolGroups, 'Symbole' => $symbols, 'Urządzenia' => $devices, 'Wejścia'=> $inputs, 
         'Kondygnacje' => $floors, 'Elementy wizualizacji' => $elements, 'Użytkownicy' => $users, 'Logi' => $logs );
 
-$userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground);
+$userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, 100);
 ?>

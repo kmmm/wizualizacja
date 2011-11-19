@@ -139,4 +139,5 @@ switch ($_GET['action']) {
 $menu = $userInterface->leftMenuAdminPanel();
 
 $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
+
 ?>
