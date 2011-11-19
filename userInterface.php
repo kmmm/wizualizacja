@@ -18,10 +18,10 @@ class userInterface {
         session_start();
         if (!isset($_SESSION['privileges']))
             $_SESSION['privileges'] = 0;
-        $this->user_privileges= $_SESSION['privileges'];
+        $this->user_privileges = $_SESSION['privileges'];
     }
-    
-    public function logout(){
+
+    public function logout() {
         $_SESSION['privileges'] = 0;
         $this->user_privileges = 0;
     }
@@ -47,11 +47,11 @@ class userInterface {
         </body>
         </html>';
 
-    function getPrivileges(){
-        
+    function getPrivileges() {
+
         return $this->user_privileges;
     }
-    
+
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
 
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
@@ -112,11 +112,13 @@ class userInterface {
     function leftmenu($menu) {
         echo '<div id="leftmenu">';
         echo '<div class="left">';
-        foreach ($menu as $title => $content) {
-            echo '<div class="title1">' . $title . '</div>';
-            echo '<div class="text1">';
-            echo $content;
-            echo '</div>';
+        if ($menu != null) {
+            foreach ($menu as $title => $content) {
+                echo '<div class="title1">' . $title . '</div>';
+                echo '<div class="text1">';
+                echo $content;
+                echo '</div>';
+            }
         }
         echo '</div>';
         echo '</div>';
@@ -143,17 +145,15 @@ class userInterface {
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox5</input>        
         </form>';
 
-        if($this->user_privileges>50){
-        $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
+        if ($this->user_privileges > 50) {
+            $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
         <li><a href="index.php">Logi zdarzeń</a></li>
         <li><a href="index.php">Kamera</a></li>
         <li><a href="loginOutUser.php">Wylogowanie</a></li>';
+        } else {
+            $links = '<li><a href="loginOutUser.php">Wylogowanie</a></li>';
 
-        
-        } else{
-            $links='<li><a href="loginOutUser.php">Wylogowanie</a></li>';
-        
-            return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' =>$links);
+            return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' => $links);
         }
         return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' => $links);
     }
@@ -180,7 +180,7 @@ class userInterface {
         <li><a href="index.php">Kamera</a></li>';
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
-        }
+    }
 
 }
 

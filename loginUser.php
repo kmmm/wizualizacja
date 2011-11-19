@@ -34,8 +34,8 @@ if(isset($_POST['login']) && isset($_POST['haslo']) && $userInterface->getPrivil
         }
 } else $content = '<h2>Nie można zalogować się dwa razy!</h2>';
 
-//$divBackground = "images/f1.jpg";
-//$menu = $userInterface->leftMenuIndex();
+$divBackground = null;
+$menu = null;
 //podajesz poziom uprawnien wymaganych do wyswietlenia strony - im wyzsza tym wieksze uprawnienia,
 // 0 to oczywiscie gosc, mysle ze admina mozna zrobic z okolo 100 
 //albo w interfejsie klasy albo przez show mozna to podawac...

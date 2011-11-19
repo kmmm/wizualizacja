@@ -18,8 +18,9 @@ $jquery = '<script>
 $headerTitle = "Wylogowanie";
 $content = "<h3>Wylogowano!</h3>";
 
-$user_privileges=0;
-
+$user_privileges = 0;
+$menu = null;
+$divBackground = null;
 $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
 $userInterface->logout();
 ?>
