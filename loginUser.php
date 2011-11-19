@@ -8,7 +8,7 @@ $userInterface = new userInterface();
 $title = "wizualizacja";
 $jquery = '<script>
 		function init(){
-				setTimeout(\'document.location="index.php"\', 1000);
+				setTimeout(\'document.location="index.php"\', 0);
 			}
 		window.onload=init;
 	</script>';
@@ -27,7 +27,8 @@ if(isset($_POST['login']) && isset($_POST['haslo']) && $userInterface->getPrivil
         if (empty($row)) {
             $content="<h3>Niestety, błąd logowania! - popraw swoje dane</h3>";
         }else{
-            $content='<h3>Brawo, wiatmy '.$login.'!</h3>';
+      //      header("Location: index.php/");
+        //    $content='<h3>Zalogowano poprawnie!</h3>';
             $_SESSION['privileges']=$row['0'];
             
         }

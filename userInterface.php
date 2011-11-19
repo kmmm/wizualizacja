@@ -20,6 +20,11 @@ class userInterface {
             $_SESSION['privileges'] = 0;
         $this->user_privileges= $_SESSION['privileges'];
     }
+    
+    public function logout(){
+        $_SESSION['privileges'] = 0;
+        $this->user_privileges = 0;
+    }
 
     private $user_privileges;
     private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
@@ -141,12 +146,15 @@ class userInterface {
         if($this->user_privileges>50){
         $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
         <li><a href="index.php">Logi zdarzeń</a></li>
-        <li><a href="index.php">Kamera</a></li>';
+        <li><a href="index.php">Kamera</a></li>
+        <li><a href="loginOutUser.php">Wylogowanie</a></li>';
 
         
-        } else
-            return array('Kondygnacje' => $floors, 'Wejścia' => $input);
+        } else{
+            $links='<li><a href="loginOutUser.php">Wylogowanie</a></li>';
         
+            return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' =>$links);
+        }
         return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' => $links);
     }
 
