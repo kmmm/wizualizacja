@@ -17,10 +17,10 @@ if ($userInterface->login()) {
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
-    $("#text3").delegate("#select_name", "change", function()
+    $("#text3").delegate("#select_symbolfamily", "change", function()
     {
-        var id= $("#select_name").val();
-	$("#text3").load("ajaxSymbolFamily.php?id="+id);
+        var id= $("#select_symbolfamily").val();
+	$("#text3").load("ajaxSymbol.php?id="+id);
     });
     
     $("#text3").delegate("#select_name_delete", "change", function()
@@ -103,7 +103,7 @@ $(document).ready(function(){
                     <table>
                     <tr>
                         <td>Grupa: </td>
-                        <td><select id="select_family" name="select_name">
+                        <td><select id="select_symbolfamily" name="select_symbolfamily">
                         <option>---</option>';
                 foreach ($symbolFamily as $symbol) {
                     $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';

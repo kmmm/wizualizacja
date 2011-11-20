@@ -21,7 +21,7 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     $tableSymbolFamily = new tableSymbolFamily();
     $symbolFamily = $tableSymbolFamily->selectAllRecords();
     $currentSymbolFamily = $tableSymbolFamily->selectRecordById($id);
-    echo '<form action="symbol_family.php?action=' . $value . '" method="POST">
+    echo '<h4></h4><br><form action="symbol_family.php?action=' . $value . '" method="POST">
                 <table>
                     <tr>
                         <td>Wybierz symbol</td>
