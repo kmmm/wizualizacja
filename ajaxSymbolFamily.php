@@ -7,13 +7,13 @@ if ($_GET['id'] != null || $_GET['id_delete'] != null) {
         $select="select_name";
         $id=$_GET['id'];
         $dis=null;
-        $button_name="Edytuj";
+        $button_name="edytuj";
         $value="edit";
     }else{
         $select="select_name_delete";
         $id=$_GET['id_delete'];
         $dis="disabled=disabled";
-        $button_name="Usuń";
+        $button_name="usuń";
         $value="delete";
     }
     
@@ -35,11 +35,11 @@ if ($_GET['id'] != null || $_GET['id_delete'] != null) {
     echo '</select></td>
     </tr>
     <tr>
-        <td>Podaj nazwę grupy: </td>
+        <td>Nazwa grupy: </td>
         <td><input type="text" id="name" name="name" value="'.$currentSymbolFamily[1].'" '.$dis.'></td>
     </tr>
     <tr>
-        <td>Podaj typ grupy:</td>
+        <td>Typ grupy:</td>
         <td><select id="is_visible" name="is_visible" '.$dis.'>';
     switch ($currentSymbolFamily[2]){
         case '0':
@@ -61,7 +61,7 @@ if ($_GET['id'] != null || $_GET['id_delete'] != null) {
         echo '<input type="hidden" id="is_visible" name="is_visible" value="'.$currentSymbolFamily[1].' "/>';        
     }
     echo '<input type="hidden" id="id" name="id" value="'.$currentSymbolFamily[0].' "/>
-        <button type="submit" id="send" name="send" value="'.$value.'">'.$button_name.'</button></td>
+        <button type="submit" id="send" name="send" value="'.$button_name.'">'.$button_name.'</button></td>
     </tr>
     </table>
     </form>';

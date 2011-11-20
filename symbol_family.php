@@ -51,7 +51,7 @@ function formFrame($form, $divTitle, $alert) {
                         <li><a href="symbol_family.php?action=delete">Usuń grupę symboli</a></li>
                         </div>
                         <div class="text3" id="text3">
-                        <alert>' . $alert . '</alert><br>'
+                        <h4>' . $alert . '</h4><br>'
             . $form .
             '</div>
                     </div>
@@ -63,23 +63,25 @@ function formFrame($form, $divTitle, $alert) {
 /*
  * Kod strony
  */
+//$_POST['send'] ma polskie wartości tylko dlatego, że IE8 to najgłupsza przeglądarka pod słońcem i zastanawiam się
+//jak to się dzieje, że ludzie jeszcze jej używają. 
 if (isset($_POST['send'])) {
     switch ($_POST['send']) {
-        case 'add':
+        case 'dodaj':
             if ($_POST['name'] != null && $_POST['is_visible'] != null) {
                 $alert = $tableSymbolFamily->instert($_POST['name'], $_POST['is_visible'], 1);
             } else {
                 $alert = 'Niepoprawnie wypełnione pola!';
             }
             break;
-        case 'edit':
+        case 'edytuj':
             if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id']!=null) {
                 $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 1);
             } else {
                 $alert = 'Niepoprawnie wypełnione pola!';
             }
             break;
-        case 'delete':
+        case 'usuń':
             if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id']!=null) {
                 $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 0);
             } else {
@@ -107,7 +109,7 @@ switch ($_GET['action']) {
                         </select></td>
                     </tr>
                     <tr>
-                        <td colspan=2><button type="submit" id="send" name="send" value="add"/>Dodaj</button></td>
+                        <td colspan=2><button type="submit" id="send" name="send" value="dodaj" onclick="this.value=add">dodaj</button></td>
                     </tr>
                     </table>
                  </form>';
@@ -138,12 +140,12 @@ switch ($_GET['action']) {
                         </select></td>
                     </tr>
                     <tr>
-                        <td colspan=2><button type="submit" id="send" name="send" value="edit"/>Edytuj</button></td>
+                        <td colspan=2><button type="submit" id="send" name="send" value="edytuj"/>edytuj</button></td>
                     </tr>
                     </table>
                  </form>';
         } else {
-            $form = '<e1>Baza danych nie zawiera żandych grup symboli.</e1>';
+            $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
         }
         $content = formFrame($form, 'Edytuj grupę symboli', $alert);
         break;
@@ -172,12 +174,12 @@ switch ($_GET['action']) {
                         </select></td>
                     </tr>
                     <tr>
-                        <td colspan=2><button type="submit" id="send" name="send" value="delete"/>Usuń</button></td>
+                        <td colspan=2><button type="submit" id="send" name="send" value="usuń"/>usuń</button></td>
                     </tr>
                     </table>
                  </form>';
         } else {
-            $form = '<e1>Baza danych nie zawiera żandych grup symboli.</e1>';
+            $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
         }
         $content = formFrame($form, 'Usuń grupę symboli', $alert);
         break;

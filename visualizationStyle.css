@@ -331,13 +331,13 @@ table, td, tr
 
 }
 
-alert{
+h4{
     font-size: 13px;
     font-family: "trebuchet ms", helvetica, tahoma, sans-serif;
     color: crimson;
 }
 
-e1{
+h3{
     font-size: 18px;
     font-family: "trebuchet ms", helvetica, tahoma, sans-serif;
     color: darkred;
