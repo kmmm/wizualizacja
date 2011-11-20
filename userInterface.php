@@ -17,6 +17,7 @@ class userInterface {
      */
     public function __construct() {
         session_start();
+        $connectionWithDb = new connectDb();
         if (!isset($_SESSION['privileges']))
             $_SESSION['privileges'] = 0;
         $this->user_privileges = $_SESSION['privileges'];
@@ -36,7 +37,7 @@ class userInterface {
                 $login = $_POST['login'];
                 $haslo = $_POST['haslo'];
 
-                $connectionWithDb = new connectDb();
+                
                 $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
