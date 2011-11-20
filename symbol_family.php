@@ -84,10 +84,10 @@ if (isset($_POST['send'])) {
             }
             break;
         case 'usuń':
-            if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id']!=null) {
-                $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 0);
+            if ($_POST['id']!=null) {
+                $alert = $tableSymbolFamily->delete($_POST['id']);
             } else {
-                $alert = 'Niepoprawnie wypełnione pola! :('.$_POST['id'].$_POST['name'].$_POST['is_visible'];
+                $alert = 'Niepoprawnie wypełnione pola! :(';
             }
             break;
         default:

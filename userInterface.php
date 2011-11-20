@@ -208,7 +208,6 @@ class userInterface {
 
         if ($this->user_privileges > 50) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
-        <li><a href="index.php">Logi zdarzeń</a></li>
         <li><a href="index.php">Kamera</a></li>
         <li><a href="loginOutUser.php">Wylogowanie</a></li>';
         } else {
@@ -225,7 +224,7 @@ class userInterface {
      */
     function leftMenuAdminPanel() {
         $symbols = '<li><a href="symbol_family.php?action=add">Grupy symboli</a></li>
-        <li><a href="index.php">Symbole</a></li>';
+        <li><a href="symbol.php?action=add">Symbole</a></li>';
 
         $devices = '<li><a href="index.php">Urządzenie</a></li>
         <li><a href="index.php">Wejścia</a></li>';
@@ -233,11 +232,9 @@ class userInterface {
         $elements = '<li><a href="index.php">Kondygnacje</a></li>
         <li><a href="index.php">Elementy wizualizacji</a></li>';
 
-        $administration = '<li><a href="index.php">Użytkownicy</a></li>
-        <li><a href="index.php">Logi</a></li>';
+        $administration = '<li><a href="index.php">Użytkownicy</a></li>';
 
         $links = '<li><a href="index.php">Strona główna</a></li>
-        <li><a href="index.php">Logi zdarzeń</a></li>
         <li><a href="index.php">Kamera</a></li>';
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
