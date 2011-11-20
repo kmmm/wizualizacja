@@ -7,6 +7,8 @@ require_once 'userInterface.php';
 require_once 'tables/tableSymbolFamily.php';
 
 $userInterface = new userInterface();
+
+if($userInterface->login()){
 $tableSymbolFamily = new tableSymbolFamily();
 
 $title = "Panel administracyjny - zarządzanie grupami symboli";
@@ -191,4 +193,5 @@ switch ($_GET['action']) {
 $menu = $userInterface->leftMenuAdminPanel();
 
 $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
+}
 ?>
