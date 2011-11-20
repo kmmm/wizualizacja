@@ -1,6 +1,8 @@
 <?php
 
 require_once('connectDb.php');
+
+
 $connectDB = new connectDb();
 
 /*
@@ -64,27 +66,32 @@ class tableSymbolFamily {
 
     function update($id, $name, $is_visible, $active) {
         $row = $this->selectRecord($name, $is_visible, $active);
-        //var_dump($row) or die();
         if (empty($row) || $row[0] == $id) {
             $query = "UPDATE symbol_family SET name='$name', is_visible='$is_visible', active='$active'
             WHERE id='$id'";
             $result = mysql_query($query);
             if ($result) {
-                if ($active == 1) {
-                    return 'Wyedytowano grupę symboli!';
-                } else {
-                    return 'Usunięto grupę symboli!';
-                }
+                return 'Wyedytowano grupę symboli!';
             } else {
-
-                if ($active == 1) {
-                    return 'Nie udało się wyedytować grupy symboli.';
-                } else {
-                    return 'Nie udało się usunąć grupy symboli.';
-                }
+                return 'Nie udało się wyedytować grupy symboli.';
             }
         } else {
             return 'W bazie istnieje już taka grupa symboli!';
+        }
+    }
+
+    function delete($id) {
+        $row = $this->selectRecordById($id);
+        if (!empty($row)) {
+            $query = "DELETE FROM symbol_family WHERE id='$id'";
+            $result = mysql_query($query);
+            if ($result) {
+                return 'Usunięto grupę symboli!';
+            } else {
+                return 'Nie udało się usunąć grupy symboli.';
+            }
+        } else {
+            return 'W bazie nie ma takiej grupy symboli!';
         }
     }
 
