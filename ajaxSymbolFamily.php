@@ -1,6 +1,8 @@
 <?php
 
 require_once('tables/tableSymbolFamily.php');
+require_once('userInterface.php');
+$userInterface = new userInterface();
 
 if ($_GET['id'] != null || $_GET['id_delete'] != null) {
     if(isset($_GET['id'])){

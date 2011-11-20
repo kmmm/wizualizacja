@@ -1,7 +1,7 @@
 <?php
 
 //require 'connectDb.php';
-//$connectDB = new connectDb();
+$connectDB = new connectDb();
 
 /*
  * Klasa z funkcjami zapytań dla tabeli symbol family
