@@ -77,14 +77,18 @@ $(document).ready(function(){
                         $number = rand(1, 10000);
                         $plik_ext = explode('.', $_FILES['img']['name']);
                         do {
-                            $nazwa = sha1(date("d.m.Y.H.i.s") . $plik_ext[0] . $number . '.' . $plik_ext[1]);
+                            $nazwa = sha1(date("d.m.Y.H.i.s") . $plik_ext[0] . $number) . '.' . $plik_ext[1];
                         } while (file_exists($nazwa));
-                        if ($_FILES['img']['tmp_name']) {
-                            move_uploaded_file($_FILES['img']['tmp_name'], "photo/$nazwa");
-                            $alert = $tableSymbol->instert($_POST['select_symbolfamily'], "photo/".$nazwa, $_POST['value'], 1);
-                                                        
-                        }else{
-                            $alert = 'Nie udało się wgrać pliku na serwer';
+                        $row = $tableSymbol->selectRecord($_POST['select_symbolfamily'], $_POST['value'], 1);
+                        if (empty($row)) {
+                            if (is_uploaded_file($_FILES['img']['tmp_name'])) {
+                                move_uploaded_file($_FILES['img']['tmp_name'], "photo/$nazwa");
+                                $alert = $tableSymbol->instert($_POST['select_symbolfamily'], "photo/" . $nazwa, $_POST['value'], 1);
+                            } else {
+                                $alert = 'Nie udało się wgrać pliku na serwer';
+                            }
+                        } else {
+                            $alert = 'W bazie istnieje już taki symbol!';
                         }
                     } else {
                         $alert = 'Niepoprawnie format obrazków.';
