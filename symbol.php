@@ -5,9 +5,11 @@
  */
 require_once 'userInterface.php';
 require_once 'tables/tableSymbolFamily.php';
+require_once 'tables/tableSymbol.php';
 
 $userInterface = new userInterface();
 $tableSymbolFamily = new tableSymbolFamily();
+$tableSymbol = new tableSymbol();
 
 
 if ($userInterface->login()) {
@@ -70,11 +72,56 @@ $(document).ready(function(){
     if (isset($_POST['send'])) {
         switch ($_POST['send']) {
             case 'dodaj':
-                if ($_POST['name'] != null && $_POST['is_visible'] != null) {
-                    $alert = $tableSymbolFamily->instert($_POST['name'], $_POST['is_visible'], 1);
+                if (isset($_FILES['img']['tmp_name']) && isset($_POST['value']) && isset($_POST['select_symbolfamily'])) {
+                    if (($_FILES['img']['type'] == "image/jpg" || $_FILES['img']['type'] == "image/jpeg")) {
+                        $number = rand(1, 10000);
+                        $plik_ext = explode('.', $_FILES['img']['name']);
+                        do {
+                            $nazwa = sha1(date("d.m.Y.H.i.s") . $plik_ext[0] . $number . '.' . $plik_ext[1]);
+                        } while (file_exists($nazwa));
+                        if ($_FILES['img']['tmp_name']) {
+                            move_uploaded_file($_FILES['img']['tmp_name'], "photo/$nazwa");
+                            $alert = $tableSymbol->instert($_POST['select_symbolfamily'], "photo/".$nazwa, $_POST['value'], 1);
+                                                        
+                        }else{
+                            $alert = 'Nie udało się wgrać pliku na serwer';
+                        }
+                    } else {
+                        $alert = 'Niepoprawnie format obrazków.';
+                    }
                 } else {
-                    $alert = 'Niepoprawnie wypełnione pola!';
+                    $alert = 'Niepoprawnie wybrane obrazki.';
                 }
+                $pietro = $_POST['pietro'];
+                $sciezka = $_FILES['img']['tmp_name'];
+                $typ_pliku = $_FILES['img']['type'];
+                //$plik_rozmiar = $_FILES['img']['size'];
+                $plik_rozmiar = getimagesize($_FILES['img']['tmp_name']);
+                ;
+
+
+                if ($sciezka != NULL) {
+                    if ($pietro != NULL) {
+                        if ($typ_pliku == "image/jpg" || $typ_pliku == "image/jpeg") {
+                            $zawartosc = $warstwa->instert($pietro, $nazwa, $sciezka, $plik_rozmiar);
+                        } else {
+                            $zawartosc = '<script>alert("Nieprawidłowy format pliku.")</script>';
+                        }
+                    } else {
+                        $zawartosc = '<script>alert("Nie podano numeru piętra")</script>';
+                    }
+                } else {
+                    $zawartosc = '<script>alert("Nie podano ścieżki pliku!")</script>';
+                }
+
+
+
+
+//                if ($_POST['name'] != null && $_POST['is_visible'] != null) {
+//                    $alert = $tableSymbolFamily->instert($_POST['name'], $_POST['is_visible'], 1);
+//                } else {
+//                    $alert = 'Niepoprawnie wypełnione pola!';
+//                }
                 break;
             case 'edytuj':
                 if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id'] != null) {
@@ -111,7 +158,7 @@ $(document).ready(function(){
                 $form.='</select></td>
                     </tr>
                     </table>
-                 </form>';                
+                 </form>';
             } else {
                 $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
             }

@@ -12,7 +12,7 @@ if (isset($_GET['id'])) {
         <tr>
             <td>Grupa: </td>
             <td><select id="select_symbolfamily" name="select_symbolfamily">
-                <option>' . $currentSymbolFamily[1] . '</option>';
+                <option value="'.$currentSymbolFamily[0].'">' . $currentSymbolFamily[1] . '</option>';
     foreach ($symbolFamily as $symbol) {
         if ($symbol[0] != $currentSymbolFamily[0]) {
             echo '<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
@@ -22,21 +22,25 @@ if (isset($_GET['id'])) {
                     </tr>';
     if (!empty($currentSymbolFamily) && $currentSymbolFamily[2] == 0) {
         echo'<tr>
-                <td>Obrazek domyślny</td>
+                <td>Obrazek:</td>
                 <td><input type="file" name="img" id="img" size=25></td>
             </tr>
             <tr>
-                <td>Obrazek ON</td>
-                <td><input type="file" name="img" id="img" size=25></td>
-            </tr>
-            <tr>
-                <td>Obrazek OFF</td>
-                <td><input type="file" name="img" id="img" size=25></td>
+                <td>Typ:</td>
+                <td><select id="value" name="value">
+                    <option value="-1">domyślny</option>
+                    <option value="1">ON</option>
+                    <option value="0">OFF</option></td>
             </tr>';
     } else {
         echo '<tr>
-                <td>Obrazek domyślny</td>
+                <td>Obrazek:</td>
                 <td><input type="file" name="img" id="img" size=25></td>
+            </tr>
+            <tr>
+                <td>Typ:</td>
+                <td><select id="value" name="value">
+                    <option value="-1">domyślny</option>
             </tr>';
     }
     echo '<tr>
