@@ -16,7 +16,7 @@ class tableUser {
      * @return type 
      */
     function instert($login, $password, $user_type, $active) {
-        $row = $this->selectRecord($login, $password, $user_type, $active);
+        $row = $this->selectRecord($login, $user_type, $active);
         if (empty($row)) {
             $query = "INSERT INTO user values ('','$login', '$password', '$user_type', '$active')";
             $result = mysql_query($query);
@@ -31,8 +31,8 @@ class tableUser {
     }
 
 
-    function selectRecord($login, $password, $user_type, $active) {
-        $query = "SELECT * FROM symbol_family WHERE login='$name' and password='$password' and id_user_type='$user_type' and active='$active'";
+    function selectRecord($login, $active) {
+        $query = "SELECT * FROM symbol_family WHERE login='$login' and active='$active'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
@@ -63,10 +63,10 @@ class tableUser {
         return $symbol;
     }
 
-    function update($id, $login, $password, $user_type, $active) {
-        $row = $this->selectRecord($name, $password, $user_type, $active);
+    function update($id, $login, $user_type, $active) {
+        $row = $this->selectRecord($name, $user_type, $active);
         if (empty($row) || $row[0] == $id) {
-            $query = "UPDATE user SET login='$login', password='$password', id_user_type='$user_type', active='$active' WHERE id='$id'";
+            $query = "UPDATE user SET login='$login', id_user_type='$user_type', active='$active' WHERE id='$id'";
             $result = mysql_query($query);
             if ($result) {
                 return 'Wyedytowano użytkownika';

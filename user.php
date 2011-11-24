@@ -73,8 +73,8 @@ if (isset($_POST['send'])) {
             }
             break;
         case 'edytuj':
-            if ($_POST['login'] != null && $_POST['password'] != null && $_POST['id']!=null) {
-                $alert = $tableUser->update($_POST['id'], $_POST['login'], $_POST['password'], $_POST['user_type'], 1);
+            if ($_POST['login'] != null && $_POST['id']!=null) {
+                $alert = $tableUser->update($_POST['id'], $_POST['login'], $_POST['user_type'], 1);
             } else {
                 $alert = 'Niepoprawnie wypełnione pola!';
             }
@@ -99,9 +99,9 @@ switch ($_GET['action']) {
                         <td>Nazwa użytkownika: </td>
                         <td><input type="text" id="login" name="login" /></td>
                     </tr>
-                     <tr>
-                        <td>Hasłó użytkownika: </td>
-                        <td><input type="text" id="password" name="password" /></td>
+                    <tr>
+                        <td>Hasło użytkownika: </td>
+                        <td><input type="password" id="password" name="password" /></td>
                     </tr>
                     <tr>
                         <td>Typ grupy:</td>
@@ -135,10 +135,7 @@ switch ($_GET['action']) {
                         <td>Nazwa użytkownika: </td>
                         <td><input type="text" id="login" name="login" disabled="disabled"></td>
                     </tr>
-                    <tr>
-                        <td>Hasłó użytkownika: </td>
-                        <td><input type="text" id="password" name="password" disabled=disabled/></td>
-                    </tr>
+
                     <tr>
                         <td>Typ grupy:</td>
                         <td><select id="user_type" name="user_type" disabled="disabled">
@@ -153,7 +150,7 @@ switch ($_GET['action']) {
         } else {
             $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
         }
-        $content = formFrame($form, 'Edytuj grupę symboli', $alert);
+        $content = formFrame($form, 'Edytuj użytkowników', $alert);
         break;
     case 'delete':
         $users = $tableUser->selectAllRecords();
@@ -170,13 +167,10 @@ switch ($_GET['action']) {
             $form.='</select></td>
                     </tr>
                     <tr>
-                        <td>Login: </td>
+                        <td>Nazwa użytkownika: </td>
                         <td><input type="text" id="login" name="login" disabled="disabled"/></td>
                     </tr>
-                    <tr>
-                        <td>Hasło: </td>
-                        <td><input type="text" id="password" name="password" disabled="disabled"/></td>
-                    </tr>
+
                     <tr>
                         <td>Typ grupy:</td>
                         <td><select id="user_type" name="user_type" disabled="disabled">

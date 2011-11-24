@@ -38,10 +38,6 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
         <td>Login: </td>
         <td><input type="text" id="login" name="login" value="' . $currentUser[1] . '" ' . $dis . '></td>
     </tr>
-        <tr>
-        <td>Hasło: </td>
-        <td><input type="text" id="password" name="password" value="' . $currentUser[2] . '" ' . $dis . '></td>
-    </tr>
     <tr>
         <td>Typ grupy:</td>
         <td><select id="user_type" name="user_type" ' . $dis . '>';
