@@ -25,10 +25,16 @@ $(document).ready(function(){
 	$("#text3").load("ajaxSymbol.php?id="+id);
     });
     
-    $("#text3").delegate("#select_name_delete", "change", function()
+    $("#text3").delegate("#select_symbolfamily_delete", "change", function()
     {
-        var id= $("#select_name_delete").val();
-	$("#text3").load("ajaxSymbolFamily.php?id_delete="+id);
+        var id= $("#select_symbolfamily_delete").val();
+	$("#text3").load("ajaxSymbol.php?id_delete="+id);
+    });
+    
+    $("#text3").delegate("#select_symbol", "change", function()
+    {
+        var id= $("#select_symbol").val();
+	$("#text3").load("ajaxSymbol.php?id_symbol="+id);
     });
 });
 </script>';
@@ -37,32 +43,8 @@ $(document).ready(function(){
     $divBackground = null;
     $alert = null;
     $minUserPrivleges = '100';
-
-    /**
-     * Żeby nie powtarzać tych samych divów (jakkolwiek skomplikowanie to wygląda ;/) metoda. 
-     * @param type $form
-     * @return string 
-     */
-    function formFrame($form, $divTitle, $alert) {
-        $content = '
-            <div class="center">
-                <div class="title2">' . $divTitle . '</div>
-                <div class="text2">
-                    <div class="center">
-                        <div class="text3">
-                        <li><a href="symbol.php?action=add">Dodaj symbol</a></li>
-                        <li><a href="symbol.php?action=edit">Edytuj symbol</a></li>
-                        <li><a href="symbol.php?action=delete">Usuń symbol</a></li>
-                        </div>
-                        <div class="text3" id="text3">
-                        <h4>' . $alert . '</h4><br>'
-                . $form .
-                '</div>
-                    </div>
-                </div>
-            </div>';
-        return $content;
-    }
+    $link = '<li><a href="symbol.php?action=add">Dodaj symbol</a></li>
+             <li><a href="symbol.php?action=delete">Usuń symbol</a></li>';
 
     /*
      * Kod strony
@@ -79,16 +61,14 @@ $(document).ready(function(){
                         do {
                             $nazwa = sha1(date("d.m.Y.H.i.s") . $plik_ext[0] . $number) . '.' . $plik_ext[1];
                         } while (file_exists($nazwa));
-                        $row = $tableSymbol->selectRecord($_POST['select_symbolfamily'], $_POST['value'], 1);
-                        if (empty($row)) {
+                        $ret = $tableSymbol->instert($_POST['select_symbolfamily'], "photo/" . $nazwa, $_POST['value'], 1);
+                        $alert = $ret[1];
+                        if ($ret[0] == 1) {
                             if (is_uploaded_file($_FILES['img']['tmp_name'])) {
                                 move_uploaded_file($_FILES['img']['tmp_name'], "photo/$nazwa");
-                                $alert = $tableSymbol->instert($_POST['select_symbolfamily'], "photo/" . $nazwa, $_POST['value'], 1);
                             } else {
                                 $alert = 'Nie udało się wgrać pliku na serwer';
                             }
-                        } else {
-                            $alert = 'W bazie istnieje już taki symbol!';
                         }
                     } else {
                         $alert = 'Niepoprawnie format obrazków.';
@@ -96,49 +76,17 @@ $(document).ready(function(){
                 } else {
                     $alert = 'Niepoprawnie wybrane obrazki.';
                 }
-                $pietro = $_POST['pietro'];
-                $sciezka = $_FILES['img']['tmp_name'];
-                $typ_pliku = $_FILES['img']['type'];
-                //$plik_rozmiar = $_FILES['img']['size'];
-                $plik_rozmiar = getimagesize($_FILES['img']['tmp_name']);
-                ;
-
-
-                if ($sciezka != NULL) {
-                    if ($pietro != NULL) {
-                        if ($typ_pliku == "image/jpg" || $typ_pliku == "image/jpeg") {
-                            $zawartosc = $warstwa->instert($pietro, $nazwa, $sciezka, $plik_rozmiar);
-                        } else {
-                            $zawartosc = '<script>alert("Nieprawidłowy format pliku.")</script>';
-                        }
-                    } else {
-                        $zawartosc = '<script>alert("Nie podano numeru piętra")</script>';
-                    }
-                } else {
-                    $zawartosc = '<script>alert("Nie podano ścieżki pliku!")</script>';
-                }
-
-
-
-
-//                if ($_POST['name'] != null && $_POST['is_visible'] != null) {
-//                    $alert = $tableSymbolFamily->instert($_POST['name'], $_POST['is_visible'], 1);
-//                } else {
-//                    $alert = 'Niepoprawnie wypełnione pola!';
-//                }
-                break;
-            case 'edytuj':
-                if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id'] != null) {
-                    $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 1);
-                } else {
-                    $alert = 'Niepoprawnie wypełnione pola!';
-                }
                 break;
             case 'usuń':
-                if ($_POST['name'] != null && $_POST['is_visible'] != null && $_POST['id'] != null) {
-                    $alert = $tableSymbolFamily->update($_POST['id'], $_POST['name'], $_POST['is_visible'], 0);
+                if ($_POST['select_symbol'] != null) {
+                    $symbol = $tableSymbol->selectRecordById($_POST['select_symbol']);
+                    $ret = $tableSymbol->delete($_POST['select_symbol']);
+                    $alert = $ret[1];
+                    if ($ret[0] == 1) {
+                        unlink('./' . $symbol[2]);
+                    }
                 } else {
-                    $alert = 'Niepoprawnie wypełnione pola! :(' . $_POST['id'] . $_POST['name'] . $_POST['is_visible'];
+                    $alert = 'Niepoprawnie wypełnione pola! :(';
                 }
                 break;
             default:
@@ -166,75 +114,27 @@ $(document).ready(function(){
             } else {
                 $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
             }
-            $content = formFrame($form, 'Dodaj symbol', $alert);
-            break;
-        case 'edit':
-            $symbolFamily = $tableSymbolFamily->selectAllRecords();
-            if (!empty($symbolFamily)) {
-                $form = '<form action="symbol_family.php?action=edit" method="POST">
-                    <table>
-                    <tr>
-                        <td>Wybierz symbol</td>
-                        <td><select id="select_name" name="select_name">
-                        <option>---</option>';
-                foreach ($symbolFamily as $symbol) {
-                    $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
-                }
-                $form.='</select></td>
-                    </tr>
-                    <tr>
-                        <td>Nazwa grupy: </td>
-                        <td><input type="text" id="name" name="name" disabled="disabled"></td>
-                    </tr>
-                    <tr>
-                        <td>Typ grupy:</td>
-                        <td><select id="is_visible" name="is_visible" disabled="disabled">
-                        <option>---</option>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td colspan=2><button type="submit" id="send" name="send" value="edytuj"/>edytuj</button></td>
-                    </tr>
-                    </table>
-                 </form>';
-            } else {
-                $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
-            }
-            $content = formFrame($form, 'Edytuj grupę symboli', $alert);
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj symbol', $alert);
             break;
         case 'delete':
             $symbolFamily = $tableSymbolFamily->selectAllRecords();
             if (!empty($symbolFamily)) {
-                $form = '<form action="symbol_family.php?action=delete" method="POST">
+                $form = '<form action="symbol.php?action=add" method="POST">
                     <table>
                     <tr>
-                        <td>Wybierz symbol</td>
-                        <td><select id="select_name_delete" name="select_name_delete">
+                        <td>Grupa: </td>
+                        <td><select id="select_symbolfamily_delete" name="select_symbolfamily_delete">
                         <option>---</option>';
                 foreach ($symbolFamily as $symbol) {
                     $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
                 }
                 $form.='</select></td>
                     </tr>
-                                        <tr>
-                        <td>Nazwa grupy: </td>
-                        <td><input type="text" id="name" name="name" disabled="disabled"/></td>
-                    </tr>
-                    <tr>
-                        <td>Typ grupy:</td>
-                        <td><select id="is_visible" name="is_visible" disabled="disabled">
-                        <option>---</option>
-                        </select></td>
-                    </tr>
-                    <tr>
-                        <td colspan=2><button type="submit" id="send" name="send" value="usuń"/>usuń</button></td>
-                    </tr>
                     </table>
                  </form>';
             } else {
                 $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
-            }
-            $content = formFrame($form, 'Usuń grupę symboli', $alert);
+            } $content = $userInterface->adminPanelFormFrame($link, $form, 'Usuń symbol', $alert);
             break;
         default:
             $minUserPrivleges = x;

@@ -17,6 +17,7 @@ $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
+   
     $("#text3").delegate("#select_name", "change", function()
     {
         var id= $("#select_name").val();
@@ -36,31 +37,9 @@ $divBackground = null;
 $alert = null;
 $minUserPrivleges = '100';
 
-/**
- * Żeby nie powtarzać tych samych divów (jakkolwiek skomplikowanie to wygląda ;/) metoda. 
- * @param type $form
- * @return string 
- */
-function formFrame($form, $divTitle, $alert) {
-    $content = '
-            <div class="center">
-                <div class="title2">' . $divTitle . '</div>
-                <div class="text2">
-                    <div class="center">
-                        <div class="text3">
-                        <li><a href="symbol_family.php?action=add">Dodaj grupę symboli</a></li>
-                        <li><a href="symbol_family.php?action=edit">Edytuj grupę symboli</a></li>
-                        <li><a href="symbol_family.php?action=delete">Usuń grupę symboli</a></li>
-                        </div>
-                        <div class="text3" id="text3">
-                        <h4>' . $alert . '</h4><br>'
-            . $form .
-            '</div>
-                    </div>
-                </div>
-            </div>';
-    return $content;
-}
+$link ='<li><a href="symbol_family.php?action=add">Dodaj grupę symboli</a></li>
+        <li><a href="symbol_family.php?action=edit">Edytuj grupę symboli</a></li>
+        <li><a href="symbol_family.php?action=delete">Usuń grupę symboli</a></li>';
 
 /*
  * Kod strony
@@ -115,7 +94,7 @@ switch ($_GET['action']) {
                     </tr>
                     </table>
                  </form>';
-        $content = formFrame($form, 'Dodaj grupę symboli', $alert);
+        $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj grupę symboli', $alert);
         break;
     case 'edit':
         $symbolFamily = $tableSymbolFamily->selectAllRecords();
@@ -123,7 +102,7 @@ switch ($_GET['action']) {
             $form = '<form action="symbol_family.php?action=edit" method="POST">
                     <table>
                     <tr>
-                        <td>Wybierz symbol</td>
+                        <td>Wybierz grupę symboli</td>
                         <td><select id="select_name" name="select_name">
                         <option>---</option>';
             foreach ($symbolFamily as $symbol) {
@@ -149,7 +128,7 @@ switch ($_GET['action']) {
         } else {
             $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
         }
-        $content = formFrame($form, 'Edytuj grupę symboli', $alert);
+          $content = $userInterface->adminPanelFormFrame($link, $form, 'Edytuj grupę symboli', $alert);
         break;
     case 'delete':
         $symbolFamily = $tableSymbolFamily->selectAllRecords();
@@ -157,7 +136,7 @@ switch ($_GET['action']) {
             $form = '<form action="symbol_family.php?action=delete" method="POST">
                     <table>
                     <tr>
-                        <td>Wybierz symbol</td>
+                        <td>Wybierz grupę symboli</td>
                         <td><select id="select_name_delete" name="select_name_delete">
                         <option>---</option>';
             foreach ($symbolFamily as $symbol) {
@@ -183,7 +162,7 @@ switch ($_GET['action']) {
         } else {
             $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
         }
-        $content = formFrame($form, 'Usuń grupę symboli', $alert);
+          $content = $userInterface->adminPanelFormFrame($link, $form, 'Usuń grupę symboli', $alert);
         break;
     default:
         $minUserPrivleges = x;
