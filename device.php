@@ -7,7 +7,7 @@ require_once 'userInterface.php';
 require_once 'tables/tableDevice.php';
 
 $userInterface = new userInterface();
-$tableDevie = new tableDevice();
+$tableDevice = new tableDevice();
 
 
 if ($userInterface->login()) {
@@ -17,22 +17,17 @@ if ($userInterface->login()) {
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
-    $("#text3").delegate("#select_symbolfamily", "change", function()
+   
+    $("#text3").delegate("#select_port", "change", function()
     {
-        var id= $("#select_symbolfamily").val();
-	$("#text3").load("ajaxSymbol.php?id="+id);
+        var id= $("#select_port").val();
+	$("#text3").load("ajaxDevice.php?id="+id);
     });
     
-    $("#text3").delegate("#select_symbolfamily_delete", "change", function()
+    $("#text3").delegate("#select_port_delete", "change", function()
     {
-        var id= $("#select_symbolfamily_delete").val();
-	$("#text3").load("ajaxSymbol.php?id_delete="+id);
-    });
-    
-    $("#text3").delegate("#select_symbol", "change", function()
-    {
-        var id= $("#select_symbol").val();
-	$("#text3").load("ajaxSymbol.php?id_symbol="+id);
+        var id= $("#select_port_delete").val();
+	$("#text3").load("ajaxDevice.php?id_delete="+id);
     });
 });
 </script>';
@@ -53,20 +48,22 @@ $(document).ready(function(){
     if (isset($_POST['send'])) {
         switch ($_POST['send']) {
             case 'dodaj':
-                if ($_POST['port']!="" && $_POST['type']!="") {
-                    $alert = $tableDevie->instert($_POST['port'], $_POST['type'], -1, 0, 0);
-                }else{
+                if ($_POST['port'] != "" && $_POST['type'] != "") {
+                    $alert = $tableDevice->instert($_POST['port'], $_POST['type'], -1, 0, 0);
+                } else {
+                    $alert = 'Niepoprawnie wypełnione pola!';
+                }
+                break;
+            case 'edytuj':
+                if ($_POST['port'] != "" && $_POST['type'] != "" && $_POST['id'] != "") {
+                    $alert = $tableDevice->update($_POST['id'], $_POST['port'], $_POST['type']);
+                } else {
                     $alert = 'Niepoprawnie wypełnione pola!';
                 }
                 break;
             case 'usuń':
-                if ($_POST['select_symbol'] != "") {
-                    $symbol = $tableSymbol->selectRecordById($_POST['select_symbol']);
-                    $ret = $tableSymbol->delete($_POST['select_symbol']);
-                    $alert = $ret[1];
-                    if ($ret[0] == 1) {
-                        unlink('./' . $symbol[2]);
-                    }
+                if ($_POST['id'] != "") {
+                    $alert = $tableDevice->delete($_POST['id']);
                 } else {
                     $alert = 'Niepoprawnie wypełnione pola!';
                 }
@@ -81,7 +78,7 @@ $(document).ready(function(){
             $form = '<form action="device.php?action=add" method="POST">
                     <table>
                     <tr>
-                        <td>Port:</td>
+                        <td>Numer portu:</td>
                         <td><input type="text" id="port" name="port" /></td>
                     </tr>
                     <tr>
@@ -100,25 +97,73 @@ $(document).ready(function(){
                  </form>';
             $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj urządzenie', $alert);
             break;
-        case 'delete':
-            $symbolFamily = $tableSymbolFamily->selectAllRecords();
-            if (!empty($symbolFamily)) {
-                $form = '<form action="symbol.php?action=add" method="POST">
+        case 'edit':
+            $devices = $tableDevice->selectAllRecords();
+            if (!empty($devices)) {
+                $form = '<form action="device.php?action=edit" method="POST">
                     <table>
                     <tr>
-                        <td>Grupa: </td>
-                        <td><select id="select_symbolfamily_delete" name="select_symbolfamily_delete">
+                        <td>Port:</td>
+                        <td><select id="select_port" name="select_port">
                         <option>---</option>';
-                foreach ($symbolFamily as $symbol) {
-                    $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
+                foreach ($devices as $device) {
+                    $form.='<option value ="' . $device[0] . '">' . $device[1] . '</option>';
                 }
                 $form.='</select></td>
+                    </tr>
+                    <tr>
+                        <td>Numer portu: </td>
+                        <td><input type="text" id="port" name="port" disabled="disabled"></td>
+                    </tr>
+                    <tr>
+                        <td>Typ:</td>
+                        <td><select id="type" name="type" disabled="disabled">
+                        <option>---</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2><button type="submit" id="send" name="send" value="edytuj"/>edytuj</button></td>
                     </tr>
                     </table>
                  </form>';
             } else {
-                $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
-            } $content = $userInterface->adminPanelFormFrame($link, $form, 'Usuń symbol', $alert);
+                $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
+            }
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Edytuj urządzenie', $alert);
+            break;
+        case 'delete':
+            $devices = $tableDevice->selectAllRecords();
+            if (!empty($devices)) {
+                $form = '<form action="device.php?action=delete" method="POST">
+                    <table>
+                    <tr>
+                        <td>Port:</td>
+                        <td><select id="select_port_delete" name="select_port_delete">
+                        <option>---</option>';
+                foreach ($devices as $device) {
+                    $form.='<option value ="' . $device[0] . '">' . $device[1] . '</option>';
+                }
+                $form.='</select></td>
+                    </tr>
+                    <tr>
+                        <td>Numer portu: </td>
+                        <td><input type="text" id="port" name="port" disabled="disabled"></td>
+                    </tr>
+                    <tr>
+                        <td>Typ:</td>
+                        <td><select id="type" name="type" disabled="disabled">
+                        <option>---</option>
+                        </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2><button type="submit" id="send" name="send" value="usuń"/>usuń</button></td>
+                    </tr>
+                    </table>
+                 </form>';
+            } else {
+                $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
+            }
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Usuń urządzenie', $alert);
             break;
         default:
             $minUserPrivleges = x;
