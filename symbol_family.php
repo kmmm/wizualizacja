@@ -102,7 +102,7 @@ switch ($_GET['action']) {
             $form = '<form action="symbol_family.php?action=edit" method="POST">
                     <table>
                     <tr>
-                        <td>Wybierz grupę symboli</td>
+                        <td>Grupa symboli:</td>
                         <td><select id="select_name" name="select_name">
                         <option>---</option>';
             foreach ($symbolFamily as $symbol) {
@@ -136,7 +136,7 @@ switch ($_GET['action']) {
             $form = '<form action="symbol_family.php?action=delete" method="POST">
                     <table>
                     <tr>
-                        <td>Wybierz grupę symboli</td>
+                        <td>Grupa symboli:</td>
                         <td><select id="select_name_delete" name="select_name_delete">
                         <option>---</option>';
             foreach ($symbolFamily as $symbol) {

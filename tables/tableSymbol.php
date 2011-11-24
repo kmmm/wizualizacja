@@ -46,22 +46,6 @@ class tableSymbol {
         return $row;
     }
 
-    function selectAllRecords() {
-        $query = "SELECT * FROM symbol WHERE active=1";
-        $result = mysql_query($query);
-        $ret_res = mysql_num_rows($result);
-        $licznik = 0;
-        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-            $symbol[$licznik][0] = $row[0];    //id
-            $symbol[$licznik][1] = $row[1];    //id_symbol_family
-            $symbol[$licznik][2] = $row[2];    //link_photo
-            $symbol[$licznik][3] = $row[3];    //value
-            $symbol[$licznik][4] = $row[4];    //active
-            $licznik++;
-        }
-        return $symbol;
-    }
-
     function selectAllRecordsBySumbolFamilyId($id_symbol_family) {
         $query = "SELECT * FROM symbol WHERE id_symbol_family='$id_symbol_family'";
         $result = mysql_query($query);

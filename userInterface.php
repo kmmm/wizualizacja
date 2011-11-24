@@ -225,10 +225,10 @@ class userInterface {
         $symbols = '<li><a href="symbol_family.php?action=add">Grupy symboli</a></li>
         <li><a href="symbol.php?action=add">Symbole</a></li>';
 
-        $devices = '<li><a href="index.php">Urządzenie</a></li>
-        <li><a href="index.php">Wejścia</a></li>';
+        $devices = '<li><a href="device.php?action=add">Urządzenie</a></li>';
 
         $elements = '<li><a href="index.php">Kondygnacje</a></li>
+        <li><a href="index.php">Wejścia</a></li>
         <li><a href="index.php">Elementy wizualizacji</a></li>';
 
         $administration = '<li><a href="index.php">Użytkownicy</a></li>';

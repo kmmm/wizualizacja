@@ -1,7 +1,7 @@
 <?php
 
 /**
- * symbol_family - formularze zarządzania rodzinami symboli
+ * device - formularze zarządzania urządzeniami
  */
 require_once 'userInterface.php';
 require_once 'tables/tableSymbolFamily.php';
@@ -13,7 +13,7 @@ $tableSymbol = new tableSymbol();
 
 
 if ($userInterface->login()) {
-    $title = "Panel administracyjny - zarządzanie symbolami";
+    $title = "Panel administracyjny - zarządzanie urządzeniami";
 
     $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
@@ -39,12 +39,13 @@ $(document).ready(function(){
 });
 </script>';
 
-    $headerTitle = "Panel administracyjny - zarządzanie symbolami";
+    $headerTitle = "Panel administracyjny - zarządzanie urządzeniami";
     $divBackground = null;
     $alert = null;
     $minUserPrivleges = '100';
-    $link = '<li><a href="symbol.php?action=add">Dodaj symbol</a></li>
-             <li><a href="symbol.php?action=delete">Usuń symbol</a></li>';
+    $link = '<li><a href="device.php?action=add">Dodaj urządzenie</a></li>
+             <li><a href="device.php?action=edit">Edytuj urządzenie</a></li>
+             <li><a href="device.php?action=delete">Usuń urządzenie</a></li>';
 
     /*
      * Kod strony
@@ -96,30 +97,32 @@ $(document).ready(function(){
 
     switch ($_GET['action']) {
         case 'add':
-            $symbolFamily = $tableSymbolFamily->selectAllRecords();
-            if (!empty($symbolFamily)) {
-                $form = '<form action="symbol.php?action=add" method="POST">
+            $form = '<form action="device.php?action=add" method="POST">
                     <table>
                     <tr>
-                        <td>Grupa: </td>
-                        <td><select id="select_symbolfamily" name="select_symbolfamily">
-                        <option>---</option>';
-                foreach ($symbolFamily as $symbol) {
-                    $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
-                }
-                $form.='</select></td>
+                        <td>Port:</td>
+                        <td><input type="text" id="port" name="port" /></td>
+                    </tr>
+                    <tr>
+                        <td>Typ:</td>
+                        <td><select id="type" name="type">
+                            <option value="I">Input</option>
+                            <option value="O">Output</option>
+                            <option value="R">Register</option>
+                            <option value="F">Flag</option>
+                            </select></td>
+                    </tr>
+                    <tr>
+                        <td colspan=2><button type="submit" id="send" name="send" value="dodaj" onclick="this.value=add">dodaj</button></td>
                     </tr>
                     </table>
                  </form>';
-            } else {
-                $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
-            }
-            $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj symbol', $alert);
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj urządzenie', $alert);
             break;
         case 'delete':
             $symbolFamily = $tableSymbolFamily->selectAllRecords();
             if (!empty($symbolFamily)) {
-                $form = '<form action="symbol.php?action=delete" method="POST">
+                $form = '<form action="symbol.php?action=add" method="POST">
                     <table>
                     <tr>
                         <td>Grupa: </td>
