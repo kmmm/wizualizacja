@@ -88,7 +88,7 @@ strong
     background-position: center;
     position: relative;
     margin: auto;
-    height: 530px;
+    min-height: 530px;
     text-align: center;
     overflow: auto;
 }

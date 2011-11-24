@@ -35,8 +35,6 @@ class userInterface {
             if (isset($_POST['login']) && isset($_POST['haslo'])) {
 
                 $login = $_POST['login'];
-                $haslo = $_POST['haslo'];
-                
                 $haslo = md5($_POST['haslo']);
 
                 $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
@@ -196,8 +194,18 @@ class userInterface {
     }
 
     function leftMenuIndex() {
-        $floors = '<li><a href="index.php">Floor 0</a></li>
-        <li><a href="index.php">Floor 1</a></li>';
+        require_once './tables/tableFloor.php';
+        $tableFloor = new tableFloor();
+        $floor = $tableFloor->selectAllRecords();
+        $floors = "";
+        if (!empty($floor)) {
+            foreach ($floor as $f) {
+                $floors.= '<li><a href="index.php?floor=' . $f[1] . '">Piętro ' . $f[1] . '</a></li>';
+            }
+        } else {
+            $floors= 'Brak kondygnacji';
+        }
+
 
         $input = '<form action="index.php">
 	<input type="checkbox" name="nazwa" value="wartość" />Checkbox1</input><br>
@@ -227,11 +235,11 @@ class userInterface {
         $symbols = '<li><a href="symbol_family.php?action=add">Grupy symboli</a></li>
         <li><a href="symbol.php?action=add">Symbole</a></li>';
 
-        $devices = '<li><a href="device.php?action=add">Urządzenie</a></li>';
+        $devices = '<li><a href="device.php?action=add">Urządzenia</a></li>';
 
-        $elements = '<li><a href="index.php">Kondygnacje</a></li>
+        $elements = '<li><a href="floor.php?action=add">Kondygnacje</a></li>
         <li><a href="index.php">Wejścia</a></li>
-        <li><a href="index.php">Elementy wizualizacji</a></li>';
+        <li><a href="index.php">Elementy na wizualizacji</a></li>';
 
         $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
 
