@@ -67,7 +67,8 @@ if (isset($_POST['send'])) {
     switch ($_POST['send']) {
         case 'dodaj':
             if ($_POST['login'] != null && $_POST['password'] != null) {
-                $alert = $tableUser->instert($_POST['login'], $_POST['password'], $_POST['user_type'], 1);
+                $password = md5($_POST['password']);
+                $alert = $tableUser->instert($_POST['login'], $password, $_POST['user_type'], 1);
             } else {
                 $alert = 'Niepoprawnie wypełnione pola!';
             }
