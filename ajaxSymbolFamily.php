@@ -24,7 +24,7 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     echo '<h4></h4><br><form action="symbol_family.php?action=' . $value . '" method="POST">
                 <table>
                     <tr>
-                        <td>Wybierz grupę symboli</td>
+                        <td>Grupa symboli:</td>
                         <td><select id="' . $select . '" name="' . $select . '">
                                 <option value="' . $currentSymbolFamily[0] . '">' . $currentSymbolFamily[1] . '</option>';
     foreach ($symbolFamily as $symbol) {

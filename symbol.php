@@ -115,7 +115,7 @@ $(document).ready(function(){
                         unlink('./' . $symbol[2]);
                     }
                 } else {
-                    $alert = 'Niepoprawnie wypełnione pola! :(';
+                    $alert = 'Niepoprawnie wypełnione pola!';
                 }
                 break;
             default:
@@ -148,7 +148,7 @@ $(document).ready(function(){
         case 'delete':
             $symbolFamily = $tableSymbolFamily->selectAllRecords();
             if (!empty($symbolFamily)) {
-                $form = '<form action="symbol.php?action=add" method="POST">
+                $form = '<form action="symbol.php?action=delete" method="POST">
                     <table>
                     <tr>
                         <td>Grupa: </td>
