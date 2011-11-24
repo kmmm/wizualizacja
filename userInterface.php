@@ -4,6 +4,7 @@
  * UserInterface - interfejs użytkownika
  */
 require_once 'connectDb.php';
+
 class userInterface {
 
     /**
@@ -27,34 +28,38 @@ class userInterface {
         $_SESSION['privileges'] = 0;
         $this->user_privileges = 0;
     }
-    
-    public function login(){
+
+    public function login() {
         $content = null;
-        if($this->user_privileges == 0)
-        {
-            if(isset($_POST['login']) && isset($_POST['haslo'])){
+        if ($this->user_privileges == 0) {
+            if (isset($_POST['login']) && isset($_POST['haslo'])) {
 
                 $login = $_POST['login'];
                 $haslo = $_POST['haslo'];
 
+<<<<<<< HEAD
                 
             //    $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
                 $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
+=======
+
+                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '")';
+>>>>>>> d5030c57ab59679c54a398c415d37472726092ab
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
                 if (empty($row)) {
-              //      unset($_POST);
+                    //      unset($_POST);
                     return false;
-                }else{
-                
-                $_SESSION['privileges']=$row['0'];
-                $this->user_privileges = $row['0'];
-              //  unset($_POST);
-               return true;
+                } else {
+
+                    $_SESSION['privileges'] = $row['0'];
+                    $this->user_privileges = $row['0'];
+                    //  unset($_POST);
+                    return true;
                 }
-            }else{
-    $content = '<html><head><title> Logowanie </title>
+            } else {
+                $content = '<html><head><title> Logowanie </title>
         <meta name="keywords" content="wizualizacja">
         <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
         <meta http-equiv="Content-Language" content="pl">
@@ -79,14 +84,12 @@ class userInterface {
         <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
         </div>
         </body>
-        </html>'; 
-        echo $content;
-        return false;    
-        }
-        } else 
+        </html>';
+                echo $content;
+                return false;
+            }
+        } else
             return true;
- 
-                  
     }
 
     private $user_privileges;
@@ -240,6 +243,25 @@ class userInterface {
         <li><a href="index.php">Kamera</a></li>';
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
+    }
+
+    function adminPanelFormFrame($link, $form, $divTitle, $alert) {
+        $content = '
+            <div class="center">
+                <div class="title2">' . $divTitle . '</div>
+                <div class="text2">
+                    <div class="center">
+                        <div class="text3">
+                        ' . $link . '
+                        </div>
+                        <div class="text3" id="text3">
+                        <h4>' . $alert . '</h4><br>'
+                . $form .
+                '</div>
+                    </div>
+                </div>
+            </div>';
+        return $content;
     }
 
 }

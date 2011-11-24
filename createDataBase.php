@@ -160,5 +160,6 @@ if ($result) {
     echo 'Utworzono tabelę checkbox_list.<br>';
 }
 
+mkdir('./photo', 0777);
 
 ?>
