@@ -35,7 +35,7 @@ $(document).ready(function(){
 $headerTitle = "Panel administracyjny - zarządzanie grupami symboli";
 $divBackground = null;
 $alert = null;
-$minUserPrivleges = '100';
+$minUserPrivleges = '2';
 
 $link ='<li><a href="symbol_family.php?action=add">Dodaj grupę symboli</a></li>
         <li><a href="symbol_family.php?action=edit">Edytuj grupę symboli</a></li>
@@ -66,7 +66,7 @@ if (isset($_POST['send'])) {
             if ($_POST['id']!=null) {
                 $alert = $tableSymbolFamily->delete($_POST['id']);
             } else {
-                $alert = 'Niepoprawnie wypełnione pola! :(';
+                $alert = 'Niepoprawnie wypełnione pola!';
             }
             break;
         default:

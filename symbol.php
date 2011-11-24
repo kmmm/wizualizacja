@@ -42,9 +42,38 @@ $(document).ready(function(){
     $headerTitle = "Panel administracyjny - zarządzanie symbolami";
     $divBackground = null;
     $alert = null;
-    $minUserPrivleges = '100';
+
+    $minUserPrivleges = '2';
+
+    /**
+     * Żeby nie powtarzać tych samych divów (jakkolwiek skomplikowanie to wygląda ;/) metoda. 
+     * @param type $form
+     * @return string 
+     */
+    function formFrame($form, $divTitle, $alert) {
+        $content = '
+            <div class="center">
+                <div class="title2">' . $divTitle . '</div>
+                <div class="text2">
+                    <div class="center">
+                        <div class="text3">
+                        <li><a href="symbol.php?action=add">Dodaj symbol</a></li>
+                        <li><a href="symbol.php?action=edit">Edytuj symbol</a></li>
+                        <li><a href="symbol.php?action=delete">Usuń symbol</a></li>
+                        </div>
+                        <div class="text3" id="text3">
+                        <h4>' . $alert . '</h4><br>'
+                . $form .
+                '</div>
+                    </div>
+                </div>
+            </div>';
+        return $content;
+    }
+
     $link = '<li><a href="symbol.php?action=add">Dodaj symbol</a></li>
              <li><a href="symbol.php?action=delete">Usuń symbol</a></li>';
+
 
     /*
      * Kod strony

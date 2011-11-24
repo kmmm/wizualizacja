@@ -37,8 +37,13 @@ class userInterface {
                 $login = $_POST['login'];
                 $haslo = $_POST['haslo'];
 
+                
+            //    $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
+                $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
 
-                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '")';
+
+//                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '")';
+
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
@@ -205,7 +210,7 @@ class userInterface {
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox5</input>        
         </form>';
 
-        if ($this->user_privileges > 50) {
+        if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
         <li><a href="index.php">Kamera</a></li>
         <li><a href="loginOutUser.php">Wylogowanie</a></li>';
@@ -231,7 +236,7 @@ class userInterface {
         <li><a href="index.php">Wejścia</a></li>
         <li><a href="index.php">Elementy wizualizacji</a></li>';
 
-        $administration = '<li><a href="index.php">Użytkownicy</a></li>';
+        $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
 
         $links = '<li><a href="index.php">Strona główna</a></li>
         <li><a href="index.php">Kamera</a></li>';
