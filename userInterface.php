@@ -37,14 +37,13 @@ class userInterface {
                 $login = $_POST['login'];
                 $haslo = $_POST['haslo'];
 
-<<<<<<< HEAD
                 
             //    $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
                 $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
-=======
 
-                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '")';
->>>>>>> d5030c57ab59679c54a398c415d37472726092ab
+
+//                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '")';
+
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
