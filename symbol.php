@@ -115,7 +115,7 @@ $(document).ready(function(){
                         unlink('./' . $symbol[2]);
                     }
                 } else {
-                    $alert = 'Niepoprawnie wypełnione pola! :(';
+                    $alert = 'Niepoprawnie wypełnione pola!';
                 }
                 break;
             default:
