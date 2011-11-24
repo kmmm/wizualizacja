@@ -34,7 +34,7 @@ $(document).ready(function(){
     $headerTitle = "Panel administracyjny - zarządzanie symbolami";
     $divBackground = null;
     $alert = null;
-    $minUserPrivleges = '100';
+    $minUserPrivleges = '2';
 
     /**
      * Żeby nie powtarzać tych samych divów (jakkolwiek skomplikowanie to wygląda ;/) metoda. 

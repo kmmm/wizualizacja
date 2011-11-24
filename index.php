@@ -16,7 +16,7 @@ if($userInterface->login()){
     $content = null;
     $divBackground = "images/f1.jpg";
     $menu = $userInterface->leftMenuIndex();
-    $user_privileges = 50;
+    $user_privileges = 1;
     $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
 }
 ?>
