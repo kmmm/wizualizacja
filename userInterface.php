@@ -35,20 +35,15 @@ class userInterface {
             if (isset($_POST['login']) && isset($_POST['haslo'])) {
 
                 $login = $_POST['login'];
-                $haslo = $_POST['haslo'];
+                $haslo = md5($_POST['haslo']);
 
-
-                //    $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'")';
-                $query = 'SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
-
-
-//                $query = 'SELECT user_type.type AS TYPE FROM user_type WHERE id = (SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '")';
-
+                $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
                 if (empty($row)) {
                     //      unset($_POST);
+                    $_SESSION['privileges']=0;
                     return false;
                 } else {
 
