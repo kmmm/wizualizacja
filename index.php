@@ -13,17 +13,17 @@ $tableFloor = new tableFloor();
 if ($userInterface->login()) {
 
     $title = "wizualizacja";
-    $jquery = null;
-    $headerTitle = "Floor 0";
+    $jquery = null;    
     $content = null;
 
     if (isset($_GET['floor'])) {
         $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
-        //$divBackground = "photo/floor8d4467a4e89999964ae3f90ce36b1ef142680d14.jpg";
         $divBackground = $image[2];
+        $headerTitle = "Floor ".$_GET['floor'];
     } else {
         $image = $tableFloor->selectAllRecords();
         $divBackground = $image[0][2];
+        $headerTitle = "Floor ".$image[0][1];
     }
 
     $menu = $userInterface->leftMenuIndex();
