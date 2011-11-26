@@ -35,7 +35,7 @@ $(document).ready(function(){
     $headerTitle = "Panel administracyjny - zarządzanie urządzeniami";
     $divBackground = null;
     $alert = null;
-    $minUserPrivleges = '100';
+    $minUserPrivleges = '2';
     $link = '<li><a href="device.php?action=add">Dodaj urządzenie</a></li>
              <li><a href="device.php?action=edit">Edytuj urządzenie</a></li>
              <li><a href="device.php?action=delete">Usuń urządzenie</a></li>';

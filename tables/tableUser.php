@@ -18,7 +18,7 @@ class tableUser {
     function instert($login, $password, $user_type, $active) {
         $row = $this->selectRecord($login, $user_type, $active);
         if (empty($row)) {
-        //    $password = crypt("haslo");
+        //    $password = crypt($password,  CRYPT_MD5);
             $query = "INSERT INTO user values ('','$login', '$password', '$user_type', '$active')";
             $result = mysql_query($query);
             if ($result) {
