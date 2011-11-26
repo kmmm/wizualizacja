@@ -4,6 +4,7 @@
  * UserInterface - interfejs użytkownika
  */
 require_once 'connectDb.php';
+require_once 'tables/tableInputs.php';
 
 class userInterface {
 
@@ -16,6 +17,7 @@ class userInterface {
      * @param type $content
      * @param type $image 
      */
+    public $jquery="";
     public function __construct() {
         session_start();
         $connectionWithDb = new connectDb();
@@ -30,23 +32,45 @@ class userInterface {
     }
 
     public function login() {
+        $userInterface = new userInterface();
         $content = null;
         if ($this->user_privileges == 0) {
             if (isset($_POST['login']) && isset($_POST['haslo'])) {
 
                 $login = $_POST['login'];
-                $haslo = md5($_POST['haslo']);
+
+                $haslo = $_POST['haslo'];
 
                 $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
                 if (empty($row)) {
-                    //      unset($_POST);
                     $_SESSION['privileges']=0;
+                    
+                    $title = "wizualizacja";
+                    $this->jquery = '<script>
+                     function init(){
+				setTimeout(\'document.location="index.php"\', 2000);
+			}
+		window.onload=init;
+                </script>';
+                    $headerTitle = "Błąd logowania";
+                    $content = "<h3>Złe dane logowania!</h3>";
+
+$user_privileges = 0;
+$menu = null;
+$divBackground = null;
+$userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
+                    
+                    
+                    
+                    
                     return false;
+                    
                 } else {
 
+                    $_SESSION['login']=$login;
                     $_SESSION['privileges'] = $row['0'];
                     $this->user_privileges = $row['0'];
                     //  unset($_POST);
@@ -111,9 +135,9 @@ class userInterface {
 
         return $this->user_privileges;
     }
-
+    
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
-
+$this->jquery.=$jquery;
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
@@ -126,7 +150,7 @@ class userInterface {
             echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
             echo '<meta http-equiv="Content-Language" content="pl">';
             echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-            echo $jquery;
+            echo $this->jquery;
             echo '</head>';
             echo '<body>';
             echo $this->header($headerTitle);
@@ -206,25 +230,58 @@ class userInterface {
             $floors= 'Brak kondygnacji';
         }
 
-
-        $input = '<form action="index.php">
+ $this->jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
+ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){    
+    $(\'.3\').change(function(){
+      alert(\'Handler for .change() called.\');
+    });
+    
+    $("#text3").delegate("#select_symbolfamily_delete", "change", function()
+    {
+        var id= $("#select_symbolfamily_delete").val();
+	$("#text3").load("ajaxSymbol.php?id_delete="+id);
+    });
+    
+    $("#text3").delegate("#select_symbol", "change", function()
+    {
+        var id= $("#select_symbol").val();
+	$("#text3").load("ajaxSymbol.php?id_symbol="+id);
+    });
+});
+</script>';
+        
+        
+        $inputs = getInputsFromBase();
+        $inputForm = '<form id="inputs" action ="index.php">';
+        if(!empty($inputs)){
+        foreach($inputs as $input){
+            $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" div="'.$input['id'].'""/>'.$input['name'].'</input><br></div>';
+        }} else
+            $inputForm.='Brak zdefiniowanych wejść';
+        $inputForm.='</from>';
+        
+    /*    $input = '<form action="index.php">
 	<input type="checkbox" name="nazwa" value="wartość" />Checkbox1</input><br>
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox2</input><br>
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox3</input><br>
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox4</input><br>
         <input type="checkbox" name="nazwa" value="wartość" />Checkbox5</input>        
-        </form>';
+       </form>';*/
 
         if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
         <li><a href="index.php">Kamera</a></li>
+        <li><a href="changePass.php">Zmiana hasła</a></li>
         <li><a href="loginOutUser.php">Wylogowanie</a></li>';
         } else {
-            $links = '<li><a href="loginOutUser.php">Wylogowanie</a></li>';
+            $links = '<li><a href="changePass.php">Zmiana hasła</a></li>
+                <li><a href="loginOutUser.php">Wylogowanie</a></li>';
 
-            return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' => $links);
+            return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
         }
-        return array('Kondygnacje' => $floors, 'Wejścia' => $input, 'Linki' => $links);
+        return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
     }
 
     /**
