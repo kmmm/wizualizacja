@@ -86,8 +86,6 @@ $(document).ready(function(){
                         <td><select id="type" name="type">
                             <option value="I">Input</option>
                             <option value="O">Output</option>
-                            <option value="R">Register</option>
-                            <option value="F">Flag</option>
                             </select></td>
                     </tr>
                     <tr>
@@ -95,6 +93,9 @@ $(document).ready(function(){
                     </tr>
                     </table>
                  </form>';
+//                                        <option value="R">Register</option>
+//                            <option value="F">Flag</option>
+
             $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj urządzenie', $alert);
             break;
         case 'edit':
