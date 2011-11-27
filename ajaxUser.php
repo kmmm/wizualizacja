@@ -24,7 +24,7 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     echo '<h4></h4><br><form action="user.php?action=' . $value . '" method="POST">
                 <table>
                     <tr>
-                        <td>Wybierz użytkownika</td>
+                        <td>Użytkownik:</td>
                         <td><select id="' . $select . '" name="' . $select . '">
                                 <option value="' . $currentUser[0] . '">' . $currentUser[1] . '</option>';
     foreach ($users as $user) {
@@ -35,14 +35,9 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     echo '</select></td>
     </tr>
     <tr>
-        <td>Login: </td>
+        <td>Nazwa użytkownika: </td>
         <td><input type="text" id="login" name="login" value="' . $currentUser[1] . '" ' . $dis . '></td>
     </tr>
-    <tr>
-        <td>Hasło: </td>
-        <td><input type="hidden" id="password" name="password" value="' . $currentUser[2] . '" ' . $dis . '></td>
-    </tr>    
-
     <tr>
         <td>Typ grupy:</td>
         <td><select id="user_type" name="user_type" ' . $dis . '>';

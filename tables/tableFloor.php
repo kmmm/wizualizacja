@@ -53,10 +53,9 @@ class tableFloor {
         $licznik = 0;
         while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
             $symbol[$licznik][0] = $row[0];    //id
-            $symbol[$licznik][1] = $row[1];    //id_symbol_family
-            $symbol[$licznik][2] = $row[2];    //link_photo
-            $symbol[$licznik][3] = $row[3];    //value
-            $symbol[$licznik][4] = $row[4];    //active
+            $symbol[$licznik][1] = $row[1];    //name
+            $symbol[$licznik][2] = $row[2];    //id_device
+            $symbol[$licznik][3] = $row[3];    //id_symbol_family
             $licznik++;
         }
         return $symbol;

@@ -1,7 +1,7 @@
 <?php
 
 require_once('tables/tableDevice.php');
-$types= array("I"=>"Input", "O"=>"Output", "F"=>"Flag", "R"=>"Register" );
+$types= array("I"=>"Input", "O"=>"Output");//, "F"=>"Flag", "R"=>"Register" );
 
 if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     if (isset($_GET['id'])) {

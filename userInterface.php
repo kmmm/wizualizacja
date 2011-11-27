@@ -17,7 +17,8 @@ class userInterface {
      * @param type $content
      * @param type $image 
      */
-    public $jquery="";
+    public $jquery = "";
+
     public function __construct() {
         session_start();
         $connectionWithDb = new connectDb();
@@ -41,13 +42,13 @@ class userInterface {
 
                 $haslo = $_POST['haslo'];
 
-                $query = 'SELECT id_user_type FROM user WHERE login = "'.$login.'" AND password = "'.$haslo.'"';
+                $query = 'SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
                 if (empty($row)) {
-                    $_SESSION['privileges']=0;
-                    
+                    $_SESSION['privileges'] = 0;
+
                     $title = "wizualizacja";
                     $this->jquery = '<script>
                      function init(){
@@ -58,19 +59,14 @@ class userInterface {
                     $headerTitle = "Błąd logowania";
                     $content = "<h3>Złe dane logowania!</h3>";
 
-$user_privileges = 0;
-$menu = null;
-$divBackground = null;
-$userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
-                    
-                    
-                    
-                    
+                    $user_privileges = 0;
+                    $menu = null;
+                    $divBackground = null;
+                    $userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
                     return false;
-                    
                 } else {
 
-                    $_SESSION['login']=$login;
+                    $_SESSION['login'] = $login;
                     $_SESSION['privileges'] = $row[0];
                     $this->user_privileges = $row[0];
                     //  unset($_POST);
@@ -135,9 +131,9 @@ $userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divB
 
         return $this->user_privileges;
     }
-    
+
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
-$this->jquery.=$jquery;
+        $this->jquery.=$jquery;
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
@@ -227,10 +223,10 @@ $this->jquery.=$jquery;
                 $floors.= '<li><a href="index.php?floor=' . $f[1] . '">Piętro ' . $f[1] . '</a></li>';
             }
         } else {
-            $floors= 'Brak kondygnacji';
+            $floors = 'Brak kondygnacji';
         }
 
- $this->jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
+        $this->jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){ '; 
@@ -286,8 +282,8 @@ $(document).ready(function(){ ';
         $devices = '<li><a href="device.php?action=add">Urządzenia</a></li>';
 
         $elements = '<li><a href="floor.php?action=add">Kondygnacje</a></li>
-        <li><a href="Inputs.php?action=add">Wejścia</a></li>
-        <li><a href="index.php">Elementy na wizualizacji</a></li>';
+        <li><a href="index.php">Wejścia</a></li>
+        <li><a href="elements.php?action=add">Elementy na wizualizacji</a></li>';
 
         $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
 
@@ -299,11 +295,11 @@ $(document).ready(function(){ ';
 
     function adminPanelFormFrame($link, $form, $divTitle, $alert) {
         $content = '
-            <div class="center">
+            <div class="center" id="center">
                 <div class="title2">' . $divTitle . '</div>
                 <div class="text2">
                     <div class="center">
-                        <div class="text3">
+                        <div class="text3" id="text3link">
                         ' . $link . '
                         </div>
                         <div class="text3" id="text3">
