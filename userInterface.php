@@ -241,11 +241,13 @@ $(document).ready(function(){ ';
         $inputForm = '<form id="inputs" action ="index.php">';
         if(!empty($inputs)){
         foreach($inputs as $input){
-            
+            //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
             $this->jquery.=
                     '$(\'.'.$input['id'].'\').change(function(){
                     alert(\'Handler for .change() called.\');
                     $(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
+                    
+    
                     });';
             
             
@@ -258,6 +260,7 @@ $(document).ready(function(){ ';
         $inputForm.='</from>';
         $this->jquery.='});</script>';
         
+
 
         if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
