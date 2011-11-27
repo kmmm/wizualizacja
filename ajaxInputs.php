@@ -10,11 +10,11 @@ if(isset($_GET['get_id']) && isset($_GET['name'])){
     $value = $tableInputs->getValueById($id);
     if($value != 0){
         $tableInputs->setValueById($id, 0);
-        echo '<input type="checkbox" div="'.$id.'" checked="yes"/>'.$name.'</input></br>';
+        echo '<input type="checkbox" div="'.$id.'" checked="no"/>'.$name.'</input></br>';
     }
     else {
          $tableInputs->setValueById($id, 1);
-        echo '<input type="checkbox" div="'.$id.'""/>'.$name.'</input>';
+        echo '<input type="checkbox" div="'.$id.'" checked="yes"/>'.$name.'</input>';
     } 
 } else {
 

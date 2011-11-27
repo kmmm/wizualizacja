@@ -18,7 +18,7 @@ class tableInputs {
         return $row[0];
     }
         function setValueById($id, $value){
-         $query = "UPDATE device SET set_value=1, value='$value' WHERE id=(SELECT id_device FROM checkbox_list WHERE id='$id')";
+         $query = "UPDATE device SET value='$value', set_value=1 WHERE id=(SELECT id_device FROM checkbox_list WHERE id='$id')";
         $result = mysql_query($query);
         //$row = mysql_fetch_array($result, MYSQL_NUM); 
       //  if(empty($result))
