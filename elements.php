@@ -23,28 +23,23 @@ if ($userInterface->login()) {
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
-var v;
+var v = 0;
     $("#main").delegate("#posx", "click", function()
     {
         var id= $("#floor").val();
         $("#center").hide();
 	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'});        
-        v=1;
-        return v;
+        $(this).click(findPos(document.getElementById(\'main\')));
     });
     
-    $("#main").delegate("#posy", "click", function()
+    $("#text3").delegate("#position", "click", function()
     {
-        var id= $("#floor").val();
         $("#center").hide();
-	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'});
-        $("#main").load("ajaxElements.php");        
+	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'})
+        setTimeout($("#main").click(findPos(document.getElementById(\'main\'))), 10000);
+        
     });
-    
-    $("#main").delegate("", "click", function(){
-        $("#main").click(findPos(document.getElementById(\'main\')));  
-    });
-      
+   
     $("#text3").delegate("#select_symbolfamily_delete", "change", function()
     {
         var id= $("#select_symbolfamily_delete").val();
@@ -120,7 +115,7 @@ var v;
    divy=tempY-pos_top;
    jQuery("#posx").val(divx);
    jQuery("#posy").val(divy);   
-   
+      
    return true;
    }
 
@@ -231,7 +226,8 @@ var v;
                                     <tr>
                                         <td>Położenie na wizualizacji:</td>
                                         <td><input type="text" id="posx" name="posx" size=1/>,
-                                        <input type="text" id="posy" name="posy" size=1/></td>
+                                        <input type="text" id="posy" name="posy" size=1/>
+                                        <input type="button" id="position" name="position" value="wybierz pozycję"></td>
                                     </tr>
                                     <tr><td colspan=2><button type="submit" id="send" name="send" value="dodaj" onclick="this.value=add">dodaj</button></td></tr>
                                     </table>
