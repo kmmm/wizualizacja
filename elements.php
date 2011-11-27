@@ -37,23 +37,13 @@ var v;
     {
         var id= $("#floor").val();
         $("#center").hide();
-	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'});                               
-        v=1;
-        return v;
-        
-        
+	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'});
+        $("#main").load("ajaxElements.php");        
     });
     
-    $("#main").delegate("", "click", function(){        
-     
-        if(v==1){
-            $("#main").click(findPos(document.getElementById(\'main\')));  
-            
-            return v;
-        }
-
+    $("#main").delegate("", "click", function(){
+        $("#main").click(findPos(document.getElementById(\'main\')));  
     });
-    
       
     $("#text3").delegate("#select_symbolfamily_delete", "change", function()
     {
@@ -110,7 +100,7 @@ var v;
     var pos_top = "";
 
     function findPos(obj) {
-    
+    alert (obj);
     var nleft = 0;
     var ntop = 0;
     if (obj.offsetParent)
@@ -130,9 +120,8 @@ var v;
    divy=tempY-pos_top;
    jQuery("#posx").val(divx);
    jQuery("#posy").val(divy);   
-   $("#center").show();
-   var v=0;
-      return v;
+   
+   return true;
    }
 
 //funkcja zwraca stringa z współrzędnymi z położeniem diva przekazanego w obiekcie obj
