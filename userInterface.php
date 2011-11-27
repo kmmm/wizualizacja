@@ -244,17 +244,16 @@ $(document).ready(function(){ ';
             //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
             $this->jquery.=
                     '$(\'.'.$input['id'].'\').change(function(){
-                    alert(\'Handler for .change() called.\');
-                    $(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
-                    
+                        $(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
+
     
                     });';
             
             
             if($tableInputs->getValueById($input['id']))
-                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" checked="yes" div="'.$input['id'].'""/>'.$input['name'].'</input><br></div>';
+                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" checked="yes" div="'.$input['id'].'"">'.$input['name'].'</input><br></div>';
            else
-                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" div="'.$input['id'].'""/>'.$input['name'].'</input><br></div>';
+                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox"  div="'.$input['id'].'"">'.$input['name'].'</input><br></div>';
         }} else
             $inputForm.='Brak zdefiniowanych wejść';
         $inputForm.='</from>';
