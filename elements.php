@@ -23,23 +23,27 @@ if ($userInterface->login()) {
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
-var v = 0;
-    $("#main").delegate("#posx", "click", function()
-    {
-        var id= $("#floor").val();
-        $("#center").hide();
-	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'});        
-        $(this).click(findPos(document.getElementById(\'main\')));
-    });
     
-    $("#text3").delegate("#position", "click", function()
+var v=0;
+    
+    $("#main").delegate("", "click", function()
+    {
+         v++;
+        if(v==2){
+           v=0;
+           $("#main").onClick(findPos(document.getElementById(\'main\')));                                              
+        }
+    });
+
+    $("#main").delegate("#position", "click", function()
     {
         $("#center").hide();
-	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'})
-        setTimeout($("#main").click(findPos(document.getElementById(\'main\'))), 10000);
-        
+	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'}); 
     });
-   
+
+
+
+
     $("#text3").delegate("#select_symbolfamily_delete", "change", function()
     {
         var id= $("#select_symbolfamily_delete").val();
@@ -95,7 +99,6 @@ var v = 0;
     var pos_top = "";
 
     function findPos(obj) {
-    alert (obj);
     var nleft = 0;
     var ntop = 0;
     if (obj.offsetParent)
@@ -115,7 +118,8 @@ var v = 0;
    divy=tempY-pos_top;
    jQuery("#posx").val(divx);
    jQuery("#posy").val(divy);   
-      
+   $("#main").css({\'background-image\' : \'url("")\'}); 
+   $("#center").show();
    return true;
    }
 
