@@ -24,19 +24,19 @@ ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
     
-var v=0;
+var v;
     
     $("#main").delegate("", "click", function()
     {
          v++;
         if(v==2){
-           v=0;
            $("#main").onClick(findPos(document.getElementById(\'main\')));                                              
         }
     });
 
     $("#main").delegate("#position", "click", function()
     {
+        v=0;
         $("#center").hide();
 	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'}); 
     });
