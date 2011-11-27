@@ -71,8 +71,8 @@ $userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divB
                 } else {
 
                     $_SESSION['login']=$login;
-                    $_SESSION['privileges'] = $row['0'];
-                    $this->user_privileges = $row['0'];
+                    $_SESSION['privileges'] = $row[0];
+                    $this->user_privileges = $row[0];
                     //  unset($_POST);
                     return true;
                 }
@@ -233,42 +233,31 @@ $this->jquery.=$jquery;
  $this->jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
 ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){    
-    $(\'.3\').change(function(){
-      alert(\'Handler for .change() called.\');
-    });
-    
-    $("#text3").delegate("#select_symbolfamily_delete", "change", function()
-    {
-        var id= $("#select_symbolfamily_delete").val();
-	$("#text3").load("ajaxSymbol.php?id_delete="+id);
-    });
-    
-    $("#text3").delegate("#select_symbol", "change", function()
-    {
-        var id= $("#select_symbol").val();
-	$("#text3").load("ajaxSymbol.php?id_symbol="+id);
-    });
-});
-</script>';
+$(document).ready(function(){ '; 
+
         
-        
-        $inputs = getInputsFromBase();
+        $tableInputs = new tableInputs();
+        $inputs = $tableInputs->selectAllRecords();
         $inputForm = '<form id="inputs" action ="index.php">';
         if(!empty($inputs)){
         foreach($inputs as $input){
-            $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" div="'.$input['id'].'""/>'.$input['name'].'</input><br></div>';
+            
+            $this->jquery.=
+                    '$(\'.'.$input['id'].'\').change(function(){
+                    alert(\'Handler for .change() called.\');
+                    $(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
+                    });';
+            
+            
+            if($tableInputs->getValueById($input['id']))
+                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" checked="yes" div="'.$input['id'].'""/>'.$input['name'].'</input><br></div>';
+           else
+                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" div="'.$input['id'].'""/>'.$input['name'].'</input><br></div>';
         }} else
             $inputForm.='Brak zdefiniowanych wejść';
         $inputForm.='</from>';
+        $this->jquery.='});</script>';
         
-    /*    $input = '<form action="index.php">
-	<input type="checkbox" name="nazwa" value="wartość" />Checkbox1</input><br>
-        <input type="checkbox" name="nazwa" value="wartość" />Checkbox2</input><br>
-        <input type="checkbox" name="nazwa" value="wartość" />Checkbox3</input><br>
-        <input type="checkbox" name="nazwa" value="wartość" />Checkbox4</input><br>
-        <input type="checkbox" name="nazwa" value="wartość" />Checkbox5</input>        
-       </form>';*/
 
         if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
@@ -295,7 +284,7 @@ $(document).ready(function(){
         $devices = '<li><a href="device.php?action=add">Urządzenia</a></li>';
 
         $elements = '<li><a href="floor.php?action=add">Kondygnacje</a></li>
-        <li><a href="index.php">Wejścia</a></li>
+        <li><a href="Inputs.php?action=add">Wejścia</a></li>
         <li><a href="index.php">Elementy na wizualizacji</a></li>';
 
         $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
