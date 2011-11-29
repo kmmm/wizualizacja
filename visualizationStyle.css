@@ -88,7 +88,7 @@ strong
     background-position: center;
     position: relative;
     margin: auto;
-    min-height: 530px;
+    height: 530px;
     text-align: center;
     overflow: auto;
 }
@@ -97,7 +97,7 @@ strong
 {
     background: #F5F5F5;
     width: 200px;
-    min-height: 530px;
+    height: 530px;
     position: relative;
     float: left;
 }

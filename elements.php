@@ -8,12 +8,24 @@ require_once 'tables/tableSymbolFamily.php';
 require_once 'tables/tableDevice.php';
 require_once 'tables/tableFloor.php';
 require_once 'tables/tableSymbol.php';
+require_once 'tables/tableElements.php';
 
 $userInterface = new userInterface();
 $tableSymbolFamily = new tableSymbolFamily();
 $tableSymbol = new tableSymbol();
 $tableDevice = new tableDevice();
 $tableFloor = new tableFloor();
+$tableElements = new tableElements();
+
+
+$devices = $tableDevice->selectAllRecords();
+$floors = $tableFloor->selectAllRecords();
+$symbolsFamily = $tableSymbolFamily->selectAllRecords();
+$symbols = $tableSymbol->selectAllRecords();
+
+foreach ($floors as $fl) {
+    $f[$fl[1]] = $fl[2];
+}
 
 
 if ($userInterface->login()) {
@@ -25,6 +37,12 @@ ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 $(document).ready(function(){    
     
 var v;
+        var floorid = $("#floor").val();
+        $.get("ajaxElements.php?floorid="+floorid, function(result) {
+        $("#i").val(result);           
+    });   
+
+
     
     $("#main").delegate("", "click", function()
     {
@@ -36,24 +54,24 @@ var v;
 
     $("#main").delegate("#position", "click", function()
     {
-        v=0;
+        v=0;        
+        var img = $("#i").val();
         $("#center").hide();
-	$("#main").css({\'background-image\' : \'url("photo/floor75f1a23038d404cafd5bb14f1bd78b1687fc0b8f.jpg")\'}); 
+	$("#main").css({\'background-image\' : \'url("\'+img+\'")\'}); 
     });
 
-
-
-
-    $("#text3").delegate("#select_symbolfamily_delete", "change", function()
+    $("#text3").delegate("#symbolfamily", "change", function()
     {
-        var id= $("#select_symbolfamily_delete").val();
-	$("#text3").load("ajaxSymbol.php?id_delete="+id);
+            var id= $("#symbolfamily").val();        
+	$("#device").load("ajaxElements.php?id="+id);
     });
     
-    $("#text3").delegate("#select_symbol", "change", function()
+    $("#text3").delegate("#floor", "change", function()
     {
-        var id= $("#select_symbol").val();
-	$("#text3").load("ajaxSymbol.php?id_symbol="+id);
+        var floorid = $("#floor").val();
+        $.get("ajaxElements.php?floorid="+floorid, function(result) {
+            $("#i").val(result);           
+        });   
     });
 });
 </script>
@@ -145,27 +163,10 @@ var v;
     if (isset($_POST['send'])) {
         switch ($_POST['send']) {
             case 'dodaj':
-                if (isset($_FILES['img']['tmp_name']) && isset($_POST['value']) && isset($_POST['select_symbolfamily'])) {
-                    if (($_FILES['img']['type'] == "image/jpg" || $_FILES['img']['type'] == "image/jpeg")) {
-                        $number = rand(1, 10000);
-                        $plik_ext = explode('.', $_FILES['img']['name']);
-                        do {
-                            $nazwa = sha1(date("d.m.Y.H.i.s") . $plik_ext[0] . $number) . '.' . $plik_ext[1];
-                        } while (file_exists($nazwa));
-                        $ret = $tableSymbol->instert($_POST['select_symbolfamily'], "photo/" . $nazwa, $_POST['value'], 1);
-                        $alert = $ret[1];
-                        if ($ret[0] == 1) {
-                            if (is_uploaded_file($_FILES['img']['tmp_name'])) {
-                                move_uploaded_file($_FILES['img']['tmp_name'], "photo/$nazwa");
-                            } else {
-                                $alert = 'Nie udało się wgrać pliku na serwer';
-                            }
-                        }
-                    } else {
-                        $alert = 'Niepoprawnie format obrazków.';
-                    }
+                if (($_POST['name'])!="" && $_POST['floor']!="" && $_POST['symbolfamily']!="" && $_POST['device']!="" && $_POST['posx']!="" && $_POST['posy']!="") {                 
+                    $alert = $tableElements->insert($_POST['name'], $_POST['device'], $_POST['symbolfamily'], $_POST['floor'], $_POST['posx'], $_POST['posy'], "1");
                 } else {
-                    $alert = 'Niepoprawnie wybrane obrazki.';
+                    $alert = 'Niepoprawnie wypełnione pola.';
                 }
                 break;
             case 'usuń':
@@ -187,19 +188,15 @@ var v;
 
     switch ($_GET['action']) {
         case 'add':
-            $devices = $tableDevice->selectAllRecords();
-            $floors = $tableFloor->selectAllRecords();
-            $symbolsFamily = $tableSymbolFamily->selectAllRecords();
-            $symbols = $tableSymbol->selectAllRecords();
             if (!empty($floors)) {
                 if (!empty($symbolsFamily)) {
                     if (!empty($symbols)) {
                         if (!empty($devices)) {
-                            $form = '<form action="elements.php?action=add" method="POST">
+                            $form = '<div id="d"></div><form action="elements.php?action=add" method="POST">
                                     <table>
                                     <tr>
                                         <td>Nazwa elementu:</td>
-                                        <td><input type="text" id="name" name="name" /></td>                                        </td>
+                                        <td><input type="text" id="name" name="name" /></td>
                                     </tr>
                                     <tr>
                                         <td>Kondygnacja: </td>
@@ -207,12 +204,13 @@ var v;
                             foreach ($floors as $floor) {
                                 $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
                             }
-                            $form.='</select></td>
+                            $form.='</select>';
+                            $form.='<input type="hidden" id="i" name="i"/></td>
                                     </tr>
                                     <tr>
                                         <td>Grupa symboli: </td>
                                         <td><select id="symbolfamily" name="symbolfamily">
-                                            <option>---</option>';
+                                            <option value="">---</option>';
                             foreach ($symbolsFamily as $symbolFamily) {
                                 $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
                             }
@@ -221,10 +219,7 @@ var v;
                                     <tr>
                                         <td>Urządzenie: </td>
                                         <td><select id="device" name="device">
-                                            <option>---</option>';
-                            foreach ($devices as $device) {
-                                $form.='<option value ="' . $device[0] . '">'. $device[1] .' '.$device[2].'</option>';
-                            }
+                                            <option value="">---</option>';
                             $form.='</select></td>
                                     </tr>
                                     <tr>

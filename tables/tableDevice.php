@@ -50,6 +50,21 @@ class tableDevice {
         }
         return $symbol;
     }
+    
+    function selectRecordsByType($type) {
+        $query = "SELECT * FROM device WHERE type='$type' ORDER BY port ASC ";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $licznik = 0;
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+            $symbol[$licznik][0] = $row[0];    //id
+            $symbol[$licznik][1] = $row[1];    //name
+            $symbol[$licznik][2] = $row[2];    //is_visible
+            $symbol[$licznik][3] = $row[3];    //active
+            $licznik++;
+        }
+        return $symbol;
+    }
 
     function update($id, $port, $type, $value, $get_value, $set_value) {
         $row = $this->selectRecord($port, $type);

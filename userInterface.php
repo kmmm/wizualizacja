@@ -212,6 +212,11 @@ class userInterface {
         echo '<br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz';
         echo '</div>';
     }
+    
+    /**
+     *
+     * @return lewe menu dla wizualizacji
+     */
 
     function leftMenuIndex() {
         require_once './tables/tableFloor.php';
@@ -227,44 +232,37 @@ class userInterface {
         }
 
         $this->jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){ '; 
+        ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        <script type="text/javascript">
+        $(document).ready(function(){ ';
 
-        
         $tableInputs = new tableInputs();
         $inputs = $tableInputs->selectAllRecords();
         $inputForm = '<form id="inputs" action ="index.php">';
-        if(!empty($inputs)){
-        foreach($inputs as $input){
-            //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
-            $this->jquery.=
-                    '$(\'.'.$input['id'].'\').change(function(){
-                        $(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
-
-    
-                    });';
-            
-            
-            if($tableInputs->getValueById($input['id']))
-                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox" checked="yes" div="'.$input['id'].'"">'.$input['name'].'</input><br></div>';
-           else
-                $inputForm.='<div class="'.$input['id'].'"><input type="checkbox"  div="'.$input['id'].'"">'.$input['name'].'</input><br></div>';
-        }} else
+        if (!empty($inputs)) {
+            foreach ($inputs as $input) {
+                //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
+                $this->jquery.='$(\'.' . $input['id'] . '\').change(function(){
+                            $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '&name=' . $input['name'] . '");  
+                            });';
+                if ($tableInputs->getValueById($input['id']))
+                    $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+                else
+                    $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+            }
+        } else
             $inputForm.='Brak zdefiniowanych wejść';
         $inputForm.='</from>';
         $this->jquery.='});</script>';
-        
-
 
         if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
-        <li><a href="index.php">Kamera</a></li>
-        <li><a href="changePass.php">Zmiana hasła</a></li>
-        <li><a href="loginOutUser.php">Wylogowanie</a></li>';
+                      <li><a href="index.php">Kamera</a></li>
+                      <li><a href="changePass.php">Zmiana hasła</a></li>
+                      <li><a href="loginOutUser.php">Wylogowanie</a></li>';
         } else {
             $links = '<li><a href="changePass.php">Zmiana hasła</a></li>
-                <li><a href="loginOutUser.php">Wylogowanie</a></li>';
+                      <li><a href="loginOutUser.php">Wylogowanie</a></li>';
 
             return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
         }
@@ -282,7 +280,7 @@ $(document).ready(function(){ ';
         $devices = '<li><a href="device.php?action=add">Urządzenia</a></li>';
 
         $elements = '<li><a href="floor.php?action=add">Kondygnacje</a></li>
-        <li><a href="index.php">Wejścia</a></li>
+        <li><a href="Inputs.php?action=add">Wejścia</a></li>
         <li><a href="elements.php?action=add">Elementy na wizualizacji</a></li>';
 
         $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
@@ -293,6 +291,8 @@ $(document).ready(function(){ ';
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
     }
 
+    
+    /*Ramka formularza w admice - ta z linkami*/
     function adminPanelFormFrame($link, $form, $divTitle, $alert) {
         $content = '
             <div class="center" id="center">
