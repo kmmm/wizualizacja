@@ -231,8 +231,7 @@ class userInterface {
             $floors = 'Brak kondygnacji';
         }
 
-        $this->jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-        ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+        $this->jquery = '<script type="text/javascript" src="jquery.min.js"></script>
         <script type="text/javascript">
         $(document).ready(function(){ ';
 

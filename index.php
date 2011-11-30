@@ -14,7 +14,7 @@ if ($userInterface->login()) {
 
     $title = "wizualizacja";
     $jquery = null;    
-    $content = null;
+    $content = '<div style="position: absolute; top: 46px; left: 584px; width: 20px; background-color: azure;">buka</div>';
 
     if (isset($_GET['floor'])) {
         $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
