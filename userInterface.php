@@ -94,11 +94,13 @@ class userInterface {
         <input type="submit" name="wyślij">
         </div></form>
         </div>
-        <div id="footer">
-        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
-        </div>
+
         </body>
         </html>';
+//                
+//                        <div id="footer">
+//        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
+//        </div>
                 echo $content;
                 return false;
             }
@@ -121,11 +123,11 @@ class userInterface {
         <div id="main">
         Nie masz praw do oglądania tej treści!
         </div>
-        <div id="footer">
-        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
-        </div>
+
         </body>
-        </html>';
+        </html>';//        <div id="footer">
+//        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
+//        </div>
 
     function getPrivileges() {
 

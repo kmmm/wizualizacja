@@ -144,7 +144,6 @@ var v;
 //funkcja zwraca stringa z współrzędnymi z położeniem diva przekazanego w obiekcie obj
 </script>
 ';
-
     $headerTitle = "Panel administracyjny - zarządzanie elementami wizualizacji";
     $divBackground = null;
     $alert = null;
@@ -152,6 +151,7 @@ var v;
     $minUserPrivleges = '2';
 
     $link = '<li><a href="elements.php?action=add">Dodaj element</a></li>
+             <li><a href="elements.php?action=edit">Edytuj element</a></li>
              <li><a href="elements.php?action=delete">Usuń element</a></li>';
 
 
