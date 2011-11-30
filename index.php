@@ -15,6 +15,8 @@ if ($userInterface->login()) {
     $title = "wizualizacja";
     $jquery = null;    
     $content = null;
+    
+    
 
     if (isset($_GET['floor'])) {
         $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
@@ -26,6 +28,7 @@ if ($userInterface->login()) {
         $headerTitle = "Floor ".$image[0][1];
     }
 
+    $content = '<img src="photo/b35de6875ea06991c09a606946aa65b33dccc918.jpg" id="1" style="position:absolute; top:108px; left:316px;"/>';
     $menu = $userInterface->leftMenuIndex();
     $user_privileges = 1;
     $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);

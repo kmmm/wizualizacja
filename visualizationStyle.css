@@ -36,11 +36,16 @@ strong
 
 #header
 {
-    width: 100%;
+    position: absolute;
+    width: 1280px;
     height: 104px;
+    top: 0;
+    left: 0;
     background-color: #4d4d4d;
     background: url('images/a1.gif') repeat-x;
     color: #ffffff;
+    margin: 0px auto;
+    padding: 12px;
 }
 
 #header_inner
@@ -86,9 +91,13 @@ strong
     background: #F5F5F5;
     background-repeat: no-repeat;
     background-position: center;
-    position: relative;
+    position: absolute;
     margin: auto;
     height: 530px;
+    width: 990px;
+    top:104px;
+    left:250px;
+    display: inline;
     text-align: center;
     overflow: auto;
 }
@@ -96,9 +105,11 @@ strong
 #leftmenu
 {
     background: #F5F5F5;
-    width: 200px;
+    width: 250px;
     height: 530px;
-    position: relative;
+    top:104px;
+    left:0;
+    position: absolute;
     float: left;
 }
 
@@ -196,118 +207,6 @@ li
 {
     padding-left: 5px;
 }
-/*
-p
-{
-    margin-bottom: 25px;
-    text-align: justify;
-    line-height: 20px;
-}
-
-#lcol p
-{
-    font-size: 10px;
-    line-height: 16px;
-    margin: 0px;
-}
-
-.divider
-{
-    font-size: 0px;
-    position: relative;
-    border-bottom: solid 1px #F5F5F5;
-    height: 1px;
-    width: 100%;
-    margin: 10px 0px 10px 0px;
-}
-
-.summary
-{
-    text-align: right;
-    font-style: italic;
-}
-
-ul.divided li
-{
-    border-top: solid 1px #F5F5F5;
-    margin-top: 4px;
-    padding-top: 4px;
-    background-position: 0px 9px;
-}
-
-ul.divided li.first
-{
-    border-top: 0px;
-    margin-top: 0px;
-    padding-top: 0px;
-    background-position: 0px 5px;
-}
-
-#rcol
-{
-    position: relative;
-    margin-left: 190px;
-    width: 485px;
-    background-image: url('images/a2.gif');
-    background-repeat: repeat-x;
-}
-
-#slogan2
-{
-    font-size: 14px;
-    position: relative;
-    top: -5px;
-}
-
-.box
-{
-    position: relative;
-    border: dashed 1px #dadada;
-    margin-top: 15px;
-    background: inherit;
-    color: #AAB165;
-}
-
-.box h2
-{
-    background: inherit;
-    color: #6C7425;
-    <div></div>
-    font-weight: normal;
-    font-size: 18px;
-    margin-bottom: 5px;
-}
-
-.box p
-{
-    font-size: 10px;
-    line-height: 16px;
-    margin: 0px;
-}
-
-.box_inner
-{
-    border: solid 1px #fff;
-    padding: 15px;
-    background: #FFFFE9 url('images/a4.gif') repeat-x;
-    color: inherit;
-}
-
-.captioned_image
-{
-    position: relative;
-    padding-bottom: 15px;
-    float: left;
-    margin-right: 17px;
-}
-
-.captioned_image div
-{
-    position: absolute;
-    font-size: 9px;
-    bottom: 0px;
-    left: 0px;
-}*/
 
 #footer
 {
@@ -315,8 +214,11 @@ ul.divided li.first
     background: url('images/a2.gif') repeat-x #ffffff;
     margin: 0px auto;
     padding: 12px;
+    top: 634px;
+    left: 0px;
+    width: 1280px;
     text-align: center;
-    position: relative;
+    position: absolute;
 }
 
 table, td, tr
