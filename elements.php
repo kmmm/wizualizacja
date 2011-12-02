@@ -23,11 +23,6 @@ $floors = $tableFloor->selectAllRecords();
 $symbolsFamily = $tableSymbolFamily->selectAllRecords();
 $symbols = $tableSymbol->selectAllRecords();
 
-foreach ($floors as $fl) {
-    $f[$fl[1]] = $fl[2];
-}
-
-
 if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie elementami wizualizacji";
 
@@ -73,6 +68,19 @@ var v;
             $("#i").val(result);           
         });   
     });
+    
+    $("#text3").delegate("#element", "change", function()
+    {
+            var id= $("#element").val();        
+	$("#text3").load("ajaxElements.php?id_element="+id);
+    });
+    
+    $("#text3").delegate("#element_delete", "change", function()
+    {
+            var id= $("#element_delete").val();        
+	$("#text3").load("ajaxElements.php?id_element_delete="+id);
+    });
+
 });
 </script>
 
@@ -163,22 +171,24 @@ var v;
     if (isset($_POST['send'])) {
         switch ($_POST['send']) {
             case 'dodaj':
-                if (($_POST['name'])!="" && $_POST['floor']!="" && $_POST['symbolfamily']!="" && $_POST['device']!="" && $_POST['posx']!="" && $_POST['posy']!="") {                 
+                if (($_POST['name']) != "" && $_POST['floor'] != "" && $_POST['symbolfamily'] != "" && $_POST['device'] != "" && $_POST['posx'] != "" && $_POST['posy'] != "") {
                     $alert = $tableElements->insert($_POST['name'], $_POST['device'], $_POST['symbolfamily'], $_POST['floor'], $_POST['posx'], $_POST['posy'], "1");
                 } else {
                     $alert = 'Niepoprawnie wypełnione pola.';
                 }
                 break;
-            case 'usuń':
-                if ($_POST['select_symbol'] != null) {
-                    $symbol = $tableSymbol->selectRecordById($_POST['select_symbol']);
-                    $ret = $tableSymbol->delete($_POST['select_symbol']);
-                    $alert = $ret[1];
-                    if ($ret[0] == 1) {
-                        unlink('./' . $symbol[2]);
-                    }
+            case 'edytuj':
+                if ($_POST['element'] != "" && $_POST['name'] != "" && $_POST['floor'] != "" && $_POST['symbolfamily'] != "" && $_POST['device'] != "" && $_POST['posx'] != "" && $_POST['posy'] != "") {
+                    $alert = $tableElements->update($_POST['element'], $_POST['name'], $_POST['device'], $_POST['symbolfamily'], $_POST['floor'], $_POST['posx'], $_POST['posy'], "1");
                 } else {
-                    $alert = 'Niepoprawnie wypełnione pola!';
+                    $alert = 'Niepoprawnie wypełnione pola.';
+                }
+                break;
+            case 'usuń':
+                if ($_POST['element_delete'] != "") {
+                    $alert = $tableElements->delete($_POST['element_delete']);
+                } else {
+                    $alert = 'Niepoprawnie wypełnione pola.';
                 }
                 break;
             default:
@@ -192,7 +202,7 @@ var v;
                 if (!empty($symbolsFamily)) {
                     if (!empty($symbols)) {
                         if (!empty($devices)) {
-                            $form = '<div id="d"></div><form action="elements.php?action=add" method="POST">
+                            $form = '<form action="elements.php?action=add" method="POST">
                                     <table>
                                     <tr>
                                         <td>Nazwa elementu:</td>
@@ -245,25 +255,153 @@ var v;
             }
             $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj element', $alert);
             break;
-        case 'delete':
-            $symbolFamily = $tableSymbolFamily->selectAllRecords();
-            if (!empty($symbolFamily)) {
-                $form = '<form action="symbol.php?action=delete" method="POST">
-                    <table>
-                    <tr>
-                        <td>Grupa: </td>
-                        <td><select id="select_symbolfamily_delete" name="select_symbolfamily_delete">
-                        <option>---</option>';
-                foreach ($symbolFamily as $symbol) {
-                    $form.='<option value ="' . $symbol[0] . '">' . $symbol[1] . '</option>';
+        case 'edit':
+            $elements = $tableElements->selectAllRecords();
+            if (!empty($elements)) {
+                if (!empty($floors)) {
+                    if (!empty($symbolsFamily)) {
+                        if (!empty($symbols)) {
+                            if (!empty($devices)) {
+                                $form = '<form action="elements.php?action=edit" method="POST">
+                                    <table>
+                                    <tr>
+                                    <td>
+                                    Element:
+                                    </td>
+                                    <td><select id="element" name="element">
+                                    <option value="">---</option>';
+                                foreach ($elements as $element) {
+                                    $form.='<option value ="' . $element[0] . '">' . $element[1] . '</option>';
+                                }
+                                $form.='</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nazwa elementu:</td>
+                                        <td><input type="text" id="name" name="name" disabled=disabled/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kondygnacja: </td>
+                                        <td><select id="floor" name="floor" disabled=disabled>';
+                                foreach ($floors as $floor) {
+                                    $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
+                                }
+                                $form.='</select>';
+                                $form.='<input type="hidden" id="i" name="i"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grupa symboli: </td>
+                                        <td><select id="symbolfamily" name="symbolfamily" disabled=disabled>
+                                            <option value="">---</option>';
+                                foreach ($symbolsFamily as $symbolFamily) {
+                                    $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
+                                }
+                                $form.='</select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Urządzenie: </td>
+                                        <td><select id="device" name="device" disabled=disabled>
+                                            <option value="">---</option>';
+                                $form.='</select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Położenie na wizualizacji:</td>
+                                        <td><input type="text" id="posx" name="posx" size=1/ disabled=disabled>,
+                                        <input type="text" id="posy" name="posy" size=1/ disabled=disabled>
+                                        <input type="button" id="position" name="position" value="wybierz pozycję" disabled=disabled></td>
+                                    </tr>
+                                    <tr><td colspan=2><button type="submit" id="send" name="send" value="edytuj" onclick="this.value=add" disabled=disabled>edytuj</button></td></tr>
+                                    </table>
+                                    </form>';
+                            } else {
+                                $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
+                            }
+                        } else {
+                            $form = '<h3>Baza danych nie zawiera żandych symboli.</h3>';
+                        }
+                    } else {
+                        $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
+                    }
+                } else {
+                    $form = '<h3>Baza danych nie zawiera żandych kondygnacji.</h3>';
                 }
-                $form.='</select></td>
-                    </tr>
-                    </table>
-                 </form>';
             } else {
-                $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
-            } $content = $userInterface->adminPanelFormFrame($link, $form, 'Usuń symbol', $alert);
+                $form = '<h3>Baza danych nie zawiera żandych elementów.</h3>';
+            }
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Edytuj element', $alert);
+            break;
+        case 'delete':
+            $elements = $tableElements->selectAllRecords();
+            if (!empty($elements)) {
+                if (!empty($floors)) {
+                    if (!empty($symbolsFamily)) {
+                        if (!empty($symbols)) {
+                            if (!empty($devices)) {
+                                $form = '<form action="elements.php?action=delete" method="POST">
+                                    <table>
+                                    <tr>
+                                    <td>
+                                    Element:
+                                    </td>
+                                    <td><select id="element_delete" name="element_delete">
+                                    <option value="">---</option>';
+                                foreach ($elements as $element) {
+                                    $form.='<option value ="' . $element[0] . '">' . $element[1] . '</option>';
+                                }
+                                $form.='</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Nazwa elementu:</td>
+                                        <td><input type="text" id="name" name="name" disabled=disabled/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Kondygnacja: </td>
+                                        <td><select id="floor" name="floor" disabled=disabled>';
+                                foreach ($floors as $floor) {
+                                    $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
+                                }
+                                $form.='</select>';
+                                $form.='<input type="hidden" id="i" name="i"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Grupa symboli: </td>
+                                        <td><select id="symbolfamily" name="symbolfamily" disabled=disabled>
+                                            <option value="">---</option>';
+                                foreach ($symbolsFamily as $symbolFamily) {
+                                    $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
+                                }
+                                $form.='</select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Urządzenie: </td>
+                                        <td><select id="device" name="device" disabled=disabled>
+                                            <option value="">---</option>';
+                                $form.='</select></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Położenie na wizualizacji:</td>
+                                        <td><input type="text" id="posx" name="posx" size=1/ disabled=disabled>,
+                                        <input type="text" id="posy" name="posy" size=1/ disabled=disabled>
+                                        <input type="button" id="position" name="position" value="wybierz pozycję" disabled=disabled></td>
+                                    </tr>
+                                    <tr><td colspan=2><button type="submit" id="send" name="send" value="usuń" disabled=disabled>usuń</button></td></tr>
+                                    </table>
+                                    </form>';
+                            } else {
+                                $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
+                            }
+                        } else {
+                            $form = '<h3>Baza danych nie zawiera żandych symboli.</h3>';
+                        }
+                    } else {
+                        $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
+                    }
+                } else {
+                    $form = '<h3>Baza danych nie zawiera żandych kondygnacji.</h3>';
+                }
+            } else {
+                $form = '<h3>Baza danych nie zawiera żandych elementów.</h3>';
+            }
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Usuń element', $alert);
             break;
         default:
             $minUserPrivleges = x;
