@@ -31,38 +31,50 @@ class tableVisualisation {
         }
     }
 
-
-    function selectRecord($login, $active) {
-        $query = "SELECT * FROM symbol_family WHERE login='$login' and active='$active'";
-        $result = mysql_query($query);
-        $ret_res = mysql_num_rows($result);
-        $row = mysql_fetch_array($result, MYSQL_NUM);
-        return $row;
-    }
-
-    function selectRecordById($id) {
-        $query = "SELECT * FROM user WHERE id='$id'";
-        $result = mysql_query($query);
-        $ret_res = mysql_num_rows($result);
-        $row = mysql_fetch_array($result, MYSQL_NUM);
-        return $row;
-    }
-
-    function selectAllRecords() {
-        $query = "SELECT * FROM device WHERE active=1";
+    function selectAllRecordsByIdFloor($floor) {         
+        
+        $query = "SELECT * FROM element WHERE id_floor='$floor'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $licznik = 0;
-        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-            $symbol[$licznik]['id'] = $row[0];    //id
-            $symbol[$licznik]['port'] = $row[1];    //port
-            $symbol[$licznik]['type'] = $row[2];    //type
-            $symbol[$licznik]['value'] = $row[3];    //value
-            $symbol[$licznik]['get_value'] = $row[4];    //get_value
-            $symbol[$licznik]['set_value'] = $row[5];    //set_value            
+        while($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $symbol[$licznik]['id'] = $row[0];    
+            $symbol[$licznik]['name'] = $row[1];    
+            $symbol[$licznik]['id_device'] = $row[2];    
+            $symbol[$licznik]['id_symbol_family'] = $row[3];    
+            $symbol[$licznik]['id_floor'] = $row[4];              
+            $symbol[$licznik]['x'] = $row[5];    
+            $symbol[$licznik]['y'] = $row[6];              
             $licznik++;
         }
         return $symbol;
+    }    
+    
+//    function selectPositionElementById($id){
+//        $query = "SELECT value FROM device WHERE id =(SELECT id_device FROM element WHERE id='$id')";
+//        $result = mysql_query($query);
+//        $ret_res = mysql_num_rows($result);
+//        $row = mysql_fetch_array($result, MYSQL_NUM);
+//        $value = $row[0];    //photo
+//        return $value;        
+//    }
+    
+    function selectValueElementById($id){
+        $query = "SELECT value FROM device WHERE id =(SELECT id_device FROM element WHERE id='$id')";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        $value = $row[0];    //photo
+        return $value;        
+    }
+    
+    function selectPhotoByElementByIdAndValue($id, $value){
+        $query = "SELECT link_photo FROM symbol WHERE value='$value' and id_symbol_family = (SELECT id_symbol_family FROM element WHERE id='$id')";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        $photo = $row[0];    //photo
+        return $photo;        
     }
 
     function update($id, $login, $user_type, $active) {
@@ -80,20 +92,6 @@ class tableVisualisation {
         }
     }
 
-    function delete($id) {
-        $row = $this->selectRecordById($id);
-        if (!empty($row)) {
-            $query = "DELETE FROM user WHERE id='$id'";
-            $result = mysql_query($query);
-            if ($result) {
-                return 'Usunięto użytkownika!';
-            } else {
-                return 'Nie udało się usunąć użytkownika.';
-            }
-        } else {
-            return 'W bazie nie ma takiego użytkownika!';
-        }
-    }
 
 }
 
