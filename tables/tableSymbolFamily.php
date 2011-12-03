@@ -51,6 +51,7 @@ class tableSymbolFamily {
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $licznik = 0;
+        $symbol="";
         while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
             $symbol[$licznik][0] = $row[0];    //id
             $symbol[$licznik][1] = $row[1];    //name

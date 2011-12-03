@@ -18,13 +18,25 @@ a
     text-decoration: inherit;
     color: #191970;
     font-weight: bold;
-    font-style: italic;
-        
+    font-style: italic;        
+}
+
+a.login{
+       text-decoration: inherit;
+    color: #ffffff;
+    font-weight: bold;
+    font-style: italic;        
 }
 
 a:hover
 {    
     color: #483D8B;
+    text-decoration: underline;
+}
+
+a:hover.login
+{    
+    color: #ffffff;
     text-decoration: underline;
 }
 
@@ -37,7 +49,7 @@ strong
 #header
 {
     position: absolute;
-    width: 1280px;
+    width: 1250px;
     height: 104px;
     top: 0;
     left: 0;
@@ -46,13 +58,14 @@ strong
     color: #ffffff;
     margin: 0px auto;
     padding: 12px;
+    text-align: right;
 }
 
 #header_inner
 {
     position: absolute;
     width: 680px;
-    height: 104px;
+    height: 90px;
     margin: 0px auto;
 }
 
@@ -68,44 +81,38 @@ strong
     letter-spacing: -2px;
 }
 
-/*#header_inner h1 span
-{
-    background: inherit;
-    color: #DADADA;
-}*/
-
-/*#slogan
-{
-    background: inherit;
-    position: absolute;
-    right: 0px;
-    bottom: 25px;
-    color: #DADADA;
-
-    font-size: 13px;
-}*/
-
 #main
 {
-/*    background: url("images/f1.jpg") #F5F5F5;*/
     background: #F5F5F5;
     background-repeat: no-repeat;
     background-position: center;
     position: absolute;
-    margin: auto;
+    margin: 0px auto;
     height: 530px;
     width: 990px;
     top:104px;
-    left:250px;
+    left:230px;
     display: inline;
     text-align: center;
     overflow: auto;
 }
 
+#loginmain
+{
+    background: #F5F5F5;
+    position: absolute;
+    margin: 0px auto;
+    height: 530px;
+    width: 1250px;
+    top:120px;
+    left:0px;
+    text-align: center;
+}
+
 #leftmenu
 {
     background: #F5F5F5;
-    width: 250px;
+    width: 230px;
     height: 530px;
     top:104px;
     left:0;
@@ -117,7 +124,7 @@ strong
 .left {
     float: left;
     margin: 0 0 10px;
-    width: 200px;
+    width: 230px;
     position: relative;
 }
 
@@ -131,7 +138,7 @@ strong
     border: 1px dashed #4682B4;
     margin: 3px 0 0 5px;
     padding: 10px;
-    width: 165px;
+    width: 200px;
     position: relative;
     text-align: left;
 }
@@ -142,7 +149,7 @@ strong
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
-    width: 165px;
+    width: 200px;
     position: relative;
     text-align: left;
     color: #737373;
@@ -185,18 +192,6 @@ strong
     text-align: left;
 }
 
-#lcontent
-{
-    position: relative;
-    padding: 0px 15px 0px 15px;
-}
-
-#rcontent
-{
-    position: relative;
-    padding: 25px 20px 0px 20px;
-}
-
 ul
 {
     list-style: none;
@@ -216,7 +211,7 @@ li
     padding: 12px;
     top: 634px;
     left: 0px;
-    width: 1280px;
+    width: 1250px;
     text-align: center;
     position: absolute;
 }
@@ -230,7 +225,12 @@ table, td, tr
     line-height: 17px;
     letter-spacing: 1px;
     padding: 3px;
+}
 
+table.center{
+    margin-left: auto;
+margin-right: auto;    
+text-align: center;
 }
 
 h4{

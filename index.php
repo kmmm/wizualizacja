@@ -1,5 +1,6 @@
 <?php
 
+session_start();
 /**
  * index - strona główna wizualizacji (logowanie + wizualizacja)
  */
@@ -31,40 +32,54 @@ $(document).ready(function(){
 	$("#text3").load("ajaxDevice.php?id_delete="+id);
     });
 });
-</script>';   
+</script>';
 
-    $content ="";
-  //  $content = '<div style="position: absolute; top: 46px; left: 584px; width: 20px; background-color: azure;">buka</div>';
-    
+    $content = "";
+    //  $content = '<div style="position: absolute; top: 46px; left: 584px; width: 20px; background-color: azure;">buka</div>';
+
     $id_floor = null;
-    
+
     if (isset($_GET['floor'])) {
-        $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
-        $divBackground = $image[2];
-        $headerTitle = "Floor ".$_GET['floor'];
-        $floor = $_GET['floor'];
-        $id_floor = $tableFloor->selectRecord($floor, 1);
-        $id_floor=$id_floor[0];
+        if (!empty($image)) {
+            $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
+            $divBackground = $image[2];
+            $headerTitle = "Piętro " . $_GET['floor'];
+            $floor = $_GET['floor'];
+            $id_floor = $tableFloor->selectRecord($floor, 1);
+            $id_floor = $id_floor[0];
+        } else {
+            $divBackground = "";
+            $headerTitle = "Wizualizacja";
+            $id_floor = "";
+            $content = "<h3><br>Brak elementów wizualizacji</h3>";
+        }
     } else {
         $image = $tableFloor->selectAllRecords();
-        $divBackground = $image[0][2];
-        $headerTitle = "Floor ".$image[0][1];
-        $floor = $image[0][2];        
-        $id_floor = $tableFloor->selectRecord($floor, 1);
-        $id_floor = $id_floor[0];
-
+        if (!empty($image)) {
+            $divBackground = $image[0][2];
+            $headerTitle = "Piętro " . $image[0][1];
+            $floor = $image[0][1];
+            $id_floor = $tableFloor->selectRecord($floor, 1);
+            $id_floor = $id_floor[0];
+        } else {
+            $divBackground = "";
+            $headerTitle = "Wizualizacja";
+            $id_floor = "";
+            $content = "<h3><br>Brak elementów wizualizacji</h3>";
+        }
     }
 
     $elements = $tableVisual->selectAllRecordsByIdFloor($id_floor);
-    foreach($elements as $element){
-        $value = $tableVisual->selectValueElementById($element['id']);
-        $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
-        $content.='<div style="position: absolute; top: '.$element['y'].'px; left: '.$element['x'].'px; width: 20px; background-color: azure;"><img src="'.$photo.'"/></div>';
+    if (!empty($elements)) {
+        foreach ($elements as $element) {
+            $value = $tableVisual->selectValueElementById($element['id']);
+            $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
+            $content.='<div style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/></div>';
+        }
     }
-    
-    
+
     $menu = $userInterface->leftMenuIndex();
-    $user_privileges = 1;
+    $user_privileges = 0;
     $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
 }
 ?>

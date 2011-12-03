@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 /**
  * symbol_family - formularze zarządzania rodzinami symboli
  */
