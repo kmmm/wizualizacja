@@ -74,6 +74,14 @@ class tableVisualisation {
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
         $photo = $row[0];    //photo
+        if($photo == ""){
+            $query = "SELECT link_photo FROM symbol WHERE value='-1' and id_symbol_family = (SELECT id_symbol_family FROM element WHERE id='$id')";
+            $result = mysql_query($query);
+            $ret_res = mysql_num_rows($result);
+            $row = mysql_fetch_array($result, MYSQL_NUM);
+            $photo = $row[0];    //photo  
+        }
+            
         return $photo;        
     }
 

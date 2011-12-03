@@ -15,7 +15,23 @@ $tableVisual = new tableVisualisation();
 if ($userInterface->login()) {
 
     $title = "wizualizacja";
-    $jquery = null;    
+    $jquery = '<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){    
+   
+    $("#text3").delegate("#select_port", "change", function()
+    {
+        var id= $("#select_port").val();
+	$("#text3").load("ajaxDevice.php?id="+id);
+    });
+    
+    $("#text3").delegate("#select_port_delete", "change", function()
+    {
+        var id= $("#select_port_delete").val();
+	$("#text3").load("ajaxDevice.php?id_delete="+id);
+    });
+});
+</script>';   
 
     $content ="";
   //  $content = '<div style="position: absolute; top: 46px; left: 584px; width: 20px; background-color: azure;">buka</div>';
@@ -43,7 +59,6 @@ if ($userInterface->login()) {
     foreach($elements as $element){
         $value = $tableVisual->selectValueElementById($element['id']);
         $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
-        echo $photo;
         $content.='<div style="position: absolute; top: '.$element['y'].'px; left: '.$element['x'].'px; width: 20px; background-color: azure;"><img src="'.$photo.'"/></div>';
     }
     
