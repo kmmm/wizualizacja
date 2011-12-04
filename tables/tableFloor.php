@@ -31,6 +31,7 @@ class tableFloor {
     }
 
     function selectRecord($number, $active) {
+
         $query = "SELECT * FROM floor WHERE number='$number' and active='$active'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);

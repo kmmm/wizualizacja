@@ -49,9 +49,10 @@ $(document).ready(function(){
         $image = $tableFloor->selectAllRecords();
         $divBackground = $image[0][2];
         $headerTitle = "Floor ".$image[0][1];
-        $floor = $image[0][2];        
+        $floor = $image[0][1];    
         $id_floor = $tableFloor->selectRecord($floor, 1);
         $id_floor = $id_floor[0];
+
 
     }
 
