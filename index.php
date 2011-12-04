@@ -39,7 +39,37 @@ $(document).ready(function(){
 
     $id_floor = null;
 
+    if (isset($_GET['floor'])) {
+        $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
+        if (!empty($image)) {
+            $divBackground = $image[2];
+            $headerTitle = "Piętro " . $_GET['floor'];
+            $floor = $_GET['floor'];
+            $id_floor = $tableFloor->selectRecord($floor, 1);
+            $id_floor = $id_floor[0];
+        } else {
+            $divBackground = "";
+            $headerTitle = "Wizualizacja";
+            $id_floor = "";
+            $content = "<h3><br>Brak elementów wizualizacji</h3>";
+        }
+    } else {
+        $image = $tableFloor->selectAllRecords();
+        if (!empty($image)) {
+            $divBackground = $image[0][2];
+            $headerTitle = "Floor ".$image[0][1];
+            $floor = $image[0][1];    
+            $id_floor = $tableFloor->selectRecord($floor, 1);
+            $id_floor = $id_floor[0];            
+        } else {
+            $divBackground = "";
+            $headerTitle = "Wizualizacja";
+            $id_floor = "";
+            $content = "<h3><br>Brak elementów wizualizacji</h3>";
+        }        
 
+
+    }
 
     $elements = $tableVisual->selectAllRecordsByIdFloor($id_floor);
     if (!empty($elements)) {
