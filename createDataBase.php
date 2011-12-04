@@ -21,28 +21,25 @@ mysql_select_db($db) or die("Wystąpił błąd podczas wybierania bazy danych");
 mysql_query("SET NAMES 'utf8'");
 
 
-$create_userType = "CREATE TABLE user_type(
-id INT NOT NULL AUTO_INCREMENT,
-type VARCHAR (60) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-active INT NOT NULL,
-PRIMARY KEY (id))
-ENGINE=INNODB;";
-
-$result = mysql_query($create_userType);
-if ($result) {
-    echo 'Utworzono tabelę user_type.<br>';
-}
+//$create_userType = "CREATE TABLE user_type(
+//id INT NOT NULL AUTO_INCREMENT,
+//type VARCHAR (60) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
+//active INT NOT NULL,
+//PRIMARY KEY (id))
+//ENGINE=INNODB;";
+//
+//$result = mysql_query($create_userType);
+//if ($result) {
+//    echo 'Utworzono tabelę user_type.<br>';
+//}
 
 $create_user = "CREATE TABLE user(
 id INT NOT NULL AUTO_INCREMENT,
 login VARCHAR (60) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
 password VARCHAR (32) CHARACTER SET utf8 COLLATE utf8_polish_ci NOT NULL,
-id_user_type INT NOT NULL,
+user_type INT NOT NULL,
 active INT NOT NULL,
-PRIMARY KEY (id),
-INDEX par_ind_user (id_user_type),
-FOREIGN KEY (id_user_type) REFERENCES user_type (id)
-ON DELETE CASCADE)
+PRIMARY KEY (id))
 ENGINE=INNODB;";
 
 $result = mysql_query($create_user);

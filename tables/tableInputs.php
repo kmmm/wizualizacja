@@ -70,6 +70,7 @@ class tableInputs {
     }
 
     function selectRecordById($id) {
+        $checkbox = null;
         $query = "SELECT * FROM checkbox_list WHERE id='$id'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
@@ -86,6 +87,7 @@ class tableInputs {
     }
 
     function selectAllRecords(){
+        $checkbox=null;
         $query = "SELECT * FROM checkbox_list";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);

@@ -32,7 +32,7 @@ class tableVisualisation {
     }
 
     function selectAllRecordsByIdFloor($floor) {         
-        
+        $symbol=null;
         $query = "SELECT * FROM element WHERE id_floor='$floor'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);

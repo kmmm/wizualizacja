@@ -1,5 +1,5 @@
 <?php
-
+session_start();
 require_once 'userInterface.php';
 require_once 'tables/tableUser.php';
 

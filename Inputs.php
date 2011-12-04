@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'userInterface.php';
 require_once 'tables/tableInputs.php';
 require_once 'tables/tableDevice.php';
@@ -93,8 +94,10 @@ if (isset($_POST['send'])) {
     }
 }
 
-switch ($_GET['action']) {
+switch ($_GET['action']) {    
     case 'add':
+        $devices=$tableDevice->selectAllRecords();
+        if(!empty($devces)){
         $form = '<form action="Inputs.php?action=add" method="POST">
                     <table>
                     <tr>
@@ -105,7 +108,8 @@ switch ($_GET['action']) {
                     <tr>
                         <td>Port urządzenia:</td>
                         <td><select id="id_device" name="id_device">';
-        foreach($tableDevice->selectAllRecords() as $device){
+        
+        foreach($devices as $device){
                      $form.='   <option value="'.$device[0].'">'.$device[1].'</option>';
         }        
         $form.='    </select></td>
@@ -115,6 +119,9 @@ switch ($_GET['action']) {
                     </tr>
                     </table>
                  </form>';
+        }else{
+            $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
+        }
         $content = formFrame($form, 'Dodaj grupę symboli', $alert);
         break;
     case 'edit':

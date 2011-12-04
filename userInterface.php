@@ -20,7 +20,7 @@ class userInterface {
     public $jquery = "";
 
     public function __construct() {
-        session_start();
+
         $connectionWithDb = new connectDb();
         if (!isset($_SESSION['privileges']))
             $_SESSION['privileges'] = 0;
@@ -30,6 +30,7 @@ class userInterface {
     public function logout() {
         $_SESSION['privileges'] = 0;
         $this->user_privileges = 0;
+        session_destroy();
     }
 
     public function login() {
@@ -37,12 +38,9 @@ class userInterface {
         $content = null;
         if ($this->user_privileges == 0) {
             if (isset($_POST['login']) && isset($_POST['haslo'])) {
-
                 $login = $_POST['login'];
-
                 $haslo = $_POST['haslo'];
-
-                $query = 'SELECT id_user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
+                $query = 'SELECT user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);
                 $row = mysql_fetch_array($result, MYSQL_NUM);
@@ -69,7 +67,6 @@ class userInterface {
                     $_SESSION['login'] = $login;
                     $_SESSION['privileges'] = $row[0];
                     $this->user_privileges = $row[0];
-                    //  unset($_POST);
                     return true;
                 }
             } else {
@@ -84,23 +81,23 @@ class userInterface {
         <h1> Logowanie </h1>
         </div>
         </div>
-        <div id="main">
-        Podaj swoje dane do logowania:
+        <div id="loginmain">
+        <table class="center">
+        <tr><td colspan=2>Podaj swoje dane do logowania:</td></tr>
         <form action="index.php" method="post"><div>
-        <h4>Login:</h4>
-        <input type="text" name="login">
-        <h4>Hasło:</h4>
-        <input type="password" name="haslo"></br>
-        <input type="submit" name="wyślij">
-        </div></form>
+        <tr><td><h4>Login:</h4></td>
+        <td><input type="text" name="login"></td></tr>
+        <tr><td><h4>Hasło:</h4></td>
+        <td><input type="password" name="haslo"></td></tr>
+        <tr><td colspan=2><button type="submit" id="wyślij" name="wyślij" value="zaloguj"/>zalgouj</button></td></tr>
+        </table>
+        </form>
         </div>
-
+        <div id="footer">
+        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
+        </div>
         </body>
         </html>';
-//                
-//                        <div id="footer">
-//        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
-//        </div>
                 echo $content;
                 return false;
             }
@@ -125,7 +122,8 @@ class userInterface {
         </div>
 
         </body>
-        </html>';//        <div id="footer">
+        </html>'; //        <div id="footer">
+
 //        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
 //        </div>
 
@@ -170,6 +168,10 @@ class userInterface {
      */
     function header($headerTitle) {
         echo '<div id="header">';
+        echo '<div>';
+        if ($_SESSION['privileges'] > 0)
+            echo 'Zalogowano jako: ' . $_SESSION['login'] . ' :: <a class="login" href="changePass.php" >Zmiana hasła</a> :: <a class="login" href="loginOutUser.php">Wyloguj</a>';
+        echo '</div>';
         echo '<div id="header_inner">';
         echo '<h1>' . $headerTitle . '</h1>';
         echo '</div>';
@@ -214,12 +216,11 @@ class userInterface {
         echo '<br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz';
         echo '</div>';
     }
-    
+
     /**
      *
      * @return lewe menu dla wizualizacji
      */
-
     function leftMenuIndex() {
         require_once './tables/tableFloor.php';
         $tableFloor = new tableFloor();
@@ -239,33 +240,31 @@ class userInterface {
 
         $tableInputs = new tableInputs();
         $inputs = $tableInputs->selectAllRecords();
-        $inputForm = '<form id="inputs" action ="index.php">';
+        $inputForm = '';
+        //$inputForm = '<form id="inputs" action ="index.php">';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
                 //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
                 $this->jquery.='$(\'.' . $input['id'] . '\').change(function(){
                             $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '&name=' . $input['name'] . '");  
                             });';
-                if ($tableInputs->getValueById($input['id']))
+                if ($tableInputs->getValueById($input['id']) == 1)
                     $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
                 else
                     $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
             }
         } else
             $inputForm.='Brak zdefiniowanych wejść';
-        $inputForm.='</from>';
+        //$inputForm.='</from>';
         $this->jquery.='});</script>';
 
+        $links = "";
         if ($this->user_privileges > 1) {
-            $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>    
-                      <li><a href="index.php">Kamera</a></li>
-                      <li><a href="changePass.php">Zmiana hasła</a></li>
-                      <li><a href="loginOutUser.php">Wylogowanie</a></li>';
-        } else {
-            $links = '<li><a href="changePass.php">Zmiana hasła</a></li>
-                      <li><a href="loginOutUser.php">Wylogowanie</a></li>';
-
-            return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
+            $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>';
+        }
+        $links.= '<li><a href="index.php">Kamera</a></li>';
+        if ($_SERVER['REQUEST_URI'] == "/wizualizacja/changePass.php") {
+            $links.= '<li><a href="index.php">Strona główna</a></li>';
         }
         return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
     }
@@ -292,24 +291,26 @@ class userInterface {
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
     }
 
-    
-    /*Ramka formularza w admice - ta z linkami*/
+    /* Ramka formularza w admice - ta z linkami */
+
     function adminPanelFormFrame($link, $form, $divTitle, $alert) {
         $content = '
             <div class="center" id="center">
                 <div class="title2">' . $divTitle . '</div>
                 <div class="text2">
-                    <div class="center">
-                        <div class="text3" id="text3link">
+                    <div class="center">';
+        if ($link != "") {
+            $content.='<div class="text3" id="text3link">
                         ' . $link . '
-                        </div>
-                        <div class="text3" id="text3">
-                        <h4>' . $alert . '</h4><br>'
+                        </div>';
+        }
+        $content.='<div class="text3" id="text3">
+        <h4>' . $alert . '</h4><br>'
                 . $form .
                 '</div>
-                    </div>
-                </div>
-            </div>';
+        </div>
+        </div>
+        </div>';
         return $content;
     }
 

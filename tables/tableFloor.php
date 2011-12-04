@@ -48,6 +48,7 @@ class tableFloor {
     }
 
     function selectAllRecords() {
+        $symbol=null;
         $query = "SELECT * FROM floor ORDER BY number ASC";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
