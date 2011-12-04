@@ -31,15 +31,15 @@ class tableInputs {
     
     
     
-    function selectRecordByName($name){
-         $query = "SELECT * FROM checkbox_list WHERE name='$name'";
+    function selectRecordByName($id_device){
+         $query = "SELECT * FROM checkbox_list WHERE id_device='$id_device'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);        
         return $row;
     }
     function instert($name, $id_device, $active) {
-        $row = $this->selectRecordByName($name);
+        $row = $this->selectRecordByName($id_device);
         if (empty($row)) {
             $query = "INSERT INTO checkbox_list values ('','$id_device', '$name','$active')";
             $result = mysql_query($query);
@@ -50,7 +50,7 @@ class tableInputs {
 
             }
         } else {
-            return 'W bazie istnieje już takie wejście!';
+            return 'W bazie istnieje wejście przypisane do tego portu!';
 
         }
     }

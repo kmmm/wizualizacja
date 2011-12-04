@@ -12,8 +12,7 @@ $tableDevice = new tableDevice();
 
 $title = "Panel administracyjny - zarządzanie wejściami";
 
-$jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+$jquery = '<script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
     $("#text3").delegate("#select_name", "change", function()
@@ -97,7 +96,7 @@ if (isset($_POST['send'])) {
 switch ($_GET['action']) {    
     case 'add':
         $devices=$tableDevice->selectAllRecords();
-        if(!empty($devces)){
+        if(!empty($devices)){
         $form = '<form action="Inputs.php?action=add" method="POST">
                     <table>
                     <tr>
@@ -110,7 +109,7 @@ switch ($_GET['action']) {
                         <td><select id="id_device" name="id_device">';
         
         foreach($devices as $device){
-                     $form.='   <option value="'.$device[0].'">'.$device[1].'</option>';
+                     $form.='   <option value="'.$device[0].'">'.$device[1].' '.$device[2].'</option>';
         }        
         $form.='    </select></td>
                     </tr>
@@ -122,7 +121,7 @@ switch ($_GET['action']) {
         }else{
             $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
         }
-        $content = formFrame($form, 'Dodaj grupę symboli', $alert);
+        $content = formFrame($form, 'Dodaj wejście', $alert);
         break;
     case 'edit':
         $Inputs = $tableInputs->selectAllRecords();
@@ -157,7 +156,7 @@ switch ($_GET['action']) {
         } else {
             $form = '<h3>Baza danych nie zawiera żandych wejść.</h3>';
         }
-        $content = formFrame($form, 'Edytuj wejścia', $alert);
+        $content = formFrame($form, 'Edytuj wejście', $alert);
         break;
     case 'delete':
         $Inputs = $tableInputs->selectAllRecords();

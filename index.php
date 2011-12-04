@@ -57,29 +57,27 @@ $(document).ready(function(){
         $image = $tableFloor->selectAllRecords();
         if (!empty($image)) {
             $divBackground = $image[0][2];
-            $headerTitle = "Floor ".$image[0][1];
-            $floor = $image[0][1];    
+            $headerTitle = "Floor " . $image[0][1];
+            $floor = $image[0][1];
             $id_floor = $tableFloor->selectRecord($floor, 1);
-            $id_floor = $id_floor[0];            
+            $id_floor = $id_floor[0];
         } else {
             $divBackground = "";
             $headerTitle = "Wizualizacja";
             $id_floor = "";
             $content = "<h3><br>Brak elementów wizualizacji</h3>";
-        }        
-
-
-    }
-
-    if($id_floor!=""){
-    $elements = $tableVisual->selectAllRecordsByIdFloor($id_floor);
-    if (!empty($elements)) {
-        foreach ($elements as $element) {
-            $value = $tableVisual->selectValueElementById($element['id']);
-            $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
-            $content.='<div style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/></div>';
         }
     }
+
+    if ($id_floor != "") {
+        $elements = $tableVisual->selectAllRecordsByIdFloor($id_floor);
+        if (!empty($elements)) {
+            foreach ($elements as $element) {
+                $value = $tableVisual->selectValueElementById($element['id']);
+                $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
+                $content.='<div style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/></div>';
+            }
+        }
     }
 
     $menu = $userInterface->leftMenuIndex();

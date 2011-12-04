@@ -95,7 +95,7 @@ $(document).ready(function(){
                     </tr>
                     </table>
                  </form>';
-            $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj grupę symboli', $alert);
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Dodaj użytkownika', $alert);
             break;
         case 'edit':
             $users = $tableUser->selectAllRecords();
@@ -130,7 +130,7 @@ $(document).ready(function(){
             } else {
                 $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
             }
-            $content = $userInterface->adminPanelFormFrame($link, $form, 'Edytuj użytkowników', $alert);
+            $content = $userInterface->adminPanelFormFrame($link, $form, 'Edytuj użytkownika', $alert);
             break;
         case 'delete':
             $users = $tableUser->selectAllRecords();

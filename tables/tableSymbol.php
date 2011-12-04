@@ -45,6 +45,23 @@ class tableSymbol {
         $row = mysql_fetch_array($result, MYSQL_NUM);
         return $row;
     }
+    
+    function selectRecordsByValue($value){
+        $query = "SELECT * FROM symbol WHERE value='$value'";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $licznik = 0;
+        $symbol="";
+        while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
+            $symbol[$licznik][0] = $row[0];    //id
+            $symbol[$licznik][1] = $row[1];    //id_symbol_family
+            $symbol[$licznik][2] = $row[2];    //link_photo
+            $symbol[$licznik][3] = $row[3];    //value
+            $symbol[$licznik][4] = $row[4];    //active
+            $licznik++;
+        }
+        return $symbol;
+    }
 
     function selectAllRecords() {
         $query = "SELECT * FROM symbol";

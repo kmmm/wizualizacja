@@ -283,7 +283,7 @@ class userInterface {
         <li><a href="Inputs.php?action=add">Wejścia</a></li>
         <li><a href="elements.php?action=add">Elementy na wizualizacji</a></li>';
 
-        $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
+        $administration = '<li><a href="user.php?action=add">Użytkownicy</a></li>';
 
         $links = '<li><a href="index.php">Strona główna</a></li>
         <li><a href="index.php">Kamera</a></li>';

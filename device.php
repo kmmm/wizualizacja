@@ -108,7 +108,7 @@ $(document).ready(function(){
                         <td><select id="select_port" name="select_port">
                         <option>---</option>';
                 foreach ($devices as $device) {
-                    $form.='<option value ="' . $device[0] . '">' . $device[1] . '</option>';
+                    $form.='<option value ="' . $device[0] . '">' . $device[1] . ' '.$device[2].'</option>';
                 }
                 $form.='</select></td>
                     </tr>
@@ -142,7 +142,7 @@ $(document).ready(function(){
                         <td><select id="select_port_delete" name="select_port_delete">
                         <option>---</option>';
                 foreach ($devices as $device) {
-                    $form.='<option value ="' . $device[0] . '">' . $device[1] . '</option>';
+                    $form.='<option value ="' . $device[0] . '">' . $device[1] . ' '.$device[2].'</option>';
                 }
                 $form.='</select></td>
                     </tr>
