@@ -71,6 +71,7 @@ $(document).ready(function(){
 
     }
 
+    if($id_floor!=""){
     $elements = $tableVisual->selectAllRecordsByIdFloor($id_floor);
     if (!empty($elements)) {
         foreach ($elements as $element) {
@@ -78,6 +79,7 @@ $(document).ready(function(){
             $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
             $content.='<div style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/></div>';
         }
+    }
     }
 
     $menu = $userInterface->leftMenuIndex();
