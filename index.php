@@ -40,8 +40,8 @@ $(document).ready(function(){
     $id_floor = null;
 
     if (isset($_GET['floor'])) {
+        $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
         if (!empty($image)) {
-            $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
             $divBackground = $image[2];
             $headerTitle = "Piętro " . $_GET['floor'];
             $floor = $_GET['floor'];
