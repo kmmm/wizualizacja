@@ -97,7 +97,7 @@ if (isset($_POST['send'])) {
 switch ($_GET['action']) {    
     case 'add':
         $devices=$tableDevice->selectAllRecords();
-        if(!empty($devces)){
+        if(!empty($devices)){
         $form = '<form action="Inputs.php?action=add" method="POST">
                     <table>
                     <tr>

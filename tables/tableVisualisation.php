@@ -31,6 +31,27 @@ class tableVisualisation {
         }
     }
 
+    function selectElementById($id){
+        
+        $query ="
+SELECT symbol.link_photo, device.value, symbol_family.is_visible
+FROM symbol
+JOIN symbol_family ON symbol.id_symbol_family = symbol_family.id
+JOIN element ON element.id_symbol_family = symbol.id_symbol_family
+JOIN device ON device.id = element.id_device";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+            $symbol['id'] = $row[0];    
+            $symbol['name'] = $row[1];    
+            $symbol['id_device'] = $row[2];    
+            $symbol['id_symbol_family'] = $row[3];    
+            $symbol['id_floor'] = $row[4];              
+            $symbol['x'] = $row[5];    
+            $symbol['y'] = $row[6];              
+        
+        return $symbol;        
+    }
     function selectAllRecordsByIdFloor($floor) {         
         $symbol=null;
         $query = "SELECT * FROM element WHERE id_floor='$floor'";
@@ -58,15 +79,41 @@ class tableVisualisation {
 //        $value = $row[0];    //photo
 //        return $value;        
 //    }
+     function setValueById($id, $value){
+         $query = "UPDATE device SET value='$value', set_value=1 WHERE id=(SELECT id_device FROM element WHERE id='$id')";
+        $result = mysql_query($query);
+        //$row = mysql_fetch_array($result, MYSQL_NUM); 
+      //  if(empty($result))
+     //   return false;
+     //   else
+      //      return true;
+    }    
+    
+    function prepareValueElementById($id){
+        $query = "UPDATE device SET get_value='1' WHERE id=(SELECT id_device FROM element WHERE id='$id')";
+        $result = mysql_query($query);
+        return $result;
+      
+    }
+    
+    function selectTypeById($id){
+        $query = "SELECT is_visible FROM symbol_family WHERE id =(SELECT id_symbol_family FROM element WHERE id='$id')";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        $is_visible = $row[0];    
+        return $is_visible;           
+    }
     
     function selectValueElementById($id){
         $query = "SELECT value FROM device WHERE id =(SELECT id_device FROM element WHERE id='$id')";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
-        $value = $row[0];    //photo
+        $value = $row[0];    
         return $value;        
     }
+
     
     function selectPhotoByElementByIdAndValue($id, $value){
         $query = "SELECT link_photo FROM symbol WHERE value='$value' and id_symbol_family = (SELECT id_symbol_family FROM element WHERE id='$id')";

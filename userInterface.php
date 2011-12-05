@@ -18,6 +18,7 @@ class userInterface {
      * @param type $image 
      */
     public $jquery = "";
+    public $currentFloor ="";
 
     public function __construct() {
 
@@ -25,6 +26,9 @@ class userInterface {
         if (!isset($_SESSION['privileges']))
             $_SESSION['privileges'] = 0;
         $this->user_privileges = $_SESSION['privileges'];
+    }
+    public function setFloor($floor){
+        $this->currentFloor = $floor;
     }
 
     public function logout() {
@@ -133,7 +137,7 @@ class userInterface {
     }
 
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
-        $this->jquery.=$jquery;
+        $this->jquery=$jquery.$this->jquery;
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
@@ -225,6 +229,7 @@ class userInterface {
         require_once './tables/tableFloor.php';
         $tableFloor = new tableFloor();
         $floor = $tableFloor->selectAllRecords();
+        $first_floor="";
         $floors = "";
         if (!empty($floor)) {
             foreach ($floor as $f) {
@@ -236,7 +241,33 @@ class userInterface {
 
         $this->jquery = '<script type="text/javascript" src="jquery.min.js"></script>
         <script type="text/javascript">
-        $(document).ready(function(){ ';
+        function getData(data) {
+        
+    var i=0;
+    var id=-1;
+    var photo=-1;
+    var start = -1;
+    
+        while(data.length>i)
+        {
+        if(data[i]!="," && start == -1){
+            start = i;
+        }
+        if(data[i]==","){
+            id=data.slice(start,i);
+            $("#e"+id).load("ajaxVisual.php?get="+id+"&floor='.$this->currentFloor.'");
+            start=-1;
+	}
+	i++;
+        }        
+    
+}
+        function getAll(){
+         $.get("ajaxVisual.php?all=1&floor='.$this->currentFloor.'", getData);
+}
+        $(document).ready(function(){ 
+                 setInterval("getAll()",2000);
+            ';
 
         $tableInputs = new tableInputs();
         $inputs = $tableInputs->selectAllRecords();

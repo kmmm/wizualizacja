@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 /**
  * index - strona główna wizualizacji (logowanie + wizualizacja)
@@ -8,36 +7,21 @@ require_once 'userInterface.php';
 require_once 'tables/tableFloor.php';
 require_once 'tables/tableVisualisation.php';
 
-$userInterface = new userInterface();
+
 $tableFloor = new tableFloor();
-//$tableVisual = new tableVisualistation();
 $tableVisual = new tableVisualisation();
+ 
+$userInterface = new userInterface();
 
 if ($userInterface->login()) {
 
     $title = "wizualizacja";
-    $jquery = '<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){    
-   
-    $("#text3").delegate("#select_port", "change", function()
-    {
-        var id= $("#select_port").val();
-	$("#text3").load("ajaxDevice.php?id="+id);
-    });
+    $jquery = "";
     
-    $("#text3").delegate("#select_port_delete", "change", function()
-    {
-        var id= $("#select_port_delete").val();
-	$("#text3").load("ajaxDevice.php?id_delete="+id);
-    });
-});
-</script>';
-
     $content = "";
-    //  $content = '<div style="position: absolute; top: 46px; left: 584px; width: 20px; background-color: azure;">buka</div>';
-
+    
     $id_floor = null;
+    $floor = null;
 
     if (isset($_GET['floor'])) {
         $image = $tableFloor->selectFloorImageByFloorNumber($_GET['floor']);
@@ -66,19 +50,25 @@ $(document).ready(function(){
             $headerTitle = "Wizualizacja";
             $id_floor = "";
             $content = "<h3><br>Brak elementów wizualizacji</h3>";
-        }        
-
-
+        }       
     }
 
     if($id_floor!=""){
+   
+    $userInterface->setFloor($id_floor);
     $elements = $tableVisual->selectAllRecordsByIdFloor($id_floor);
     if (!empty($elements)) {
+
         foreach ($elements as $element) {
+            $tableVisual->prepareValueElementById($element['id']);
             $value = $tableVisual->selectValueElementById($element['id']);
             $photo = $tableVisual->selectPhotoByElementByIdAndValue($element['id'], $value);
-            $content.='<div style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/></div>';
+            $is_visible = $tableVisual->selectTypeById($element['id']);
+            if($is_visible==0)
+                $value="";
+            $content.='<div id="e'.$element['id'].'" style="position: absolute; top: '. $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/><h3>'.$value.'</h3></div>';
         }
+        
     }
     }
 
