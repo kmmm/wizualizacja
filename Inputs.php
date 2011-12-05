@@ -6,7 +6,7 @@ require_once 'tables/tableDevice.php';
 
 $userInterface = new userInterface();
 
-if($userInterface->login()){
+//if($userInterface->login()){
 $tableInputs = new tableInputs();
 $tableDevice = new tableDevice();
 
@@ -200,7 +200,7 @@ switch ($_GET['action']) {
 
 $menu = $userInterface->leftMenuAdminPanel();
 
-$userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
-}
+$userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges,0);
+//}
 
 ?>

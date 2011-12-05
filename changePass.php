@@ -13,7 +13,7 @@ $jquery = "";
 $alert="";
 $minUserPrivleges = 1;
 
-if ($userInterface->login()) {
+//if ($userInterface->login()) {
     if (isset($_POST['zmień'])) {        
         if (isset($_POST['old_pass']) && isset($_POST['new_pass1']) && isset($_POST['new_pass2'])) {            
             if ($_POST['new_pass1'] != "" && $_POST['new_pass2'] != "" && $_POST['old_pass'] != "") {                
@@ -38,7 +38,7 @@ if ($userInterface->login()) {
         </table></form>';
     $content = $userInterface->adminPanelFormFrame("", $form, 'Zmień hasło', $alert);    
     $menu = $userInterface->leftMenuIndex();
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
-}
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges, 0);
+//}
 
 ?>

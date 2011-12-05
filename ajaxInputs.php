@@ -3,18 +3,19 @@
 require_once('tables/tableInputs.php');
 require_once('tables/tableDevice.php');
 //
-if(isset($_GET['get_id']) && isset($_GET['name'])){
+
+if(isset($_GET['get_id'])){
     $id=$_GET['get_id'];
-    $name = $_GET['name'];
     $tableInputs = new tableInputs();
     $value = $tableInputs->getValueById($id);
+    $checkboxes=$tableInputs->selectRecordById($id);
     if($value != 0){
         $tableInputs->setValueById($id, 0);
-        echo '<input type="checkbox" div="'.$id.'" >'.$name.'</input></br>';
+        echo '<input type="checkbox" div="'.$id.'" >'.$checkboxes['name'].'</input></br>';
     }
     else {
          $tableInputs->setValueById($id, 1);
-        echo '<input type="checkbox" div="'.$id.'" checked="yes">'.$name.'</input>';
+        echo '<input type="checkbox" div="'.$id.'" checked="yes">'.$checkboxes['name'].'</input>';
     } 
 } else {
 

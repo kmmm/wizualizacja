@@ -13,7 +13,7 @@ $tableFloor = new tableFloor();
 //$tableVisual = new tableVisualistation();
 $tableVisual = new tableVisualisation();
 
-if ($userInterface->login()) {
+//if ($userInterface->login()) {
 
     $title = "wizualizacja";
     $jquery = '<script type="text/javascript" src="jquery.min.js"></script>
@@ -82,6 +82,6 @@ $(document).ready(function(){
 
     $menu = $userInterface->leftMenuIndex();
     $user_privileges = 0;
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
-}
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges, 1);
+//}
 ?>

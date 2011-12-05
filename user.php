@@ -5,7 +5,7 @@ require_once 'tables/tableUser.php';
 
 $userInterface = new userInterface();
 
-if ($userInterface->login()) {
+//if ($userInterface->login()) {
     $tableUser = new tableUser();
 
     $title = "Panel administracyjny - zarządzanie użytkownikami";
@@ -174,6 +174,6 @@ $(document).ready(function(){
 
     $menu = $userInterface->leftMenuAdminPanel();
 
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
-}
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges,0);
+//}
 ?>
