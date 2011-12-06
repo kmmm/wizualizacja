@@ -25,7 +25,7 @@ $symbolsFamily = $tableSymbolFamily->selectRecordsBySymbolValue('-1');
 //$symbolsFamily = $tableSymbolFamily->selectAllRecords();
 //$symbols = $tableSymbol->selectAllRecords();
 
-//if ($userInterface->login()) {
+if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie elementami wizualizacji";
 
     $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
@@ -400,6 +400,6 @@ var v;
 
     $menu = $userInterface->leftMenuAdminPanel();
 
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges, 0);
-//}
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
+}
 ?>

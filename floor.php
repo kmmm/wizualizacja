@@ -10,7 +10,7 @@ $userInterface = new userInterface();
 $tableFloor = new tableFloor();
 
 
-//if ($userInterface->login()) {
+if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie kondygnacjami";
 
     $jquery = "";
@@ -127,6 +127,6 @@ $tableFloor = new tableFloor();
 
     $menu = $userInterface->leftMenuAdminPanel();
 
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges, 0);
-//}
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
+}
 ?>

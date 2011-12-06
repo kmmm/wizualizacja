@@ -88,7 +88,7 @@ strong
     background-position: center;
     position: absolute;
     margin: 0px auto;
-    height: 530px;
+    height: 540px;
     width: 990px;
     top:104px;
     left:230px;
@@ -102,7 +102,7 @@ strong
     background: #F5F5F5;
     position: absolute;
     margin: 0px auto;
-    height: 530px;
+    height: 540px;
     width: 1250px;
     top:120px;
     left:0px;
@@ -113,7 +113,7 @@ strong
 {
     background: #F5F5F5;
     width: 230px;
-    height: 530px;
+    height: 540px;
     top:104px;
     left:0;
     position: absolute;
@@ -209,7 +209,7 @@ li
     background: url('images/a2.gif') repeat-x #ffffff;
     margin: 0px auto;
     padding: 12px;
-    top: 634px;
+    top: 644px;
     left: 0px;
     width: 1250px;
     text-align: center;

@@ -17,13 +17,19 @@ class userInterface {
      * @param type $content
      * @param type $image 
      */
-    public $jquery = "";
-    public $title = "";
-    public $content = "";
-    public $headerTitle = "";
-    public $menu = "";
-    public $image = "";
-    public $min_privileges = "";
+
+
+    public $currentFloor ="";
+    private $jquery = "";
+    //private $title = "";
+    //private $content = "";
+    //private $headerTitle = "";
+    //private $menu = "";
+    //private $image = "";
+    //private $min_privileges = "";
+    //private $user_privileges;
+    //private $link = array(0 => '<a class="login" href="index.php" >Strona główna</a>', 1 => '<a class="login" href="symbol_family.php?action=add" >Panel administracyjny</a>');
+
 
     public function __construct() {
 
@@ -33,6 +39,9 @@ class userInterface {
         }
         $this->user_privileges = $_SESSION['privileges'];
     }
+    public function setFloor($floor){
+        $this->currentFloor = $floor;
+    }
 
     public function logout() {
         $_SESSION['privileges'] = 0;
@@ -41,26 +50,55 @@ class userInterface {
     }
 
     public function login() {
-        if (isset($_POST['login']) && isset($_POST['haslo'])) {
-            $login = $_POST['login'];
-            $haslo = $_POST['haslo'];
-            $query = 'SELECT user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
-            $result = mysql_query($query);
-            $ret_res = mysql_num_rows($result);
-            $row = mysql_fetch_array($result, MYSQL_NUM);
-            if (empty($row)) {
-                $_SESSION['privileges'] = 0;
-                $this->title = "wizualizacja";
-                $this->headerTitle = "Logowanie";
-                $this->content.= "<h3>Złe dane logowania!</h3>";
-                $this->user_privileges = 0;
+        $userInterface = new userInterface();
+        $content = null;
+        if ($this->user_privileges == 0) {
+            if (isset($_POST['login']) && isset($_POST['haslo'])) {
+                $login = $_POST['login'];
+                $haslo = $_POST['haslo'];
+                $query = 'SELECT user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
+                $result = mysql_query($query);
+                $ret_res = mysql_num_rows($result);
+                $row = mysql_fetch_array($result, MYSQL_NUM);
+                if (empty($row)) {
+                    $_SESSION['privileges'] = 0;
+
+                    $title = "wizualizacja";
+                    $this->jquery = '<script>
+                     function init(){
+				setTimeout(\'document.location="index.php"\', 2000);
+			}
+		window.onload=init;
+                </script>';
+                    $headerTitle = "Błąd logowania";
+                    $content = "<h3>Złe dane logowania!</h3>";
+
+                    $user_privileges = 0;
+                    $menu = null;
+                    $divBackground = null;
+                    $userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
+                    return false;
+                } else {
+
+                    $_SESSION['login'] = $login;
+                    $_SESSION['privileges'] = $row[0];
+                    $this->user_privileges = $row[0];
+                    return true;
+                }
             } else {
-                $_SESSION['login'] = $login;
-                $_SESSION['privileges'] = $row[0];
-                $this->user_privileges = $row[0];
-            }
-        } else {
-            $this->content.= '<table class="center">
+                $content = '<html><head><title> Logowanie </title>
+        <meta name="keywords" content="wizualizacja">
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Language" content="pl">
+        <link rel="stylesheet" href="visualizationStyle.css" type="text/css"/></head>
+        <body>
+        <div id="header">
+        <div id="header_inner">
+        <h1> Logowanie </h1>
+        </div>
+        </div>
+        <div id="loginmain">
+        <table class="center">
         <tr><td colspan=2>Podaj swoje dane do logowania:</td></tr>
         <form action="index.php" method="post"><div>
         <tr><td><h4>Login:</h4></td>
@@ -69,82 +107,20 @@ class userInterface {
         <td><input type="password" name="haslo"></td></tr>
         <tr><td colspan=2><button type="submit" id="wyślij" name="wyślij" value="zaloguj"/>zalgouj</button></td></tr>
         </table>
-        </form>';
-        }
+        </form>
+        </div>
+        <div id="footer">
+        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
+        </div>
+        </body>
+        </html>';
+                echo $content;
+                return false;
+            }
+        } else
+            return true;
     }
 
-//    public function login() {
-//        $userInterface = new userInterface();
-//        $content = null;
-//        if ($this->user_privileges == 0) {
-//            if (isset($_POST['login']) && isset($_POST['haslo'])) {
-//                $login = $_POST['login'];
-//                $haslo = $_POST['haslo'];
-//                $query = 'SELECT user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
-//                $result = mysql_query($query);
-//                $ret_res = mysql_num_rows($result);
-//                $row = mysql_fetch_array($result, MYSQL_NUM);
-//                if (empty($row)) {
-//                    $_SESSION['privileges'] = 0;
-//
-//                    $title = "wizualizacja";
-//                    $this->jquery = '<script>
-//                     function init(){
-//				setTimeout(\'document.location="index.php"\', 2000);
-//			}
-//		window.onload=init;
-//                </script>';
-//                    $headerTitle = "Błąd logowania";
-//                    $content = "<h3>Złe dane logowania!</h3>";
-//
-//                    $user_privileges = 0;
-//                    $menu = null;
-//                    $divBackground = null;
-//                    $userInterface->show($title, $this->jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);
-//                    return false;
-//                } else {
-//
-//                    $_SESSION['login'] = $login;
-//                    $_SESSION['privileges'] = $row[0];
-//                    $this->user_privileges = $row[0];
-//                    return true;
-//                }
-//            } else {
-//                $content = '<html><head><title> Logowanie </title>
-//        <meta name="keywords" content="wizualizacja">
-//        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
-//        <meta http-equiv="Content-Language" content="pl">
-//        <link rel="stylesheet" href="visualizationStyle.css" type="text/css"/></head>
-//        <body>
-//        <div id="header">
-//        <div id="header_inner">
-//        <h1> Logowanie </h1>
-//        </div>
-//        </div>
-//        <div id="loginmain">
-//        <table class="center">
-//        <tr><td colspan=2>Podaj swoje dane do logowania:</td></tr>
-//        <form action="index.php" method="post"><div>
-//        <tr><td><h4>Login:</h4></td>
-//        <td><input type="text" name="login"></td></tr>
-//        <tr><td><h4>Hasło:</h4></td>
-//        <td><input type="password" name="haslo"></td></tr>
-//        <tr><td colspan=2><button type="submit" id="wyślij" name="wyślij" value="zaloguj"/>zalgouj</button></td></tr>
-//        </table>
-//        </form>
-//        </div>
-//        <div id="footer">
-//        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
-//        </div>
-//        </body>
-//        </html>';
-//                echo $content;
-//                return false;
-//            }
-//        } else
-//            return true;
-//    }
-//
     private $user_privileges;
     private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
         <meta name="keywords" content="wizualizacja">
@@ -172,68 +148,38 @@ class userInterface {
         return $this->user_privileges;
     }
 
-//
-//    function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
-//        $this->jquery.=$jquery;
-////im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
-////mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
-//
-//
-//        if ($this->getPrivileges() >= $min_privileges) {
-//            echo '<html>';
-//            echo '<head>';
-//            echo '<title>' . $title . '</title>';
-//            echo '<meta name="keywords" content="wizualizacja">';
-//            echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
-//            echo '<meta http-equiv="Content-Language" content="pl">';
-//            echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-//            echo $this->jquery;
-//            echo '</head>';
-//            echo '<body>';
-//            echo $this->header($headerTitle);
-//            if ($_SESSION['privileges'] > 0) {
-//                echo $this->leftmenu($menu);
-//            }
-//            echo $this->main($content, $image);
-//            echo $this->footer();
-//            echo '</body>';
-//            echo '</html>';
-//        } else {
-//            echo $this->not_allowed;
-//        }
-//    }
 
 
-
-    function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {  
-        if ($this->getPrivileges() >= $min_privile)
+    function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
         $this->jquery.=$jquery;
-        echo '<html>';
-        echo '<head>';
-        echo '<title>' . $title . '</title>';
-        echo '<meta name="keywords" content="wizualizacja">';
-        echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
-        echo '<meta http-equiv="Content-Language" content="pl">';
-        echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-        echo $this->jquery;
-        echo '</head>';
-        echo '<body>';
+//im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
+//mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
+
+
         if ($this->getPrivileges() >= $min_privileges) {
+            echo '<html>';
+            echo '<head>';
+            echo '<title>' . $title . '</title>';
+            echo '<meta name="keywords" content="wizualizacja">';
+            echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
+            echo '<meta http-equiv="Content-Language" content="pl">';
+            echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
+            echo $this->jquery;
+            echo '</head>';
+            echo '<body>';
             echo $this->header($headerTitle);
-            echo $this->leftmenu($menu);
-            $idDiv = 'main';
-        } else {
             if ($_SESSION['privileges'] > 0) {
-                echo $this->not_allowed;
-            } else {
-                $this->login();
+                echo $this->leftmenu($menu);
             }
+            echo $this->main($content, $image);
+            echo $this->footer();
+            echo '</body>';
+            echo '</html>';
+        } else {
+            echo $this->not_allowed;
         }
-        echo $this->main($content, $image, $idDiv);
-        echo $this->footer();
-        echo '</body>';
-        echo '</html>';
     }
+
 
     /**
      * Div nagłówka
@@ -242,8 +188,9 @@ class userInterface {
     function header($headerTitle) {
         echo '<div id="header">';
         echo '<div>';
-        if ($_SESSION['privileges'] > 0)
+        if ($_SESSION['privileges'] > 0) {
             echo 'Zalogowano jako: ' . $_SESSION['login'] . ' :: <a class="login" href="changePass.php" >Zmiana hasła</a> :: <a class="login" href="loginOutUser.php">Wyloguj</a>';
+        }
         echo '</div>';
         echo '<div id="header_inner">';
         echo '<h1>' . $headerTitle . '</h1>';
@@ -256,14 +203,8 @@ class userInterface {
      * @param type $content
      * @param type $image 
      */
-//    function main($content, $image) {
-//        echo '<div id="main" style=\'background-image: url("' . $image . '")\'>';
-//        echo $content;
-//        echo '</div>';
-//    }
-
-    function main($content, $image, $idDiv) {
-        echo '<div id="' . $idDiv . '" style=\'background-image: url("' . $image . '")\'>';
+    function main($content, $image) {
+        echo '<div id="main" style=\'background-image: url("' . $image . '")\'>';
         echo $content;
         echo '</div>';
     }
@@ -304,6 +245,7 @@ class userInterface {
         require_once './tables/tableFloor.php';
         $tableFloor = new tableFloor();
         $floor = $tableFloor->selectAllRecords();
+        $first_floor="";
         $floors = "";
         if (!empty($floor)) {
             foreach ($floor as $f) {
@@ -315,7 +257,33 @@ class userInterface {
 
         $this->jquery = '<script type="text/javascript" src="jquery.min.js"></script>
         <script type="text/javascript">
-        $(document).ready(function(){ ';
+        function getData(data) {
+        
+    var i=0;
+    var id=-1;
+    var photo=-1;
+    var start = -1;
+    
+        while(data.length>i)
+        {
+        if(data[i]!="," && start == -1){
+            start = i;
+        }
+        if(data[i]==","){
+            id=data.slice(start,i);
+            $("#e"+id).load("ajaxVisual.php?get="+id+"&floor='.$this->currentFloor.'");
+            start=-1;
+	}
+	i++;
+        }        
+    
+}
+        function getAll(){
+         $.get("ajaxVisual.php?all=1&floor='.$this->currentFloor.'", getData);
+}
+        $(document).ready(function(){ 
+                 setInterval("getAll()",2000);
+            ';
 
         $tableInputs = new tableInputs();
         $inputs = $tableInputs->selectAllRecords();
@@ -342,10 +310,11 @@ class userInterface {
         if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>';
         }
-        $links.= '<li><a href="index.php">Kamera</a></li>';
-        if ($_SERVER['REQUEST_URI'] == "/wizualizacja/changePass.php") {
+        
+        if ($_SERVER['REQUEST_URI'] == "/wizualizacja/changePass.php" || $_SERVER['REQUEST_URI'] == "/wizualizacja/camera.php") {
             $links.= '<li><a href="index.php">Strona główna</a></li>';
-        }
+        }else{
+        $links.= '<li><a href="camera.php">Kamera</a></li>';}
         return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
     }
 
@@ -366,7 +335,7 @@ class userInterface {
         $administration = '<li><a href="user.php?action=add">Użytkownicy</a></li>';
 
         $links = '<li><a href="index.php">Strona główna</a></li>
-        <li><a href="index.php">Kamera</a></li>';
+        <li><a href="camera.php">Kamera</a></li>';
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
     }

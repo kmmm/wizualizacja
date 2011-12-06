@@ -10,7 +10,7 @@ $userInterface = new userInterface();
 $tableDevice = new tableDevice();
 
 
-//if ($userInterface->login()) {
+if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie urządzeniami";
 
     $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
@@ -173,6 +173,6 @@ $(document).ready(function(){
 
     $menu = $userInterface->leftMenuAdminPanel();
 
-    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges, 0);
-//}
+    $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
+}
 ?>
