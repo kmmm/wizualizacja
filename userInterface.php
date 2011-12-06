@@ -12,20 +12,18 @@ class userInterface {
      * Wyświetlanie zawartości strony
      * @param type $title
      * @param type $jquery
-     * @param type $headerTitlex
+     * @param type $headerTitle
      * @param type $menu
      * @param type $content
      * @param type $image 
      */
-    private $jquery = "";
-    private $title = "";
-    private $content = "";
-    private $headerTitle = "";
-    private $menu = "";
-    private $image = "";
-    private $min_privileges = "";
-    private $user_privileges;
-    private $link = array(0 => '<a class="login" href="index.php" >Strona główna</a>', 1 => '<a class="login" href="symbol_family.php?action=add" >Panel administracyjny</a>');
+    public $jquery = "";
+    public $title = "";
+    public $content = "";
+    public $headerTitle = "";
+    public $menu = "";
+    public $image = "";
+    public $min_privileges = "";
 
     public function __construct() {
 
@@ -54,30 +52,25 @@ class userInterface {
                 $_SESSION['privileges'] = 0;
                 $this->title = "wizualizacja";
                 $this->headerTitle = "Logowanie";
-                $this->content.= "<h4>Złe dane logowania!</h4>";
+                $this->content.= "<h3>Złe dane logowania!</h3>";
                 $this->user_privileges = 0;
             } else {
                 $_SESSION['login'] = $login;
                 $_SESSION['privileges'] = $row[0];
                 $this->user_privileges = $row[0];
-                return true;
             }
-        }
-        $this->image = "";
-        $this->menu = "";
-        $this->title = "Logowanie";
-        $this->headerTitle = "Logowanie";
-        $this->content.= '<table class="center">
+        } else {
+            $this->content.= '<table class="center">
         <tr><td colspan=2>Podaj swoje dane do logowania:</td></tr>
         <form action="index.php" method="post"><div>
-        <tr><td>Login:</td>
+        <tr><td><h4>Login:</h4></td>
         <td><input type="text" name="login"></td></tr>
-        <tr><td>Hasło:</td>
+        <tr><td><h4>Hasło:</h4></td>
         <td><input type="password" name="haslo"></td></tr>
         <tr><td colspan=2><button type="submit" id="wyślij" name="wyślij" value="zaloguj"/>zalgouj</button></td></tr>
         </table>
         </form>';
-        return false;
+        }
     }
 
 //    public function login() {
@@ -152,35 +145,27 @@ class userInterface {
 //            return true;
 //    }
 //
+    private $user_privileges;
+    private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
+        <meta name="keywords" content="wizualizacja">
+        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
+        <meta http-equiv="Content-Language" content="pl">
+        <link rel="stylesheet" href="visualizationStyle.css" type="text/css"/></head>
+        <body>
+        <div id="header">
+        <div id="header_inner">
+        <h1> Brak dostępu do treści </h1>
+        </div>
+        </div>
+        <div id="main">
+        Nie masz praw do oglądania tej treści!
+        </div>
 
-    private function notAllowed() {
-        $this->title = "Brak dostępu do treści";
-        $this->headerTitle = "Brak dostępu do treści";
-        $this->content = "<h3>Nie masz praw do oglądania tej treści!</h3>";
-        $this->menu = "";
-        $this->image = "";
-    }
+        </body>
+        </html>'; //        <div id="footer">
 
-//    private $not_allowed = '<html><head><title> Brak dostępu do treści </title>
-//        <meta name="keywords" content="wizualizacja">
-//        <meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>
-//        <meta http-equiv="Content-Language" content="pl">
-//        <link rel="stylesheet" href="visualizationStyle.css" type="text/css"/></head>
-//        <body>
-//        <div id="header">
-//        <div id="header_inner">
-//        <h1> Brak dostępu do treści </h1>
+//        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
 //        </div>
-//        </div>
-//        <div id="main">
-//        Nie masz praw do oglądania tej treści!
-//        </div>
-//
-//        </body>
-//        </html>'; //        <div id="footer">
-//
-////        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
-////        </div>
 
     function getPrivileges() {
 
@@ -220,27 +205,12 @@ class userInterface {
 
 
 
-    function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges, $link) {
-        $this->title = $title;
+    function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {  
+        if ($this->getPrivileges() >= $min_privile)
         $this->jquery.=$jquery;
-        $this->headerTitle = $headerTitle;
-        $this->menu = $menu;
-        $this->content = $content;
-        $this->image = $image;
-        $this->min_privileges = $min_privileges;
-        $idDiv = "main";
-        if ($this->getPrivileges() == 0) {
-            if (!$this->login()) {
-                $idDiv = 'loginmain';
-            }
-        }
-        if ($this->getPrivileges() < $min_privileges) {
-            $idDiv = 'loginmain';
-            $this->notAllowed();
-        }
         echo '<html>';
         echo '<head>';
-        echo '<title>' . $this->title . '</title>';
+        echo '<title>' . $title . '</title>';
         echo '<meta name="keywords" content="wizualizacja">';
         echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
         echo '<meta http-equiv="Content-Language" content="pl">';
@@ -248,9 +218,18 @@ class userInterface {
         echo $this->jquery;
         echo '</head>';
         echo '<body>';
-        echo $this->header($this->headerTitle, $link);
-        echo $this->leftmenu($this->menu);
-        echo $this->main($this->content, $this->image, $idDiv);
+        if ($this->getPrivileges() >= $min_privileges) {
+            echo $this->header($headerTitle);
+            echo $this->leftmenu($menu);
+            $idDiv = 'main';
+        } else {
+            if ($_SESSION['privileges'] > 0) {
+                echo $this->not_allowed;
+            } else {
+                $this->login();
+            }
+        }
+        echo $this->main($content, $image, $idDiv);
         echo $this->footer();
         echo '</body>';
         echo '</html>';
@@ -260,19 +239,11 @@ class userInterface {
      * Div nagłówka
      * @param type $headerTitle 
      */
-    function header($headerTitle, $link) {
+    function header($headerTitle) {
         echo '<div id="header">';
         echo '<div>';
-        echo 'Zalogowano jako: ' . $_SESSION['login'] . ' :: ';
-        if ($_SESSION['privileges'] > 0) {
-            if ($link == 1 && $_SESSION['privileges'] > 1) {
-                echo $this->link[1];
-            }
-            if ($link == 0) {
-                echo $this->link[0];
-            }
-            echo ' :: <a class="login" href="changePass.php" >Zmiana hasła</a> :: <a class="login" href="loginOutUser.php">Wyloguj</a>';
-        }
+        if ($_SESSION['privileges'] > 0)
+            echo 'Zalogowano jako: ' . $_SESSION['login'] . ' :: <a class="login" href="changePass.php" >Zmiana hasła</a> :: <a class="login" href="loginOutUser.php">Wyloguj</a>';
         echo '</div>';
         echo '<div id="header_inner">';
         echo '<h1>' . $headerTitle . '</h1>';
@@ -302,18 +273,18 @@ class userInterface {
      * @param type $menu 
      */
     function leftmenu($menu) {
+        echo '<div id="leftmenu">';
+        echo '<div class="left">';
         if ($menu != null) {
-            echo '<div id="leftmenu">';
-            echo '<div class="left">';
             foreach ($menu as $title => $content) {
                 echo '<div class="title1">' . $title . '</div>';
                 echo '<div class="text1">';
                 echo $content;
                 echo '</div>';
             }
-            echo '</div>';
-            echo '</div>';
         }
+        echo '</div>';
+        echo '</div>';
     }
 
     /**
@@ -352,6 +323,7 @@ class userInterface {
         //$inputForm = '<form id="inputs" action ="index.php">';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
+                //var_dump($input['name']) or die();
                 //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
                 $this->jquery.='$(\'.' . $input['id'] . '\').change(function(){
                             $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '");  
