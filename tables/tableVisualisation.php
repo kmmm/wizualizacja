@@ -34,21 +34,19 @@ class tableVisualisation {
     function selectElementById($id){
         
         $query ="
-SELECT symbol.link_photo, device.value, symbol_family.is_visible
+SELECT  element.id, symbol.link_photo, device.value, symbol_family.is_visible, symbol.value
 FROM symbol
 JOIN symbol_family ON symbol.id_symbol_family = symbol_family.id
 JOIN element ON element.id_symbol_family = symbol.id_symbol_family
-JOIN device ON device.id = element.id_device";
+JOIN device ON device.id = element.id_device WHERE symbol.value = device.value AND element.id = '$id'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
             $symbol['id'] = $row[0];    
-            $symbol['name'] = $row[1];    
-            $symbol['id_device'] = $row[2];    
-            $symbol['id_symbol_family'] = $row[3];    
-            $symbol['id_floor'] = $row[4];              
-            $symbol['x'] = $row[5];    
-            $symbol['y'] = $row[6];              
+            $symbol['link_photo'] = $row[1];    
+            $symbol['value'] = $row[2];    
+            $symbol['is_visible'] = $row[3];    
+            $symbol['value'] = $row[4];                          
         
         return $symbol;        
     }

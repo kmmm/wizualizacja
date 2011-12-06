@@ -38,18 +38,19 @@ class tableElements {
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $licznik = 0;
+        $element="";
         while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-            $symbol[$licznik][0] = $row[0];    //id
-            $symbol[$licznik][1] = $row[1];    //name
-            $symbol[$licznik][2] = $row[2];    //id_device
-            $symbol[$licznik][3] = $row[3];    //id_symbol_family
-            $symbol[$licznik][4] = $row[4];    //id_floor
-            $symbol[$licznik][5] = $row[5];    //pos_x
-            $symbol[$licznik][6] = $row[6];    //pos_y
-            $symbol[$licznik][7] = $row[7];    //active            
+            $element[$licznik][0] = $row[0];    //id
+            $element[$licznik][1] = $row[1];    //name
+            $element[$licznik][2] = $row[2];    //id_device
+            $element[$licznik][3] = $row[3];    //id_symbol_family
+            $element[$licznik][4] = $row[4];    //id_floor
+            $element[$licznik][5] = $row[5];    //pos_x
+            $element[$licznik][6] = $row[6];    //pos_y
+            $element[$licznik][7] = $row[7];    //active            
             $licznik++;
         }
-        return $symbol;
+        return $element;
     }
 
     function update($id, $name, $id_device, $id_symbol_family, $id_floor, $position_x, $position_y, $active) {

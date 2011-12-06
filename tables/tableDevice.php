@@ -56,15 +56,16 @@ class tableDevice {
         $query = "SELECT * FROM device WHERE type='$type' ORDER BY port ASC ";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
+        $device="";
         $licznik = 0;
         while ($row = mysql_fetch_array($result, MYSQL_NUM)) {
-            $symbol[$licznik][0] = $row[0];    //id
-            $symbol[$licznik][1] = $row[1];    //name
-            $symbol[$licznik][2] = $row[2];    //is_visible
-            $symbol[$licznik][3] = $row[3];    //active
+            $device[$licznik][0] = $row[0];    //id
+            $device[$licznik][1] = $row[1];    //name
+            $device[$licznik][2] = $row[2];    //is_visible
+            $device[$licznik][3] = $row[3];    //active
             $licznik++;
         }
-        return $symbol;
+        return $device;
     }
 
     function update($id, $port, $type, $value, $get_value, $set_value) {

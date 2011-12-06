@@ -12,7 +12,6 @@ $divBackground = "";
 $jquery = "";
 $alert="";
 $minUserPrivleges = 1;
-
 if ($userInterface->login()) {
     if (isset($_POST['zmień'])) {        
         if (isset($_POST['old_pass']) && isset($_POST['new_pass1']) && isset($_POST['new_pass2'])) {            

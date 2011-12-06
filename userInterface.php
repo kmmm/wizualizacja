@@ -12,19 +12,31 @@ class userInterface {
      * Wyświetlanie zawartości strony
      * @param type $title
      * @param type $jquery
-     * @param type $headerTitle
+     * @param type $headerTitlex
      * @param type $menu
      * @param type $content
      * @param type $image 
      */
-    public $jquery = "";
+
+
     public $currentFloor ="";
+    private $jquery = "";
+    //private $title = "";
+    //private $content = "";
+    //private $headerTitle = "";
+    //private $menu = "";
+    //private $image = "";
+    //private $min_privileges = "";
+    //private $user_privileges;
+    //private $link = array(0 => '<a class="login" href="index.php" >Strona główna</a>', 1 => '<a class="login" href="symbol_family.php?action=add" >Panel administracyjny</a>');
+
 
     public function __construct() {
 
         $connectionWithDb = new connectDb();
-        if (!isset($_SESSION['privileges']))
+        if (!isset($_SESSION['privileges'])) {
             $_SESSION['privileges'] = 0;
+        }
         $this->user_privileges = $_SESSION['privileges'];
     }
     public function setFloor($floor){
@@ -136,8 +148,10 @@ class userInterface {
         return $this->user_privileges;
     }
 
+
+
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
-        $this->jquery=$jquery.$this->jquery;
+        $this->jquery.=$jquery;
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
 //mozna to pozniej okroic do dwoch ale spoko, tak jest lepiej mniej pisania
 
@@ -166,6 +180,7 @@ class userInterface {
         }
     }
 
+
     /**
      * Div nagłówka
      * @param type $headerTitle 
@@ -173,8 +188,9 @@ class userInterface {
     function header($headerTitle) {
         echo '<div id="header">';
         echo '<div>';
-        if ($_SESSION['privileges'] > 0)
+        if ($_SESSION['privileges'] > 0) {
             echo 'Zalogowano jako: ' . $_SESSION['login'] . ' :: <a class="login" href="changePass.php" >Zmiana hasła</a> :: <a class="login" href="loginOutUser.php">Wyloguj</a>';
+        }
         echo '</div>';
         echo '<div id="header_inner">';
         echo '<h1>' . $headerTitle . '</h1>';
@@ -198,18 +214,18 @@ class userInterface {
      * @param type $menu 
      */
     function leftmenu($menu) {
-        echo '<div id="leftmenu">';
-        echo '<div class="left">';
         if ($menu != null) {
+            echo '<div id="leftmenu">';
+            echo '<div class="left">';
             foreach ($menu as $title => $content) {
                 echo '<div class="title1">' . $title . '</div>';
                 echo '<div class="text1">';
                 echo $content;
                 echo '</div>';
             }
+            echo '</div>';
+            echo '</div>';
         }
-        echo '</div>';
-        echo '</div>';
     }
 
     /**
@@ -277,7 +293,7 @@ class userInterface {
             foreach ($inputs as $input) {
                 //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
                 $this->jquery.='$(\'.' . $input['id'] . '\').change(function(){
-                            $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '&name=' . $input['name'] . '");  
+                            $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '");  
                             });';
                 if ($tableInputs->getValueById($input['id']) == 1)
                     $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
@@ -314,7 +330,7 @@ class userInterface {
         <li><a href="Inputs.php?action=add">Wejścia</a></li>
         <li><a href="elements.php?action=add">Elementy na wizualizacji</a></li>';
 
-        $administration = '<li><a href="user.php?action=edit">Użytkownicy</a></li>';
+        $administration = '<li><a href="user.php?action=add">Użytkownicy</a></li>';
 
         $links = '<li><a href="index.php">Strona główna</a></li>
         <li><a href="index.php">Kamera</a></li>';

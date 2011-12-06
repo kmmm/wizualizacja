@@ -31,31 +31,40 @@ class tableInputs {
     
     
     
-    function selectRecordByName($name){
-         $query = "SELECT * FROM checkbox_list WHERE name='$name'";
+    function selectRecordByIdDevice($id_device){
+         $query = "SELECT * FROM checkbox_list WHERE id_device='$id_device'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);        
         return $row;
     }
+    
+    function selectRecordByName($name, $id_device){
+         $query = "SELECT * FROM checkbox_list WHERE name='$name' and id_device='$id_device'";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);        
+        return $row;
+    }
+    
     function instert($name, $id_device, $active) {
-        $row = $this->selectRecordByName($name);
+        $row = $this->selectRecordByIdDevice($id_device);
         if (empty($row)) {
             $query = "INSERT INTO checkbox_list values ('','$id_device', '$name','$active')";
             $result = mysql_query($query);
             if ($result) {
-                return 'Dodano nowy wejście!';
+                return 'Dodano nowe wejście!';
             } else {
                 return 'Nie udało dodać się nowego wejścia :(.';
 
             }
         } else {
-            return 'W bazie istnieje już takie wejście!';
+            return 'W bazie istnieje wejście przypisane do tego portu!';
 
         }
     }
         function update($id, $name, $id_device, $active) {
-        $row = $this->selectRecordByName($id);
+        $row = $this->selectRecordByName($name, $id_device);
         if (empty($row) || $row[0] == $id) {
             $query = "UPDATE checkbox_list SET  id_device='$id_device', name='$name', active='$active' WHERE id='$id'";
             $result = mysql_query($query);
@@ -65,7 +74,7 @@ class tableInputs {
                 return 'Nie udało się wyedytować wejścia.';
             }
         } else {
-            return 'W bazie nie istnieje takie wejście!';
+            return 'W bazie już istnieje takie wejście!';
         }
     }
 

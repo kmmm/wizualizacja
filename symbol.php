@@ -15,8 +15,7 @@ $tableSymbol = new tableSymbol();
 if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie symbolami";
 
-    $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+    $jquery = '<script type="text/javascript" src="jquery.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function(){    
     $("#text3").delegate("#select_symbolfamily", "change", function()

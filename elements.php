@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 /**
  * symbol_family - formularze zarządzania rodzinami symboli
@@ -20,8 +21,9 @@ $tableElements = new tableElements();
 
 $devices = $tableDevice->selectAllRecords();
 $floors = $tableFloor->selectAllRecords();
-$symbolsFamily = $tableSymbolFamily->selectAllRecords();
-$symbols = $tableSymbol->selectAllRecords();
+$symbolsFamily = $tableSymbolFamily->selectRecordsBySymbolValue('-1');
+//$symbolsFamily = $tableSymbolFamily->selectAllRecords();
+//$symbols = $tableSymbol->selectAllRecords();
 
 if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie elementami wizualizacji";
@@ -200,9 +202,8 @@ var v;
         case 'add':
             if (!empty($floors)) {
                 if (!empty($symbolsFamily)) {
-                    if (!empty($symbols)) {
-                        if (!empty($devices)) {
-                            $form = '<form action="elements.php?action=add" method="POST">
+                    if (!empty($devices)) {
+                        $form = '<form action="elements.php?action=add" method="POST">
                                     <table>
                                     <tr>
                                         <td>Nazwa elementu:</td>
@@ -211,26 +212,26 @@ var v;
                                     <tr>
                                         <td>Kondygnacja: </td>
                                         <td><select id="floor" name="floor">';
-                            foreach ($floors as $floor) {
-                                $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
-                            }
-                            $form.='</select>';
-                            $form.='<input type="hidden" id="i" name="i"/></td>
+                        foreach ($floors as $floor) {
+                            $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
+                        }
+                        $form.='</select>';
+                        $form.='<input type="hidden" id="i" name="i"/></td>
                                     </tr>
                                     <tr>
                                         <td>Grupa symboli: </td>
                                         <td><select id="symbolfamily" name="symbolfamily">
                                             <option value="">---</option>';
-                            foreach ($symbolsFamily as $symbolFamily) {
-                                $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
-                            }
-                            $form.='</select></td>
+                        foreach ($symbolsFamily as $symbolFamily) {
+                            $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
+                        }
+                        $form.='</select></td>
                                     </tr>
                                     <tr>
                                         <td>Urządzenie: </td>
                                         <td><select id="device" name="device">
                                             <option value="">---</option>';
-                            $form.='</select></td>
+                        $form.='</select></td>
                                     </tr>
                                     <tr>
                                         <td>Położenie na wizualizacji:</td>
@@ -241,14 +242,11 @@ var v;
                                     <tr><td colspan=2><button type="submit" id="send" name="send" value="dodaj" onclick="this.value=add">dodaj</button></td></tr>
                                     </table>
                                     </form>';
-                        } else {
-                            $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
-                        }
                     } else {
-                        $form = '<h3>Baza danych nie zawiera żandych symboli.</h3>';
+                        $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
                     }
                 } else {
-                    $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
+                    $form = '<h3>Baza danych nie zawiera żandych grup symboli o zdefiniowanym symbolu domyślnym.</h3>';
                 }
             } else {
                 $form = '<h3>Baza danych nie zawiera żandych kondygnacji.</h3>';
@@ -260,9 +258,8 @@ var v;
             if (!empty($elements)) {
                 if (!empty($floors)) {
                     if (!empty($symbolsFamily)) {
-                        if (!empty($symbols)) {
-                            if (!empty($devices)) {
-                                $form = '<form action="elements.php?action=edit" method="POST">
+                        if (!empty($devices)) {
+                            $form = '<form action="elements.php?action=edit" method="POST">
                                     <table>
                                     <tr>
                                     <td>
@@ -270,10 +267,10 @@ var v;
                                     </td>
                                     <td><select id="element" name="element">
                                     <option value="">---</option>';
-                                foreach ($elements as $element) {
-                                    $form.='<option value ="' . $element[0] . '">' . $element[1] . '</option>';
-                                }
-                                $form.='</td>
+                            foreach ($elements as $element) {
+                                $form.='<option value ="' . $element[0] . '">' . $element[1] . '</option>';
+                            }
+                            $form.='</td>
                                     </tr>
                                     <tr>
                                         <td>Nazwa elementu:</td>
@@ -282,26 +279,26 @@ var v;
                                     <tr>
                                         <td>Kondygnacja: </td>
                                         <td><select id="floor" name="floor" disabled=disabled>';
-                                foreach ($floors as $floor) {
-                                    $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
-                                }
-                                $form.='</select>';
-                                $form.='<input type="hidden" id="i" name="i"/></td>
+                            foreach ($floors as $floor) {
+                                $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
+                            }
+                            $form.='</select>';
+                            $form.='<input type="hidden" id="i" name="i"/></td>
                                     </tr>
                                     <tr>
                                         <td>Grupa symboli: </td>
                                         <td><select id="symbolfamily" name="symbolfamily" disabled=disabled>
                                             <option value="">---</option>';
-                                foreach ($symbolsFamily as $symbolFamily) {
-                                    $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
-                                }
-                                $form.='</select></td>
+                            foreach ($symbolsFamily as $symbolFamily) {
+                                $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
+                            }
+                            $form.='</select></td>
                                     </tr>
                                     <tr>
                                         <td>Urządzenie: </td>
                                         <td><select id="device" name="device" disabled=disabled>
                                             <option value="">---</option>';
-                                $form.='</select></td>
+                            $form.='</select></td>
                                     </tr>
                                     <tr>
                                         <td>Położenie na wizualizacji:</td>
@@ -312,14 +309,11 @@ var v;
                                     <tr><td colspan=2><button type="submit" id="send" name="send" value="edytuj" onclick="this.value=add" disabled=disabled>edytuj</button></td></tr>
                                     </table>
                                     </form>';
-                            } else {
-                                $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
-                            }
                         } else {
-                            $form = '<h3>Baza danych nie zawiera żandych symboli.</h3>';
+                            $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
                         }
                     } else {
-                        $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
+                        $form = 'Baza danych nie zawiera żandych grup symboli o zdefiniowanym symbolu domyślnym.</h3>';
                     }
                 } else {
                     $form = '<h3>Baza danych nie zawiera żandych kondygnacji.</h3>';
@@ -334,9 +328,8 @@ var v;
             if (!empty($elements)) {
                 if (!empty($floors)) {
                     if (!empty($symbolsFamily)) {
-                        if (!empty($symbols)) {
-                            if (!empty($devices)) {
-                                $form = '<form action="elements.php?action=delete" method="POST">
+                        if (!empty($devices)) {
+                            $form = '<form action="elements.php?action=delete" method="POST">
                                     <table>
                                     <tr>
                                     <td>
@@ -344,10 +337,10 @@ var v;
                                     </td>
                                     <td><select id="element_delete" name="element_delete">
                                     <option value="">---</option>';
-                                foreach ($elements as $element) {
-                                    $form.='<option value ="' . $element[0] . '">' . $element[1] . '</option>';
-                                }
-                                $form.='</td>
+                            foreach ($elements as $element) {
+                                $form.='<option value ="' . $element[0] . '">' . $element[1] . '</option>';
+                            }
+                            $form.='</td>
                                     </tr>
                                     <tr>
                                         <td>Nazwa elementu:</td>
@@ -356,26 +349,26 @@ var v;
                                     <tr>
                                         <td>Kondygnacja: </td>
                                         <td><select id="floor" name="floor" disabled=disabled>';
-                                foreach ($floors as $floor) {
-                                    $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
-                                }
-                                $form.='</select>';
-                                $form.='<input type="hidden" id="i" name="i"/></td>
+                            foreach ($floors as $floor) {
+                                $form.='<option value ="' . $floor[0] . '">' . $floor[1] . '</option>';
+                            }
+                            $form.='</select>';
+                            $form.='<input type="hidden" id="i" name="i"/></td>
                                     </tr>
                                     <tr>
                                         <td>Grupa symboli: </td>
                                         <td><select id="symbolfamily" name="symbolfamily" disabled=disabled>
                                             <option value="">---</option>';
-                                foreach ($symbolsFamily as $symbolFamily) {
-                                    $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
-                                }
-                                $form.='</select></td>
+                            foreach ($symbolsFamily as $symbolFamily) {
+                                $form.='<option value ="' . $symbolFamily[0] . '">' . $symbolFamily[1] . '</option>';
+                            }
+                            $form.='</select></td>
                                     </tr>
                                     <tr>
                                         <td>Urządzenie: </td>
                                         <td><select id="device" name="device" disabled=disabled>
                                             <option value="">---</option>';
-                                $form.='</select></td>
+                            $form.='</select></td>
                                     </tr>
                                     <tr>
                                         <td>Położenie na wizualizacji:</td>
@@ -386,14 +379,11 @@ var v;
                                     <tr><td colspan=2><button type="submit" id="send" name="send" value="usuń" disabled=disabled>usuń</button></td></tr>
                                     </table>
                                     </form>';
-                            } else {
-                                $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
-                            }
                         } else {
-                            $form = '<h3>Baza danych nie zawiera żandych symboli.</h3>';
+                            $form = '<h3>Baza danych nie zawiera żandych urządzeń.</h3>';
                         }
                     } else {
-                        $form = '<h3>Baza danych nie zawiera żandych grup symboli.</h3>';
+                        $form = '<h3>BBaza danych nie zawiera żandych grup symboli o zdefiniowanym symbolu domyślnym.</h3>';
                     }
                 } else {
                     $form = '<h3>Baza danych nie zawiera żandych kondygnacji.</h3>';

@@ -12,9 +12,7 @@ $tableFloor = new tableFloor();
 $tableVisual = new tableVisualisation();
  
 $userInterface = new userInterface();
-
 if ($userInterface->login()) {
-
     $title = "wizualizacja";
     $jquery = "";
     
@@ -41,15 +39,16 @@ if ($userInterface->login()) {
         $image = $tableFloor->selectAllRecords();
         if (!empty($image)) {
             $divBackground = $image[0][2];
-            $headerTitle = "Floor ".$image[0][1];
-            $floor = $image[0][1];    
+            $headerTitle = "Floor " . $image[0][1];
+            $floor = $image[0][1];
             $id_floor = $tableFloor->selectRecord($floor, 1);
-            $id_floor = $id_floor[0];            
+            $id_floor = $id_floor[0];
         } else {
             $divBackground = "";
             $headerTitle = "Wizualizacja";
             $id_floor = "";
             $content = "<h3><br>Brak elementów wizualizacji</h3>";
+
         }       
     }
 
@@ -67,10 +66,11 @@ if ($userInterface->login()) {
             if($is_visible==0)
                 $value="";
             $content.='<div id="e'.$element['id'].'" style="position: absolute; top: '. $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $photo . '"/><h3>'.$value.'</h3></div>';
+
         }
-        
     }
     }
+
 
     $menu = $userInterface->leftMenuIndex();
     $user_privileges = 0;
