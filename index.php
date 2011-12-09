@@ -71,7 +71,6 @@ if ($userInterface->login()) {
     }
     }
 
-
     $menu = $userInterface->leftMenuIndex();
     $user_privileges = 0;
     $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $user_privileges);

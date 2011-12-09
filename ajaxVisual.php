@@ -13,7 +13,9 @@ if(isset($_GET['all']) && $_GET['all']=='1' && isset($_GET['floor'])){
         $content.=$element['id'].",";
     }
 }
-
+if(isset($_GET['change']) && $_GET['change' ]=="yes") {
+     
+}
 if(isset($_GET['get']) && isset($_GET['floor'])){
     $tableVisual->prepareValueElementById($_GET['get']);
     $value = $tableVisual->selectValueElementById($_GET['get']);

@@ -286,8 +286,14 @@ class userInterface {
             ';
 
         $tableInputs = new tableInputs();
+         
         $inputs = $tableInputs->selectAllRecords();
         $inputForm = '';
+         
+        $tableVis = new tableVisualisation();
+        $tableVis->selectAllRecordsByIdFloor($this->currentFloor);
+        $elements = $tableVis->selectdefaultRecordsbyidfloor($this->currentFloor);
+                      
         //$inputForm = '<form id="inputs" action ="index.php">';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
@@ -303,6 +309,17 @@ class userInterface {
         } else
             $inputForm.='Brak zdefiniowanych wejść';
         //$inputForm.='</from>';
+         if(!empty($elements)){ 
+              foreach($elements as $element) {                       
+                   if($element['is_visible']!='1')
+                   $this->jquery.= '$(\'#e' . $element['id'] . '\').click(function(){
+                                alert("Uwaga - nastąpi zamiana wartości");
+                            });'; //                            $(\'#e' . $element['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); 
+              }
+         } else
+              echo 0;
+         
+//KONIEC JAVA SCRIPTU I GLOWNEJ FUN KCJI----------------------------------------
         $this->jquery.='});</script>';
 
         $links = "";

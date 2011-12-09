@@ -50,9 +50,45 @@ JOIN device ON device.id = element.id_device WHERE symbol.value = device.value A
         
         return $symbol;        
     }
+    function  selectdefaultRecordsbyidfloor($floor) { 
+         $symbol=null;
+//        $query = "SELECT * FROM element WHERE id_floor='$floor'";
+         $query = "SELECT  element.id, symbol.link_photo, symbol_family.is_visible, element.position_x, element.position_y,
+FROM symbol
+JOIN symbol_family ON symbol.id_symbol_family = symbol_family.id
+JOIN element ON element.id_symbol_family = symbol.id_symbol_family
+JOIN floor on element.id_floor = floor.id WHERE symbol.value = -1 and floor.id = '$floor'";
+          
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $licznik = 0;
+        while($row = mysql_fetch_array($result, MYSQL_NUM)){
+            $symbol[$licznik]['id'] = $row[0];    
+            $symbol[$licznik]['link_photo'] = $row[1];    
+            $symbol[$licznik]['is_visible'] = $row[2];                
+            $symbol[$licznik]['x'] = $row[3];    
+            $symbol[$licznik]['y'] = $row[4];              
+            $licznik++;
+        }
+        return $symbol;        
+    }  
+
+
+
+
+
+
+
+
     function selectAllRecordsByIdFloor($floor) {         
         $symbol=null;
         $query = "SELECT * FROM element WHERE id_floor='$floor'";
+//         $query = "SELECT  element.id, symbol.link_photo, device.value, symbol_family.is_visible, symbol.value
+//FROM symbol
+//JOIN symbol_family ON symbol.id_symbol_family = symbol_family.id
+//JOIN element ON element.id_symbol_family = symbol.id_symbol_family
+//JOIN device ON device.id = element.id_device WHERE symbol.value = device.value AND element.id = '$id'";
+//          
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $licznik = 0;
