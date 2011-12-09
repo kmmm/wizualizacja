@@ -55,7 +55,7 @@ class userInterface {
         if ($this->user_privileges == 0) {
             if (isset($_POST['login']) && isset($_POST['haslo'])) {
                 $login = $_POST['login'];
-                $haslo = $_POST['haslo'];
+                $haslo = md5($_POST['haslo']);
                 $query = 'SELECT user_type FROM user WHERE login = "' . $login . '" AND password = "' . $haslo . '"';
                 $result = mysql_query($query);
                 $ret_res = mysql_num_rows($result);

@@ -3,6 +3,7 @@
 session_start();
 require_once 'userInterface.php';
 require_once 'tables/tableCamera.php';
+require_once 'tables/tableVisualisation.php';
 
 $userInterface = new userInterface();
 $tableCamera = new tableCamera();

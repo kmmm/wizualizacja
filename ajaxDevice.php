@@ -27,10 +27,10 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
                     <tr>
                         <td>Port:</td>
                         <td><select id="' . $select . '" name="' . $select . '">
-                                <option value="' . $currentDevice[0] . '">' . $currentDevice[1] . '</option>';
+                                <option value="' . $currentDevice[0] . '">' . $currentDevice[1] . ' '.$currentDevice[2].'</option>';
     foreach ($devices as $device) {
         if ($device[0] != $currentDevice[0]) {
-            echo '<option value ="' . $device[0] . '">' . $device[1] . '</option>';
+            echo '<option value ="' . $device[0] . '">' . $device[1] . ' '.$device[2].'</option>';
         }
     }
     echo '</select></td>

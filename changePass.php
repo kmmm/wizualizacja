@@ -2,6 +2,7 @@
 session_start();
 require_once 'userInterface.php';
 require_once 'tables/tableUser.php';
+require_once 'tables/tableVisualisation.php';
 
 $userInterface = new userInterface();
 $tableUser = new tableUser();
@@ -17,7 +18,10 @@ if ($userInterface->login()) {
         if (isset($_POST['old_pass']) && isset($_POST['new_pass1']) && isset($_POST['new_pass2'])) {            
             if ($_POST['new_pass1'] != "" && $_POST['new_pass2'] != "" && $_POST['old_pass'] != "") {                
                 if ($_POST['new_pass1'] == $_POST['new_pass2']) {
-                    $alert = $tableUser->updatePass($_SESSION['login'], $_POST['old_pass'], $_POST['new_pass1']);
+                    $oldPass=md5($_POST['old_pass']);
+                    $newPass=md5($_POST['new_pass1']);
+                    //$alert = $tableUser->updatePass($_SESSION['login'], $_POST['old_pass'], $_POST['new_pass1']);
+                    $alert = $tableUser->updatePass($_SESSION['login'], $oldPass, $newPass);
                 } else {
                     $alert = '<h4>Nowe hasła różnią się.</h4>';
                 }
