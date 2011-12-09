@@ -12,7 +12,7 @@ class userInterface {
      * Wyświetlanie zawartości strony
      * @param type $title
      * @param type $jquery
-     * @param type $headerTitlex
+     * @param type $headerTitle
      * @param type $menu
      * @param type $content
      * @param type $image 
@@ -214,18 +214,18 @@ class userInterface {
      * @param type $menu 
      */
     function leftmenu($menu) {
+        echo '<div id="leftmenu">';
+        echo '<div class="left">';
         if ($menu != null) {
-            echo '<div id="leftmenu">';
-            echo '<div class="left">';
             foreach ($menu as $title => $content) {
                 echo '<div class="title1">' . $title . '</div>';
                 echo '<div class="text1">';
                 echo $content;
                 echo '</div>';
             }
-            echo '</div>';
-            echo '</div>';
         }
+        echo '</div>';
+        echo '</div>';
     }
 
     /**
@@ -297,6 +297,7 @@ class userInterface {
         //$inputForm = '<form id="inputs" action ="index.php">';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
+                //var_dump($input['name']) or die();
                 //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
                 $this->jquery.='$(\'.' . $input['id'] . '\').change(function(){
                             $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '");  
@@ -326,10 +327,11 @@ class userInterface {
         if ($this->user_privileges > 1) {
             $links = '<li><a href="symbol_family.php?action=add">Panel administracyjny</a></li>';
         }
-        $links.= '<li><a href="index.php">Kamera</a></li>';
-        if ($_SERVER['REQUEST_URI'] == "/wizualizacja/changePass.php") {
+        
+        if ($_SERVER['REQUEST_URI'] == "/wizualizacja/changePass.php" || $_SERVER['REQUEST_URI'] == "/wizualizacja/camera.php") {
             $links.= '<li><a href="index.php">Strona główna</a></li>';
-        }
+        }else{
+        $links.= '<li><a href="camera.php">Kamera</a></li>';}
         return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
     }
 
@@ -350,7 +352,7 @@ class userInterface {
         $administration = '<li><a href="user.php?action=add">Użytkownicy</a></li>';
 
         $links = '<li><a href="index.php">Strona główna</a></li>
-        <li><a href="index.php">Kamera</a></li>';
+        <li><a href="camera.php">Kamera</a></li>';
 
         return array('Symbole' => $symbols, 'Urządzenia' => $devices, 'Elementy wizualizacji' => $elements, 'Administracja' => $administration, 'Linki' => $links);
     }
