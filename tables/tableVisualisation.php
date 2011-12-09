@@ -50,14 +50,16 @@ JOIN device ON device.id = element.id_device WHERE symbol.value = device.value A
         
         return $symbol;        
     }
-    function  selectdefaultRecordsbyidfloor($floor) { 
+    function  selectDefaultRecordsByIdFloor($floor) { 
          $symbol=null;
 //        $query = "SELECT * FROM element WHERE id_floor='$floor'";
-         $query = "SELECT  element.id, symbol.link_photo, symbol_family.is_visible, element.position_x, element.position_y,
+         $query = "SELECT  element.id, symbol.link_photo, symbol_family.is_visible, element.position_x, element.position_y, device.value
 FROM symbol
 JOIN symbol_family ON symbol.id_symbol_family = symbol_family.id
 JOIN element ON element.id_symbol_family = symbol.id_symbol_family
-JOIN floor on element.id_floor = floor.id WHERE symbol.value = -1 and floor.id = '$floor'";
+JOIN floor on element.id_floor = floor.id
+JOIN device ON element.id_device = device.id         
+WHERE symbol.value = -1 and floor.id = '$floor'";
           
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
@@ -67,7 +69,8 @@ JOIN floor on element.id_floor = floor.id WHERE symbol.value = -1 and floor.id =
             $symbol[$licznik]['link_photo'] = $row[1];    
             $symbol[$licznik]['is_visible'] = $row[2];                
             $symbol[$licznik]['x'] = $row[3];    
-            $symbol[$licznik]['y'] = $row[4];              
+            $symbol[$licznik]['y'] = $row[4];       
+            $symbol[$licznik]['value'] = $row[5];             
             $licznik++;
         }
         return $symbol;        

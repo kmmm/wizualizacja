@@ -10,7 +10,7 @@ class connectDb {
         
 //        $serwer='localhost';
 //        $user='root';
-       //$haslo='mdrp180';
+       $haslo='mdrp180';
 //        $db='visualisation';
         
         mysql_connect($serwer, $user, $haslo)or die("Nie można nawiązać połączenia z bazą"); //Łączenie z bazą danych

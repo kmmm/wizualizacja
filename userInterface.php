@@ -292,7 +292,7 @@ class userInterface {
          
         $tableVis = new tableVisualisation();
         $tableVis->selectAllRecordsByIdFloor($this->currentFloor);
-        $elements = $tableVis->selectdefaultRecordsbyidfloor($this->currentFloor);
+        $elements = $tableVis->selectDefaultRecordsByIdFloor($this->currentFloor);
                       
         //$inputForm = '<form id="inputs" action ="index.php">';
         if (!empty($inputs)) {
