@@ -4,7 +4,8 @@ class tableElements {
 
     function insert($name, $id_device, $id_symbol_family, $id_floor, $position_x, $position_y, $active) {
         $row = $this->selectRecord($name, $id_device, $id_symbol_family, $id_floor, $position_x, $position_y, $active);
-        if (empty($row)) {
+        $row2=$this->selectRecordByIdDevice($id_device);
+        if (empty($row) && empty($row2)) {
             $query = "INSERT INTO element values ('','$name', '$id_device', '$id_symbol_family', '$id_floor', '$position_x', '$position_y', '$active')";
             $result = mysql_query($query);
             if ($result) {
@@ -27,6 +28,14 @@ class tableElements {
 
     function selectRecordById($id) {
         $query = "SELECT * FROM element WHERE id='$id'";
+        $result = mysql_query($query);
+        $ret_res = mysql_num_rows($result);
+        $row = mysql_fetch_array($result, MYSQL_NUM);
+        return $row;
+    }
+    
+    function selectRecordByIdDevice($idDevice) {
+        $query = "SELECT * FROM element WHERE id_device='$idDevice'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);

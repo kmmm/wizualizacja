@@ -159,4 +159,20 @@ if ($result) {
 
 mkdir('./photo', 0777);
 
+$query = "SELECT * FROM user WHERE login='admin' and active='1'";
+$result = mysql_query($query);
+$ret_res = mysql_num_rows($result);
+$row = mysql_fetch_array($result, MYSQL_NUM);
+if (empty($row)) {    
+    $password = md5("admin");
+    $query = "INSERT INTO user values ('','admin', '$password', '2', '1')";
+    $result = mysql_query($query);
+    if ($result) {
+        echo 'Dodano nowego użytkownika!';
+    } else {
+        echo ''; 'Nie udało dodać sie nowego użytkownika';
+    }
+} else {
+    echo 'W bazie istnieje już taki użytkownik';
+}
 ?>

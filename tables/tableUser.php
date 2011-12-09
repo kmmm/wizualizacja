@@ -33,7 +33,7 @@ class tableUser {
     }
 
     function selectRecord($login, $active) {
-        $query = "SELECT * FROM symbol_family WHERE login='$login' and active='$active'";
+        $query = "SELECT * FROM user WHERE login='$login' and active='$active'";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $row = mysql_fetch_array($result, MYSQL_NUM);
