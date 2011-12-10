@@ -125,6 +125,15 @@ WHERE symbol.value = -1 and floor.id = '$floor'";
      //   else
       //      return true;
     }    
+     function getValueById($id){
+         $query = "SELECT device.value FROM device WHERE id=(SELECT id_device FROM element WHERE id='$id')";
+        $result = mysql_query($query);
+        $row = mysql_fetch_array($result, MYSQL_NUM); 
+      //  if(empty($result))
+     //   return false;
+     //   else
+            return $row[0];
+    }    
     
     function prepareValueElementById($id){
         $query = "UPDATE device SET get_value='1' WHERE id=(SELECT id_device FROM element WHERE id='$id')";

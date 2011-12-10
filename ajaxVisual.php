@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once('connectDb.php');
 $connectDB = new connectDb();
 
@@ -7,14 +8,15 @@ require_once 'tables/tableVisualisation.php';
 $tableVisual = new tableVisualisation();
 
 $content = "";
-if(isset($_GET['all']) && $_GET['all']=='1' && isset($_GET['floor'])){
-    $elements = $tableVisual->selectAllRecordsByIdFloor($_GET['floor']);
-    foreach($elements as $element){
-        $content.=$element['id'].",";
-    }
-}
-if(isset($_GET['change']) && $_GET['change' ]=="yes") {
-     
+
+if(isset($_GET['id'])) {
+    if(isset($_SESSION['privileges']))
+        if($_SESSION['privileges']>=1){
+            $value = $tableVisual->getValueById ($_GET['id']);
+        if($value == '1')
+            $value = '0';
+        else $value = '1';
+     $tableVisual->setValueById($_GET['id'], $value);}
 }
 if(isset($_GET['get']) && isset($_GET['floor'])){
     $tableVisual->prepareValueElementById($_GET['get']);

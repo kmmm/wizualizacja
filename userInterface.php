@@ -148,8 +148,6 @@ class userInterface {
         return $this->user_privileges;
     }
 
-
-
     function show($title, $jquery, $headerTitle, $menu, $content, $image, $min_privileges) {
         $this->jquery.=$jquery;
 //im wyzsze tym wiecej mozna... trzeba wydetywoac troche grupy uzytkownikow...
@@ -164,7 +162,9 @@ class userInterface {
             echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
             echo '<meta http-equiv="Content-Language" content="pl">';
             echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-            echo $this->jquery;
+            echo '<script type="text/javascript" src="jquery.min.js"></script>
+                  <script type="text/javascript">';
+            echo $this->jquery.'</script>';
             echo '</head>';
             echo '<body>';
             echo $this->header($headerTitle);
@@ -241,7 +241,7 @@ class userInterface {
      *
      * @return lewe menu dla wizualizacji
      */
-    function leftMenuIndex() {
+    function leftMenuIndex($inputs) {
         require_once './tables/tableFloor.php';
         $tableFloor = new tableFloor();
         $floor = $tableFloor->selectAllRecords();
@@ -255,73 +255,7 @@ class userInterface {
             $floors = 'Brak kondygnacji';
         }
 
-        $this->jquery = '<script type="text/javascript" src="jquery.min.js"></script>
-        <script type="text/javascript">
-        function getData(data) {
-        
-    var i=0;
-    var id=-1;
-    var photo=-1;
-    var start = -1;
-    
-        while(data.length>i)
-        {
-        if(data[i]!="," && start == -1){
-            start = i;
-        }
-        if(data[i]==","){
-            id=data.slice(start,i);
-            $("#e"+id).load("ajaxVisual.php?get="+id+"&floor='.$this->currentFloor.'");
-            start=-1;
-	}
-	i++;
-        }        
-    
-}
-        function getAll(){
-         $.get("ajaxVisual.php?all=1&floor='.$this->currentFloor.'", getData);
-}
-        $(document).ready(function(){ 
-                 setInterval("getAll()",2000);
-            ';
-
-        $tableInputs = new tableInputs();
          
-        $inputs = $tableInputs->selectAllRecords();
-        $inputForm = '';
-         
-        $tableVis = new tableVisualisation();
-        $tableVis->selectAllRecordsByIdFloor($this->currentFloor);
-        $elements = $tableVis->selectDefaultRecordsByIdFloor($this->currentFloor);
-                      
-        //$inputForm = '<form id="inputs" action ="index.php">';
-        if (!empty($inputs)) {
-            foreach ($inputs as $input) {
-                //var_dump($input['name']) or die();
-                //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
-                $this->jquery.='$(\'.' . $input['id'] . '\').change(function(){
-                            $(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '");  
-                            });';
-                if ($tableInputs->getValueById($input['id']) == 1)
-                    $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
-                else
-                    $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
-            }
-        } else
-            $inputForm.='Brak zdefiniowanych wejść';
-        //$inputForm.='</from>';
-         if(!empty($elements)){ 
-              foreach($elements as $element) {                       
-                   if($element['is_visible']!='1')
-                   $this->jquery.= '$(\'#e' . $element['id'] . '\').click(function(){
-                                alert("Uwaga - nastąpi zamiana wartości");
-                            });'; //                            $(\'#e' . $element['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); 
-              }
-         } else
-              echo 0;
-         
-//KONIEC JAVA SCRIPTU I GLOWNEJ FUN KCJI----------------------------------------
-        $this->jquery.='});</script>';
 
         $links = "";
         if ($this->user_privileges > 1) {
@@ -332,7 +266,7 @@ class userInterface {
             $links.= '<li><a href="index.php">Strona główna</a></li>';
         }else{
         $links.= '<li><a href="camera.php">Kamera</a></li>';}
-        return array('Kondygnacje' => $floors, 'Wejścia' => $inputForm, 'Linki' => $links);
+        return array('Kondygnacje' => $floors, 'Wejścia' => $inputs, 'Linki' => $links);
     }
 
     /**
