@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 require_once 'userInterface.php';
 require_once 'tables/tableUser.php';
@@ -11,15 +12,20 @@ $title = "Zmiana hasła";
 $headerTitle = "Zmiana hasła";
 $divBackground = "";
 $jquery = "";
-$alert="";
+$alert = "";
 $minUserPrivleges = 1;
+
+$intervalJQuery = "";
+$documentReadyJQuery = "";
+$functionJQuery = "";
+
 if ($userInterface->login()) {
-    if (isset($_POST['zmień'])) {        
-        if (isset($_POST['old_pass']) && isset($_POST['new_pass1']) && isset($_POST['new_pass2'])) {            
-            if ($_POST['new_pass1'] != "" && $_POST['new_pass2'] != "" && $_POST['old_pass'] != "") {                
+    if (isset($_POST['zmień'])) {
+        if (isset($_POST['old_pass']) && isset($_POST['new_pass1']) && isset($_POST['new_pass2'])) {
+            if ($_POST['new_pass1'] != "" && $_POST['new_pass2'] != "" && $_POST['old_pass'] != "") {
                 if ($_POST['new_pass1'] == $_POST['new_pass2']) {
-                    $oldPass=md5($_POST['old_pass']);
-                    $newPass=md5($_POST['new_pass1']);
+                    $oldPass = md5($_POST['old_pass']);
+                    $newPass = md5($_POST['new_pass1']);
                     //$alert = $tableUser->updatePass($_SESSION['login'], $_POST['old_pass'], $_POST['new_pass1']);
                     $alert = $tableUser->updatePass($_SESSION['login'], $oldPass, $newPass);
                 } else {
@@ -39,9 +45,32 @@ if ($userInterface->login()) {
         <td><input type="password" name="new_pass2" id="new_pass2"></td></tr>
         <tr><td colspan=2><button type="submit" id="zmień" name="zmień" value="zmień">zmień</button></td></tr>
         </table></form>';
-    $content = $userInterface->adminPanelFormFrame("", $form, 'Zmień hasło', $alert);    
-    $menu = $userInterface->leftMenuIndex();
+    $content = $userInterface->adminPanelFormFrame("", $form, 'Zmień hasło', $alert);
+
+
+
+    //INPUTY------------------------------------------------------------------------
+    $tableInputs = new tableInputs();
+
+    $inputs = $tableInputs->selectAllRecords();
+    $inputForm = '';
+    if (!empty($inputs)) {
+        foreach ($inputs as $input) {
+            //var_dump($input['name']) or die();
+            //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
+            $documentReadyJQuery = '$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
+
+            $intervalJQuery = '$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
+            if ($tableInputs->getValueById($input['id']) == '1')
+                $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+            else
+                $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+        }
+    } else
+        $inputForm.='Brak zdefiniowanych wejść';
+//INPUTY------------------------------------------------------------------------
+    $jquery.=$functionJQuery . '$(document).ready(function(){' . $documentReadyJQuery . ' setInterval(function(){' . $intervalJQuery . '},2000); });';
+    $menu = $userInterface->leftMenuIndex($inputForm);
     $userInterface->show($title, $jquery, $headerTitle, $menu, $content, $divBackground, $minUserPrivleges);
 }
-
 ?>

@@ -59,9 +59,6 @@ if ($userInterface->login()) {
 
 
 
-
-    if ($id_floor != "") {
-
 //INPUTY------------------------------------------------------------------------
         $tableInputs = new tableInputs();
 
@@ -84,7 +81,7 @@ if ($userInterface->login()) {
 //INPUTY------------------------------------------------------------------------
 
 
-
+    if ($id_floor != "") {
         $userInterface->setFloor($id_floor);
         $elements = $tableVisual->selectDefaultRecordsByIdFloor($id_floor);
         if (!empty($elements)) {
