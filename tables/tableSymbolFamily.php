@@ -47,7 +47,7 @@ class tableSymbolFamily {
     }
 
     function selectAllRecords() {
-        $query = "SELECT * FROM symbol_family WHERE active=1";
+        $query = "SELECT * FROM symbol_family WHERE active=1 ORDER BY name ASC";
         $result = mysql_query($query);
         $ret_res = mysql_num_rows($result);
         $licznik = 0;

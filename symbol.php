@@ -15,8 +15,7 @@ $tableSymbol = new tableSymbol();
 if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie symbolami";
 
-    $jquery = '<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript">
+    $jquery = '
 $(document).ready(function(){    
     $("#text3").delegate("#select_symbolfamily", "change", function()
     {
@@ -35,8 +34,7 @@ $(document).ready(function(){
         var id= $("#select_symbol").val();
 	$("#text3").load("ajaxSymbol.php?id_symbol="+id);
     });
-});
-</script>';
+});';
 
     $headerTitle = "Panel administracyjny - zarządzanie symbolami";
     $divBackground = null;

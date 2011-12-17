@@ -68,7 +68,7 @@ class tableDevice {
         return $device;
     }
 
-  //  function update($id, $port, $type, $value, $get_value, $set_value) {
+
     function update($id, $port, $type) {
         $row = $this->selectRecord($port, $type);
         if (empty($row) || $row[0] == $id) {

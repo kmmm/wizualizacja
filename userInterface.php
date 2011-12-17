@@ -102,9 +102,9 @@ class userInterface {
         <tr><td colspan=2>Podaj swoje dane do logowania:</td></tr>
         <form action="index.php" method="post"><div>
         <tr><td><h4>Login:</h4></td>
-        <td><input type="text" name="login"></td></tr>
+        <td><input type="text" name="login" style="width: 200px"></td></tr>
         <tr><td><h4>Hasło:</h4></td>
-        <td><input type="password" name="haslo"></td></tr>
+        <td><input type="password" name="haslo" style="width: 200px"></td></tr>
         <tr><td colspan=2><button type="submit" id="wyślij" name="wyślij" value="zaloguj"/>zalgouj</button></td></tr>
         </table>
         </form>
@@ -162,9 +162,12 @@ class userInterface {
             echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
             echo '<meta http-equiv="Content-Language" content="pl">';
             echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
+
             echo '<script type="text/javascript" src="jquery.min.js"></script>
+
                   <script type="text/javascript">';
-            echo $this->jquery.'</script>';
+            echo $this->jquery;
+            echo '</script>';
             echo '</head>';
             echo '<body>';
             echo $this->header($headerTitle);

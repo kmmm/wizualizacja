@@ -28,10 +28,7 @@ $symbolsFamily = $tableSymbolFamily->selectRecordsBySymbolValue('-1');
 if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie elementami wizualizacji";
 
-    $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){    
+    $jquery = '$(document).ready(function(){    
     
 var v;
         var floorid = $("#floor").val();
@@ -84,10 +81,7 @@ var v;
     });
 
 });
-</script>
 
-
-<script>
     // Detect if the browser is IE or not.
     // If it is not IE, we assume that the browser is NS.
     var IE = document.all?true:false
@@ -152,7 +146,7 @@ var v;
    }
 
 //funkcja zwraca stringa z współrzędnymi z położeniem diva przekazanego w obiekcie obj
-</script>
+
 ';
     $headerTitle = "Panel administracyjny - zarządzanie elementami wizualizacji";
     $divBackground = null;

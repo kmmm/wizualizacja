@@ -49,7 +49,7 @@ strong
 #header
 {
     position: absolute;
-    width: 1250px;
+    width: 1260px;
     height: 104px;
     top: 0;
     left: 0;
@@ -58,12 +58,13 @@ strong
     color: #ffffff;
     margin: 0px auto;
     padding: 12px;
-    text-align: right;
+    text-align: left;
 }
 
 #header_inner
 {
     position: absolute;
+    left: 0;
     width: 680px;
     height: 90px;
     margin: 0px auto;
@@ -73,10 +74,11 @@ strong
 {
     background: inherit;
     position: absolute;
-    left: 30px;
-    bottom: 20px;
+    left: 10px;
+    top: 20px;
     font-size: 25px;
-    color: #fff;
+    color: #ffffff;
+    text-align: left;
     font-weight: normal;
     letter-spacing: -2px;
 }
@@ -211,7 +213,7 @@ li
     padding: 12px;
     top: 644px;
     left: 0px;
-    width: 1250px;
+    width: 1260px;
     text-align: center;
     position: absolute;
 }

@@ -13,10 +13,7 @@ $tableDevice = new tableDevice();
 if ($userInterface->login()) {
     $title = "Panel administracyjny - zarządzanie urządzeniami";
 
-    $jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){    
+    $jquery = '$(document).ready(function(){    
    
     $("#text3").delegate("#select_port", "change", function()
     {
@@ -29,8 +26,7 @@ $(document).ready(function(){
         var id= $("#select_port_delete").val();
 	$("#text3").load("ajaxDevice.php?id_delete="+id);
     });
-});
-</script>';
+});';
 
     $headerTitle = "Panel administracyjny - zarządzanie urządzeniami";
     $divBackground = null;
