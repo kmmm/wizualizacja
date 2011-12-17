@@ -64,12 +64,12 @@ class userInterface {
                     $_SESSION['privileges'] = 0;
 
                     $title = "wizualizacja";
-                    $this->jquery = '<script>
+                    $this->jquery = '
                      function init(){
-				setTimeout(\'window.location="index.php"\', 2000);
+				setTimeout("document.location=\'index.php\'", 2000);
 			}
 		window.onload=init;
-                </script>';
+                ';
                     $headerTitle = "Błąd logowania";
                     $content = "<h3>Złe dane logowania!</h3>";
 
@@ -162,7 +162,7 @@ class userInterface {
             echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
             echo '<meta http-equiv="Content-Language" content="pl">';
             echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-            echo $this->jquery.'<script type="text/javascript" src="jquery.min.js"></script>
+            echo '<script type="text/javascript" src="jquery.min.js"></script>
                   <script type="text/javascript">';
             echo $this->jquery.'</script>';
             echo '</head>';

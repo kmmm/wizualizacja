@@ -11,7 +11,7 @@ $userInterface = new userInterface();
 $title = "Wylogowywanie";
 $jquery = '
 		function init(){
-				setTimeout(function(){\'document.location="index.php"\';}, 2000);
+				setTimeout("document.location=\'index.php\'", 2000);
 			}
 		window.onload=init;
 	';
