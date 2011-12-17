@@ -13,10 +13,7 @@ $tableSymbolFamily = new tableSymbolFamily();
 
 $title = "Panel administracyjny - zarządzanie grupami symboli";
 
-$jquery = '<script type="text/javascript" src="http://ajax.googleapis.com/
-ajax/libs/jquery/1.4.2/jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){    
+$jquery = '$(document).ready(function(){    
    
     $("#text3").delegate("#select_name", "change", function()
     {
@@ -29,8 +26,7 @@ $(document).ready(function(){
         var id= $("#select_name_delete").val();
 	$("#text3").load("ajaxSymbolFamily.php?id_delete="+id);
     });
-});
-</script>';
+});';
 
 $headerTitle = "Panel administracyjny - zarządzanie grupami symboli";
 $divBackground = null;

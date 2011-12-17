@@ -12,9 +12,7 @@ $tableDevice = new tableDevice();
 
 $title = "Panel administracyjny - zarządzanie wejściami";
 
-$jquery = '<script type="text/javascript" src="jquery.min.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){    
+$jquery = '$(document).ready(function(){    
     $("#text3").delegate("#select_name", "change", function()
     {
         var id= $("#select_name").val();
@@ -26,8 +24,7 @@ $(document).ready(function(){
         var id= $("#select_name_delete").val();
 	$("#text3").load("ajaxInputs.php?id_delete="+id);
     });
-});
-</script>';
+});';
 
 $headerTitle = "Panel administracyjny - zarządzanie wejściami";
 $divBackground = null;
