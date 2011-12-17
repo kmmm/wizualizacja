@@ -66,7 +66,7 @@ class userInterface {
                     $title = "wizualizacja";
                     $this->jquery = '<script>
                      function init(){
-				setTimeout(\'document.location="index.php"\', 2000);
+				setTimeout(\'window.location="index.php"\', 2000);
 			}
 		window.onload=init;
                 </script>';

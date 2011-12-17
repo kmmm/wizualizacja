@@ -4,6 +4,7 @@ session_start();
 require_once 'userInterface.php';
 require_once 'tables/tableUser.php';
 require_once 'tables/tableVisualisation.php';
+require_once 'tables/tableInputs.php';
 
 $userInterface = new userInterface();
 $tableUser = new tableUser();
@@ -56,11 +57,12 @@ if ($userInterface->login()) {
     $inputForm = '';
     if (!empty($inputs)) {
         foreach ($inputs as $input) {
+
             //var_dump($input['name']) or die();
             //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
-            $documentReadyJQuery = '$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
+            $documentReadyJQuery.= '$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
 
-            $intervalJQuery = '$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
+            $intervalJQuery.= '$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
             if ($tableInputs->getValueById($input['id']) == '1')
                 $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
             else
