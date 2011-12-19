@@ -63,11 +63,10 @@ if ($userInterface->login()) {
         $tableInputs = new tableInputs();
 
         $inputs = $tableInputs->selectAllRecords();
-        $inputForm = '';
+        $inputForm = '<form>';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
-                //var_dump($input['name']) or die();
-                //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
+                
                 $documentReadyJQuery.='$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
 
                 $intervalJQuery.='$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
@@ -78,6 +77,7 @@ if ($userInterface->login()) {
             }
         } else
             $inputForm.='Brak zdefiniowanych wejść';
+        $inputForm.='</form>';
 //INPUTY------------------------------------------------------------------------
 
 
