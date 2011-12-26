@@ -53,7 +53,7 @@ if ($userInterface->login()) {
     $tableInputs = new tableInputs();
 
     $inputs = $tableInputs->selectAllRecords();
-    $inputForm = '';
+    $inputForm = '<form>';
     if (!empty($inputs)) {
         foreach ($inputs as $input) {
             //var_dump($input['name']) or die();
@@ -68,6 +68,8 @@ if ($userInterface->login()) {
         }
     } else
         $inputForm.='Brak zdefiniowanych wejść';
+    
+    $inputForm.='</form>';
 //INPUTY------------------------------------------------------------------------
     $jquery.=$functionJQuery . '$(document).ready(function(){' . $documentReadyJQuery . ' setInterval(function(){' . $intervalJQuery . '},2000); });';
     $menu = $userInterface->leftMenuIndex($inputForm);

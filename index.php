@@ -63,7 +63,7 @@ if ($userInterface->login()) {
         $tableInputs = new tableInputs();
 
         $inputs = $tableInputs->selectAllRecords();
-        $inputForm = '';
+        $inputForm = '<form>';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
                 //var_dump($input['name']) or die();
@@ -76,8 +76,11 @@ if ($userInterface->login()) {
                 else
                     $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
             }
+            
         } else
             $inputForm.='Brak zdefiniowanych wejść';
+        
+        $inputForm.='</form>';
 //INPUTY------------------------------------------------------------------------
 
 
