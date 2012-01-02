@@ -66,9 +66,10 @@ class userInterface {
                     $title = "wizualizacja";
                     $this->jquery = '
                      function init(){
-				setTimeout(\'document.location="index.php"\', 2000);
+				setTimeout("document.location=\'index.php\'", 2000);
 			}
-		window.onload=init;';
+		window.onload=init;
+                ';
                     $headerTitle = "Błąd logowania";
                     $content = "<h3>Złe dane logowania!</h3>";
 
@@ -161,7 +162,9 @@ class userInterface {
             echo '<meta http-equiv="Content-type" content="text/html; charset=UTF-8"/>';
             echo '<meta http-equiv="Content-Language" content="pl">';
             echo '<link rel="stylesheet" href="visualizationStyle.css" type="text/css"/>';
-            echo '<script type="text/javascript" src="jquery.min.js"></script>            
+
+            echo '<script type="text/javascript" src="jquery.min.js"></script>
+
                   <script type="text/javascript">';
             echo $this->jquery;
             echo '</script>';

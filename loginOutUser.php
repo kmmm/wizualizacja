@@ -8,11 +8,14 @@ require_once 'userInterface.php';
 
 $userInterface = new userInterface();
 
-$title = "Wylogowywanie";
-$jquery = 'function init(){
-				setTimeout(\'document.location="index.php"\', 2000);
+
+$jquery = '
+		function init(){
+				setTimeout("document.location=\'index.php\'", 2000);
 			}
-		window.onload=init;';
+		window.onload=init;
+	';
+
 $headerTitle = "Wylogowywanie";
 $content = "<h4><br>Zostałeś poprawnie wylogowany!</h4><br>Za chwilę nastąpi przekierowanie na <a href=index.php>stronę główną</a>.";
 

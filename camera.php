@@ -16,7 +16,10 @@ $alert = "";
 $minUserPrivleges = 1;
 
 $intervalJQuery = "";
-$documentReadyJQuery = "";
+$documentReadyJQuery = "$.ajaxSetup ({
+    // Disable caching of AJAX responses
+    cache: false
+});";
 $functionJQuery = "";
 
 if ($userInterface->login()) {
@@ -40,9 +43,9 @@ if ($userInterface->login()) {
         foreach ($inputs as $input) {
             //var_dump($input['name']) or die();
             //$(\'.'.$input['id'].'\').load("ajaxInputs.php?get_id='.$input['id'].'&name='.$input['name'].'");
-            $documentReadyJQuery='$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
+            $documentReadyJQuery.='$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
 
-            $intervalJQuery='$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
+            $intervalJQuery.='$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
             if ($tableInputs->getValueById($input['id']) == '1')
                 $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
             else
@@ -50,7 +53,6 @@ if ($userInterface->login()) {
         }
     } else
         $inputForm.='Brak zdefiniowanych wejść';
-    
     $inputForm.='</form>';
 //INPUTY------------------------------------------------------------------------
     $jquery.=$functionJQuery . '$(document).ready(function(){' . $documentReadyJQuery . ' setInterval(function(){' . $intervalJQuery . '},2000); });';
