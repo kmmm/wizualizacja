@@ -25,7 +25,7 @@ if (isset($_GET['id'])) {
     }
     echo '</select></td>
                     </tr>';
-    if (!empty($currentSymbolFamily) && $currentSymbolFamily[2] == 0) {
+    if (!empty($currentSymbolFamily) && ($currentSymbolFamily[2] == 0 || $currentSymbolFamily[2] == 2)) {
         echo'<tr>
                 <td>Obrazek:</td>
                 <td><input type="file" name="img" id="img" size=25></td>
