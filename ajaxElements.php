@@ -12,7 +12,7 @@ $tableDevice = new tableDevice();
 $tableFloor = new tableFloor();
 $tableElements = new tableElements();
 
-$deviceSymbolFamilyType = array("1" => "I", "0" => "O");
+$deviceSymbolFamilyType = array("1" => "I", "0" => "O", "2" => "I");
 
 if (isset($_GET['id']) && $_GET['id'] != "") {
 
