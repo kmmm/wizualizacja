@@ -24,10 +24,23 @@ if(isset($_GET['get'])){
     $tableVisual->prepareValueElementById($_GET['get']);
     if($element==null)
         $element = $tableVisual->selectDefaultRecordById ($_GET['get']);
-            if($element['is_visible']==0)
-        echo '<img src="' . $element['link_photo'] . '"/>';
-            else
-                echo '<img src="' . $element['link_photo'] . '"/><h3>'.$element['value'].'</h3>';
+    switch($element['is_visible']){
+        case 0:
+            echo '<img src="' . $element['link_photo'] . '"/>';
+            break;
+        case 1:
+            echo '<img src="' . $element['link_photo'] . '"/><h3>'.$element['value'].'</h3>';
+            break;
+        
+        case 2:
+            echo '<img src="' . $element['link_photo'] . '"/>';
+            break;
+        
+    }
+//            if($element['is_visible']==0)
+//        echo '<img src="' . $element['link_photo'] . '"/>';
+//            else
+//                echo '<img src="' . $element['link_photo'] . '"/><h3>'.$element['value'].'</h3>';
    
 }
 echo $content;

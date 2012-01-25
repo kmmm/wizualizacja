@@ -120,7 +120,7 @@ if ($userInterface->login()) {
                         break;
                     
                     case 2:
-                        
+                        $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/></div>';
                         break;
                     
                 }
@@ -134,13 +134,11 @@ if ($userInterface->login()) {
 //                        $value = '0';
 //                    else
 //                        $value = '1';
-//                    
+//
 //                    $documentReadyJQuery.='$(\'#e' . $element['id'] . '\').click(function(){$("#e' . $element['id'] . '").load("ajaxVisual.php?id=' . $element['id'] . '");});';
 //                }
-//                $intervalJQuery.='$("#e' . $element['id'] . '").load("ajaxVisual.php?get=' . $element['id'] .'");';
-//            
-//            
-                }
+//                $intervalJQuery.='$("#e' . $element['id'] . '").load("ajaxVisual.php?get=' . $element['id'] . '");';
+            }
         }
     }
 
