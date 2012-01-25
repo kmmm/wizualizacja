@@ -22,7 +22,7 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     $tableDevice = new tableDevice();
     $devices = $tableDevice->selectAllRecords();
     $currentDevice = $tableDevice->selectRecordById($id);
-    echo '<h4></h4><br><form action="device?action=' . $value . '" method="POST">
+    echo '<h4></h4><br><form action="device.php?action=' . $value . '" method="POST">
                 <table>
                     <tr>
                         <td>Port:</td>

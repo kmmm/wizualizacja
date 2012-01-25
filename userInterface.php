@@ -138,10 +138,8 @@ class userInterface {
         </div>
 
         </body>
-        </html>'; //        <div id="footer">
-
-//        <br>Wizualizacja domu by Kinga Makowiecka and Michał Marasz
-//        </div>
+        </html>'; 
+    
 
     function getPrivileges() {
 

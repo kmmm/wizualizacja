@@ -41,13 +41,32 @@ if (isset($_GET['id']) || isset($_GET['id_delete'])) {
     <tr>
         <td>Typ grupy:</td>
         <td><select id="is_visible" name="is_visible" ' . $dis . '>';
-    if ($currentSymbolFamily[2] == 0) {
-        echo '<option value=0>Grupa typu ON/OFF</option>
-                  <option value=1>Grupa typu informacyjnego</option>';
-    } else {
-        echo '<option value=1>Grupa typu informacyjnego</option>
-                  <option value=0>Grupa typu ON/OFF</option>';
+    switch ($currentSymbolFamily[2]) {
+        case 0:
+            echo '<option value=0>Grupa typu ON/OFF - output</option>
+                  <option value=1>Grupa typu informacyjnego</option>                        
+                  <option value=2>Grupa typu ON/OFF - input</option>';
+            break;
+        case 1:
+            echo '<option value=1>Grupa typu informacyjnego</option>
+                  <option value=0>Grupa typu ON/OFF - output</option>                                          
+                  <option value=2>Grupa typu ON/OFF - input</option>';
+            break;
+        case 2:
+            echo '<option value=2>Grupa typu ON/OFF - input</option>
+                  <option value=1>Grupa typu informacyjnego</option>
+                  <option value=0>Grupa typu ON/OFF - output</option>                                          
+                  ';
+            break;
     }
+
+//    if ($currentSymbolFamily[2] == 0) {
+//        echo '<option value=0>Grupa typu ON/OFF</option>
+//                  <option value=1>Grupa typu informacyjnego</option>';
+//    } else {
+//        echo '<option value=1>Grupa typu informacyjnego</option>
+//                  <option value=0>Grupa typu ON/OFF</option>';
+//    }
 
     echo '</select></td>
     </tr>

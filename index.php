@@ -48,7 +48,7 @@ if ($userInterface->login()) {
         $image = $tableFloor->selectAllRecords();
         if (!empty($image)) {
             $divBackground = $image[0][2];
-            $headerTitle = "Floor " . $image[0][1];
+            $headerTitle = "Piętro " . $image[0][1];
             $floor = $image[0][1];
             $id_floor = $tableFloor->selectRecord($floor, 1);
             $id_floor = $id_floor[0];
@@ -104,20 +104,43 @@ if ($userInterface->login()) {
 
 
             foreach ($elements as $element) {
-
-                if ($element['is_visible'] == '1')
-                    $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/><h3>' . $element['value'] . '</h3></div>';
-                else {
-                    $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/></div>';
+                
+                switch($element['is_visible']){
+                    case 0:
+                        $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/></div>';
                     if ($element['value'] == '1')
                         $value = '0';
                     else
                         $value = '1';
-                    
                     $documentReadyJQuery.='$(\'#e' . $element['id'] . '\').click(function(){$("#e' . $element['id'] . '").load("ajaxVisual.php?id=' . $element['id'] . '");});';
+                         break;
+                     
+                    case 1:
+                        $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/><h3>' . $element['value'] . '</h3></div>';
+                        break;
+                    
+                    case 2:
+                        
+                        break;
+                    
                 }
                 $intervalJQuery.='$("#e' . $element['id'] . '").load("ajaxVisual.php?get=' . $element['id'] .'");';
-            }
+                
+//                if ($element['is_visible'] == '1')
+//                    $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/><h3>' . $element['value'] . '</h3></div>';
+//                else {
+//                    $content.='<div id="e' . $element['id'] . '" style="position: absolute; top: ' . $element['y'] . 'px; left: ' . $element['x'] . 'px; width: 20px; background-color: azure;"><img src="' . $element['link_photo'] . '"/></div>';
+//                    if ($element['value'] == '1')
+//                        $value = '0';
+//                    else
+//                        $value = '1';
+//                    
+//                    $documentReadyJQuery.='$(\'#e' . $element['id'] . '\').click(function(){$("#e' . $element['id'] . '").load("ajaxVisual.php?id=' . $element['id'] . '");});';
+//                }
+//                $intervalJQuery.='$("#e' . $element['id'] . '").load("ajaxVisual.php?get=' . $element['id'] .'");';
+//            
+//            
+                }
         }
     }
 
