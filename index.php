@@ -14,7 +14,10 @@ $tableVisual = new tableVisualisation();
 
 
 $intervalJQuery = "";
-$documentReadyJQuery = "";
+$documentReadyJQuery = "$.ajaxSetup ({
+    // Disable caching of AJAX responses
+    cache: false
+});";
 $functionJQuery = "";
 
 $userInterface = new userInterface();
@@ -60,24 +63,37 @@ if ($userInterface->login()) {
 
 
 //INPUTY------------------------------------------------------------------------
+    
+//        $("#text3").delegate("#floor", "change", function()
+//    {
+//        var floorid = $("#floor").val();
+//        $.get("ajaxElements.php?floorid="+floorid, function(result) {
+//            $("#i").val(result);           
+//        });   
+//    });
+       
+        
         $tableInputs = new tableInputs();
-
         $inputs = $tableInputs->selectAllRecords();
-        $inputForm = '<form action="" method="get">';
-        if (!empty($inputs)) {
-            foreach ($inputs as $input) {
-                
-                $documentReadyJQuery.='$(\'.' . $input['id'] . '\').change(function(){$(\'.' . $input['id'] . '\').load("ajaxInputs.php?set_id=' . $input['id'] . '");});';
 
-                $intervalJQuery.='$(\'.' . $input['id'] . '\').load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';
-                if ($tableInputs->getValueById($input['id']) == '1')
-                    $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+        $inputForm = '<form action="" method="get">';
+
+        if (!empty($inputs)) {
+            foreach ($inputs as $input) {  
+                 if ($tableInputs->getValueById($input['id']) == '1')
+                    $inputForm.='<div id="' . $input['id'] . '"><input type="checkbox" checked="yes" div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
                 else
-                    $inputForm.='<div class="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+                    $inputForm.='<div id="' . $input['id'] . '"><input type="checkbox"  div="' . $input['id'] . '"">' . $input['name'] . '</input><br></div>';
+                
+                
+                $documentReadyJQuery.='$("#'.$input['id'].'").change(function(){
+                        $("#' . $input['id'] . '").load("ajaxInputs.php?set_id=' . $input['id'] . '");
+                   });';
+                $intervalJQuery.='$("#' . $input['id'] . '").load("ajaxInputs.php?get_id=' . $input['id'] . '"); ';               
             }
+            
         } else
             $inputForm.='Brak zdefiniowanych wejść';
-        $inputForm.='</form>';
 //INPUTY------------------------------------------------------------------------
 
 

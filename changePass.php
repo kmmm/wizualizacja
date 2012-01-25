@@ -17,7 +17,10 @@ $alert = "";
 $minUserPrivleges = 1;
 
 $intervalJQuery = "";
-$documentReadyJQuery = "";
+$documentReadyJQuery = "$.ajaxSetup ({
+    // Disable caching of AJAX responses
+    cache: false
+});";
 $functionJQuery = "";
 
 if ($userInterface->login()) {
