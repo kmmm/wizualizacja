@@ -1,22 +1,21 @@
 <?php
 
-//$serwer = 'localhost';
-//$user = 'root';
-//$haslo = 'mdrp180';
-
 $serwer = 'localhost';
 $user = 'root';
-$haslo = 'mdrp180';
+$haslo = '';
+
+$db = 'visualisation';
 
 
 mysql_connect($serwer, $user, $haslo) or die("Nie można nawiązać połączenia z bazą"); //Łączenie z bazą danych
 
-$create_database = "CREATE DATABASE visualisation";
-$result = mysql_query($create_database);
-if ($result) {
-    echo 'Utworzono bazę danych.<br>';
-}
-$db = 'visualisation';
+//$create_database = "CREATE DATABASE visualisation";
+//$result = mysql_query($create_database);
+//if ($result) {
+//    echo 'Utworzono bazę danych.<br>';
+//}
+
+
 mysql_select_db($db) or die("Wystąpił błąd podczas wybierania bazy danych"); //Wybieranie konkretnej bazy danych
 mysql_query("SET NAMES 'utf8'");
 

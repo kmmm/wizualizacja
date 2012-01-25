@@ -63,7 +63,7 @@ if ($userInterface->login()) {
         $tableInputs = new tableInputs();
 
         $inputs = $tableInputs->selectAllRecords();
-        $inputForm = '<form>';
+        $inputForm = '<form action="" method="get">';
         if (!empty($inputs)) {
             foreach ($inputs as $input) {
                 
